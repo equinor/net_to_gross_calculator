@@ -1,0 +1,138 @@
+#
+# MS Graph
+#
+[ms_graph]
+url         = "https://graph.microsoft.com/v1.0/me/department"
+
+
+#
+# Models
+#
+[models]
+
+    [models.deep]
+    target                       = "I(ng_vsh40_pct / 100)"
+    label_column                 = "building_block_type"
+
+        [models.deep.lobe]
+        label                        = "Lobe"
+        factors                      = [
+            "spatial_position",
+            "confinement",
+            "conventional_facies_vs_hebs",
+            "architectural_style",
+        ]
+        spatial_position             = ["Zone1", "Zone2", "Zone3"]
+        confinement                  = ["Confined", "Unconfined", "Weakly Confined"]
+        conventional_facies_vs_hebs  = ["Conventional Turbidites", "Hybrid Event Beds"]
+        architectural_style          = ["Lobe Channelised", "Lobe Non-Channelised"]
+
+        [models.deep.channel_fill]
+        label                        = "Channel Fill"
+        factors                      = ["relative_strike_position", "architectural_style"]
+        relative_strike_position     = ["Axial", "Off Axis", "Margin"]
+        architectural_style          = [
+            "Erosionally Confined",
+            "Laterally Migrating",
+            "Overbank Confined",
+        ]
+
+        [models.deep.overbank]
+        label                        = "Overbank"
+        factors                      = []
+
+        [models.deep.mtd]
+        label                        = "MTD"
+        factors                      = []
+
+        [models.deep.drape]
+        label                        = "Drape"
+        factors                      = []
+
+    [models.shallow]
+    target                       = "I(ng_vsh40_pct / 100)"
+    label_column                 = "building_block_type"
+
+        [models.shallow.bay_lagoon_lake]
+        label                        = "Bay/Lagoon/Lake"
+        factors                      = []
+
+        [models.shallow.beach]
+        label                        = "Beach"
+        factors                      = []
+
+        [models.shallow.deltaplain_overbank]
+        label                        = "Deltaplain Overbank"
+        factors                      = []
+
+        [models.shallow.distributary_fluvial_channel_fill]
+        label                        = "Distributary Fluvial Channel-Fill"
+        factors                      = []
+
+        [models.shallow.floodplain_overbank]
+        label                        = "Floodplain Overbank"
+        factors                      = []
+
+        [models.shallow.lower_delta_front]
+        label                        = "Lower Delta Front"
+        factors                      = []
+
+        [models.shallow.lower_fan_delta_slope]
+        label                        = "Lower Fan Delta Slope"
+        factors                      = []
+
+        [models.shallow.lower_shoreface]
+        label                        = "Lower Shoreface"
+        factors                      = []
+
+        [models.shallow.mass_transport_deposits]
+        label                        = "Mass Transport Deposits"
+        factors                      = []
+
+        [models.shallow.offshore_fines]
+        label                        = "Offshore Fines"
+        factors                      = []
+
+        [models.shallow.offshore_transition]
+        label                        = "Offshore Transition"
+        factors                      = []
+
+        [models.shallow.outer_shelf]
+        label                        = "Outer Shelf"
+        factors                      = []
+
+        [models.shallow.prodelta]
+        label                        = "Prodelta"
+        factors                      = []
+
+        [models.shallow.swamp_marsh]
+        label                        = "Swamp/Marsh"
+        factors                      = []
+
+        [models.shallow.tidal_channel_fill]
+        label                        = "Tidal Channel-Fill"
+        factors                      = []
+
+        [models.shallow.tidal_dunes_bars]
+        label                        = "Tidal Dunes/Bars"
+        factors                      = []
+
+        [models.shallow.tidal_flat]
+        label                        = "Tidal Flat"
+        factors                      = []
+
+        [models.shallow.upper_delta_front]
+        label                        = "Upper Delta Front"
+        factors                      = []
+
+        [models.shallow.upper_fan_delta_slope]
+        label                        = "Upper Fan Delta Slope"
+        factors                      = []
+
+        [models.shallow.upper_shoreface]
+        label                        = "Upper Shoreface"
+        factors                      = []
+
+        [models.shallow.upper_slope]
+        label                        = "Upper Slope"
+        factors                      = []

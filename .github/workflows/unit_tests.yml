@@ -1,0 +1,31 @@
+name: unit_tests
+on: [push, pull_request]
+
+jobs:
+  tests:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {name: Linux, python: '3.8', os: ubuntu-latest, tox: py38}
+          - {name: Style, python: '3.8', os: ubuntu-latest, tox: style}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - run: pip install tox
+    - name: Run app tox tests
+      working-directory: ./app
+      run: |
+        tox -e ${{ matrix.tox }}
+    - name: Run api tox tests
+      working-directory: ./api
+      run: |
+        tox -e ${{ matrix.tox }}
+    - name: Run common tox tests
+      working-directory: ./geong_common
+      run: |
+        tox -e ${{ matrix.tox }}

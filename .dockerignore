@@ -1,0 +1,10 @@
+.dockerignore
+docker-compose*
+**/config/*_local.toml
+**/*.egg-info
+**/.env
+**/.pytest_cache
+**/*.py[cod]
+**/__pycache__
+**/Dockerfile
+**/tests

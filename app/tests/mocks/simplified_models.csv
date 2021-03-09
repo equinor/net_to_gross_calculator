@@ -1,0 +1,49 @@
+building_block_type,architectural_style,confinement,conventional_facies_vs_hebs,relative_strike_position,spatial_position,net_gross
+Lobe,Lobe Channelised,Confined,Conventional Turbidites,,Zone1,0.9935639705255658
+Lobe,Lobe Channelised,Confined,Conventional Turbidites,,Zone2,0.9807233246288338
+Lobe,Lobe Channelised,Confined,Conventional Turbidites,,Zone3,0.8247049043674562
+Lobe,Lobe Channelised,Confined,Hybrid Event Beds,,Zone1,0.9107163685792334
+Lobe,Lobe Channelised,Confined,Hybrid Event Beds,,Zone2,0.7707270802588784
+Lobe,Lobe Channelised,Confined,Hybrid Event Beds,,Zone3,0.2371409688891636
+Lobe,Lobe Channelised,Unconfined,Conventional Turbidites,,Zone1,0.9791016664031479
+Lobe,Lobe Channelised,Unconfined,Conventional Turbidites,,Zone2,0.9391734592875843
+Lobe,Lobe Channelised,Unconfined,Conventional Turbidites,,Zone3,0.5881043207082555
+Lobe,Lobe Channelised,Unconfined,Hybrid Event Beds,,Zone1,0.7558375622801894
+Lobe,Lobe Channelised,Unconfined,Hybrid Event Beds,,Zone2,0.504999999999999
+Lobe,Lobe Channelised,Unconfined,Hybrid Event Beds,,Zone3,0.08620807292948271
+Lobe,Lobe Channelised,Weakly Confined,Conventional Turbidites,,Zone1,0.982116802510137
+Lobe,Lobe Channelised,Weakly Confined,Conventional Turbidites,,Zone2,0.9476412319478764
+Lobe,Lobe Channelised,Weakly Confined,Conventional Turbidites,,Zone3,0.6259817996543562
+Lobe,Lobe Channelised,Weakly Confined,Hybrid Event Beds,,Zone1,0.7839567706762234
+Lobe,Lobe Channelised,Weakly Confined,Hybrid Event Beds,,Zone2,0.5446019443635131
+Lobe,Lobe Channelised,Weakly Confined,Hybrid Event Beds,,Zone3,0.09957493516560187
+Lobe,Lobe Non-Channelised,Confined,Conventional Turbidites,,Zone1,0.9839689051490952
+Lobe,Lobe Non-Channelised,Confined,Conventional Turbidites,,Zone2,0.9528925929442482
+Lobe,Lobe Non-Channelised,Confined,Conventional Turbidites,,Zone3,0.6516346365744482
+Lobe,Lobe Non-Channelised,Confined,Hybrid Event Beds,,Zone1,0.8021982851951504
+Lobe,Lobe Non-Channelised,Confined,Hybrid Event Beds,,Zone2,0.5720202808884888
+Lobe,Lobe Non-Channelised,Confined,Hybrid Event Beds,,Zone3,0.10999999999999978
+Lobe,Lobe Non-Channelised,Unconfined,Conventional Turbidites,,Zone1,0.9490512923739384
+Lobe,Lobe Non-Channelised,Unconfined,Conventional Turbidites,,Zone2,0.8599230944055117
+Lobe,Lobe Non-Channelised,Unconfined,Conventional Turbidites,,Zone3,0.3621168025101369
+Lobe,Lobe Non-Channelised,Unconfined,Hybrid Event Beds,,Zone1,0.5517317512888901
+Lobe,Lobe Non-Channelised,Unconfined,Hybrid Event Beds,,Zone2,0.2885735714317325
+Lobe,Lobe Non-Channelised,Unconfined,Hybrid Event Beds,,Zone3,0.036153381885423004
+Lobe,Lobe Non-Channelised,Weakly Confined,Conventional Turbidites,,Zone1,0.9562080729294825
+Lobe,Lobe Non-Channelised,Weakly Confined,Conventional Turbidites,,Zone2,0.8779901892825355
+Lobe,Lobe Non-Channelised,Weakly Confined,Conventional Turbidites,,Zone3,0.3995583220502428
+Lobe,Lobe Non-Channelised,Weakly Confined,Hybrid Event Beds,,Zone1,0.59062573879559
+Lobe,Lobe Non-Channelised,Weakly Confined,Hybrid Event Beds,,Zone2,0.32225251263557625
+Lobe,Lobe Non-Channelised,Weakly Confined,Hybrid Event Beds,,Zone3,0.04211680251013659
+Channel Fill,Erosionally Confined,,,Axial,,0.9849999999999999
+Channel Fill,Erosionally Confined,,,Margin,,0.3999999999999997
+Channel Fill,Erosionally Confined,,,Off Axis,,0.655
+Channel Fill,Laterally Migrating,,,Axial,,0.9786547934823799
+Channel Fill,Laterally Migrating,,,Margin,,0.317625681405213
+Channel Fill,Laterally Migrating,,,Off Axis,,0.570000000000005
+Channel Fill,Overbank Confined,,,Axial,,0.9696299598751663
+Channel Fill,Overbank Confined,,,Margin,,0.24478935698447507
+Channel Fill,Overbank Confined,,,Off Axis,,0.47999999999999504
+Overbank,,,,,,0.16999999999999998
+MTD,,,,,,0.25000000000000006
+Drape,,,,,,0.016666666666666677

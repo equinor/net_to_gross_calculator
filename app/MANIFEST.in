@@ -1,0 +1,6 @@
+# Include config files
+graft app/config
+exclude *_local.toml
+
+# Include assets
+graft app/assets

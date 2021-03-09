@@ -1,0 +1,6 @@
+# Include config files
+graft geong_common/config
+exclude *_local.toml
+
+# Include assets
+graft geong_common/assets

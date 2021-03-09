@@ -1,0 +1,63 @@
+version: '3.4'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    image: "ghcr.io/equinor/geong_api:${TAG:-latest}"
+    ports:
+      - 5000:5000
+    environment:
+      - AUTHORITY
+      - STORAGE_URL
+      - CONTAINER
+      - FOLDER_NAME
+      - CLIENT_ID
+      - CLIENT_SECRET
+      - AUDIENCE
+      - LOG_LEVEL
+      - LOG_USER_INFO
+      - APPLICATIONINSIGHTS_INSTRUMENTATION_KEY
+      - CONTEXT=api
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    image: "ghcr.io/equinor/geong_app:${TAG:-latest}"
+    environment:
+      - BOKEH_ALLOW_WS_ORIGIN=localhost:8080
+      - LOG_LEVEL
+      - JSON_LOGS
+      - APPLICATIONINSIGHTS_INSTRUMENTATION_KEY
+      - CONTEXT=app
+      - API_URL=http://api:5000
+      - ASSET_INSTRUCTIONS=http://assets:8080/instructions
+      - RAW_CSS=http://assets:8080/css/geong.css http://assets:8080/css/equinor_theme.css
+      - CSS_FILES=https://eds-static.equinor.com/font/equinor-font.css
+      - FAVICON=http://assets:8080/images/favicon.ico
+      - LOGO=https://www.equinor.com/etc.clientlibs/statoil/clientlibs/clientlib/resources/images/page/equinor-logo.svg
+      - HEADER_COLOR=#ffffff
+      - HEADER_BACKGROUND=#007079
+      - REPORT_TEMPLATE=http://assets:8080/templates/equinor_pptx.toml
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v6.1.1
+    depends_on:
+      - app
+    ports:
+      - 8080:8000
+    environment:
+      - OAUTH2_PROXY_PROVIDER=oidc
+      - OAUTH2_PROXY_CLIENT_ID=${CLIENT_ID}
+      - OAUTH2_PROXY_CLIENT_SECRET=${CLIENT_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECRET=${COOKIE_SECRET}
+      - OAUTH2_PROXY_OIDC_ISSUER_URL=${AUTHORITY}
+      - OAUTH2_PROXY_SCOPE=openid profile email ${SCOPE}
+      - OAUTH2_PROXY_REDIRECT_URL=http://localhost:8080/oauth2/callback
+      - OAUTH2_PROXY_HTTP_ADDRESS=http://:8000
+      - OAUTH2_PROXY_UPSTREAMS=http://app:8080
+      - OAUTH2_PROXY_COOKIE_REFRESH=60m
+      - OAUTH2_PROXY_EMAIL_DOMAINS=*
+      - OAUTH2_PROXY_SKIP_PROVIDER_BUTTON=true
+      - OAUTH2_PROXY_PASS_AUTHORIZATION_HEADER=true
+      - OAUTH2_PROXY_PASS_ACCESS_TOKEN=true

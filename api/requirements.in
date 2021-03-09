@@ -1,0 +1,18 @@
+# This file lists the main dependencies of the Geo:N:G API
+#
+# To create a proper requirements.txt, use pip-tools:
+#
+#    python -m piptools compile requirements.in
+#
+
+azure-storage-blob
+fastapi
+loguru
+pandas
+pyconfs[toml]
+PyJWT
+python-dotenv
+requests
+statsmodels
+typer
+uvicorn

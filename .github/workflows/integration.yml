@@ -1,0 +1,12 @@
+name: integration
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: run integration tests
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose-test.yml build
+          docker-compose -f docker-compose.yml -f docker-compose-test.yml up --exit-code-from tests

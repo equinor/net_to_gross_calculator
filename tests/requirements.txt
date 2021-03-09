@@ -1,0 +1,4 @@
+pytest
+requests
+azure-storage-blob
+pandas

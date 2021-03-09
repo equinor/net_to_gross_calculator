@@ -1,0 +1,28 @@
+template         = "geong.pptx"
+
+[layouts]
+title                    = "Title Slide"
+section                  = "Title Only"
+one_column               = "Title and Content"
+test_content             = "Test layout"
+closing                  = "Blank"
+
+
+[placeholders]
+
+    [placeholders.title]
+    subtitle                       = 1
+
+    [placeholders.one_column]
+    content                        = 1
+
+    [placeholders.section]
+    subtitle                       = 1
+
+    [placeholders.test_content]
+    chart                          = 14
+    picture                        = 13
+    table                          = 15
+
+    [placeholders.closing]
+    presenter                      = 1

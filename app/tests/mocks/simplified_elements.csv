@@ -1,0 +1,21 @@
+parent_system_identifier,parent_complex_identifier,building_block_type,ng_vsh40_pct,architectural_style,relative_strike_position,confinement,conventional_facies_vs_hebs,spatial_position
+4,2,Lobe,46.3,,,Weakly Confined,Hybrid Event Beds,Zone2
+3,1,MTD,39.7,,,,Hybrid Event Beds,
+4,2,Overbank,3.2,,,,Hybrid Event Beds,
+4,4,Overbank,14.9,,,,Conventional Turbidites,
+3,1,Lobe,8.0,,Off Axis,Confined,Hybrid Event Beds,Zone3
+2,2,Lobe,47.4,Lobe Channelised,Off Axis,Confined,Conventional Turbidites,Zone2
+4,2,Drape,1.4,Lobe Channelised,,,Conventional Turbidites,
+3,3,Lobe,33.9,Lobe Non-Channelised,Axial,Confined,Conventional Turbidites,Zone3
+2,4,Overbank,1.7,,,,Hybrid Event Beds,
+4,4,Channel Fill,86.8,Erosionally Confined,Axial,,Hybrid Event Beds,
+3,1,Channel Fill,89.7,Overbank Confined,Off Axis,,Hybrid Event Beds,
+3,2,Overbank,17.3,Lobe Channelised,,,Hybrid Event Beds,
+2,2,Channel Fill,86.3,Overbank Confined,Margin,Confined,Conventional Turbidites,
+4,1,Lobe,77.4,Lobe Non-Channelised,,Unconfined,Conventional Turbidites,Zone2
+2,2,MTD,42.3,Slump,,,Conventional Turbidites,
+2,1,Channel Fill,92.5,Laterally Migrating,Off Axis,Weakly Confined,Conventional Turbidites,
+1,2,Drape,3.3,,,,Hybrid Event Beds,
+1,4,Lobe,96.2,Lobe Channelised,Margin,Confined,Hybrid Event Beds,Zone1
+2,3,Lobe,62.1,Lobe Non-Channelised,Axial,Weakly Confined,Hybrid Event Beds,Zone2
+4,4,Channel Fill,98.0,Overbank Confined,Margin,,Hybrid Event Beds,

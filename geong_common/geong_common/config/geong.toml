@@ -1,0 +1,41 @@
+#
+# Logging
+#
+[log]
+dev_level        = "DEBUG"
+
+    [log.console]
+    level            = "INFO"
+    format           = "<green>{time}</green> <level>{level:<8} {message}</level>"
+    json_logs        = false
+
+    [log.azure]
+    level            = "WARNING"
+    format           = "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}"
+    json_logs        = false
+
+    [log.custom_levels]
+
+        [log.custom_levels.time]
+        name             = "TIME"
+        no               = 23
+        color            = "<yellow>"
+        icon             = "⏱"
+
+        [log.custom_levels.insights]
+        name             = "INSIGHTS"
+        no               = 34
+        color            = "<light-blue>"
+        icon             = "👤"
+
+
+#
+# Readers
+#
+[readers]
+
+    [readers.api]
+
+        [readers.api.url]
+        data             = "{API_URL}/data/{dataset}/{table}"
+        model            = "{API_URL}/model/{dataset}"

@@ -1,0 +1,15 @@
+# This file lists the main developer dependencies of the Geo:N:G API
+#
+# To create a proper requirements.txt, use pip-tools:
+#
+#    python -m piptools compile requirements.in
+#    python -m piptools compile requirements_dev.in
+#
+-r requirements.txt
+black
+flake8
+isort
+pytest
+pytest-cov
+requests-mock
+pytest-mock

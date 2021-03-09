@@ -1,0 +1,157 @@
+[asset_hosts]
+# URLs for hosting assets, defaults use the Panel server (--static-dirs) with
+# relative URLs. These are used as {ASSET_...} variables in the rest of the
+# configuration, and can be overridden with ASSET_... environment variables.
+instructions         = "instructions"
+
+
+[style]
+# raw_css, css_files, logo, and favicon all support supplying URLs so style can
+# be injected
+raw_css              = ["css/geong.css"]
+css_files            = []
+logo                 = "images/geong_logo.png"
+favicon              = "images/favicon.png"
+header_color         = "#ffffff"
+header_background    = "#00cc99"
+
+    [style.colors]
+    lobe             = "#ffea18"
+    channel_fill     = "#fdc801"
+    overbank         = "#b5cf6d"
+    mtd              = "#6a5ca2"
+    drape            = "#078cb1"
+
+
+#
+# Apps
+#
+[apps]
+title            = "Geo:N:G"
+apps             = ["deep", "shallow"]
+primary_app      = "deep"
+reader           = "api"
+
+    [apps.deep]
+    label            = "Deep Marine"
+    views            = ["instructions", "workflow", "data_viewer"]
+    primary_view     = "workflow"
+
+        [apps.deep.instructions]
+        label            = "Instructions"
+        url              = "{ASSET_INSTRUCTIONS}/deep.md"
+
+        [apps.deep.workflow]
+        label            = "Workflow"
+        stages           = ["set_up", "composition", "filter_classes", "result", "report"]
+
+        [apps.deep.data_viewer]
+        label            = "Data Viewer"
+
+    [apps.shallow]
+    label            = "Shallow Marine"
+    views            = ["instructions", "workflow"]
+    primary_view     = "workflow"
+
+        [apps.shallow.instructions]
+        label            = "Instructions"
+        url              = "{ASSET_INSTRUCTIONS}/shallow.md"
+
+        [apps.shallow.workflow]
+        label            = "Workflow"
+        stages           = ["set_up", "result"]
+
+
+#
+# Stages
+#
+[stages]
+
+    [stages.deep]
+
+        [stages.deep.set_up]
+        label            = "Set Up"
+
+        [stages.deep.composition]
+        label            = "Element Composition"
+
+            [stages.deep.composition.params]
+            ready_parameter  = "ready"
+
+        [stages.deep.filter_classes]
+        label            = "Lobe/Channel Filters"
+
+        [stages.deep.result]
+        label            = "Result"
+
+            [stages.deep.result.params]
+            ready_parameter  = "ready"
+            auto_advance     = true
+
+        [stages.deep.report]
+        label            = "Final Report"
+        report           = "net_gross_ppt"
+
+
+    [stages.shallow]
+
+        [stages.shallow.set_up]
+        label            = "Set Up"
+
+        [stages.shallow.result]
+        label            = "Result"
+
+
+#
+# Report specs
+#
+[report]
+
+    [report.net_gross_ppt]
+    generator = "powerpoint"
+    template = "templates/geong_pptx.toml"
+    file_name = "geong_{date:%Y%m%d}.pptx"
+
+        [[report.net_gross_ppt.slide]]
+        layout               = "title"
+        title                = "Geo:N:G Report: {geox_id}"
+        subtitle.type        = "text"
+        subtitle.content     = "{date:%d %b %Y}"
+
+        [[report.net_gross_ppt.slide]]
+        layout               = "one_column"
+        title                = "{geox_id} Scenarios"
+        content.type         = "text"
+        content.content      = "{scenario_list}"
+
+        [[report.net_gross_ppt.slide]]
+        nested.cfg           = "scenarios"
+        nested.data          = "scenarios"
+
+        [[report.net_gross_ppt.slide]]
+        layout               = "closing"
+
+        [report.net_gross_ppt.scenarios]
+            [[report.net_gross_ppt.scenarios.slide]]
+            layout               = "section"
+            title                = "Scenario {scenario_name}"
+
+            [[report.net_gross_ppt.scenarios.slide]]
+            layout               = "test_content"
+            title                = "Final estimate: {net_gross:.0f}%"
+            chart.type           = "chart"
+            chart.content        = "ref:composition"
+            table.type           = "table"
+            table.content        = "ref:composition"
+
+            [report.net_gross_ppt.scenarios.content]
+
+                [report.net_gross_ppt.scenarios.content.chart.composition]
+                type                 = "bar_clustered"
+                categories           = ["Lobe", "Channel Fill", "Overbank"]
+                series_1             = [67, 27, 6]
+                series_2             = [31, 55, 14]
+
+                [report.net_gross_ppt.scenarios.content.table.composition]
+                rows                 = 2
+                cols                 = ["Building Block", "Weight", "N:G", "Contribution"]

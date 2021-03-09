@@ -1,0 +1,17 @@
+unique_id,building_block_type,descriptive_reservoir_quality
+1,Channel System,Moderate 30-65%NG
+1,Channel System,Poor <30%NG
+2,Fan System,Moderate 30-65%NG
+3,Channel System,Moderate 30-65%NG
+4,Channel System,Poor <30%NG
+5,Fan System,Poor <30%NG
+7,Channel System,Good 65-85% NG
+8,Fan System,Exceptional 85-100%NG
+9,Channel System,Good 65-85% NG
+11,Fan System,Moderate 30-65%NG
+13,Fan System,Good 65-85% NG
+14,Fan System,Poor <30%NG
+15,Fan System,Good 65-85% NG
+25,Fan System,Exceptional 85-100%NG
+48,Channel System,Exceptional 85-100%NG
+52,Channel System,Exceptional 85-100%NG

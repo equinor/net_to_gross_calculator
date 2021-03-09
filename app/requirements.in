@@ -1,0 +1,19 @@
+# This file lists the main dependencies of Geo:N:G
+#
+# To create a pinned requirements.txt, use pip-tools:
+#
+#    python -m piptools compile requirements.in
+#
+
+codetiming
+holoviews
+loguru
+munch
+pandas
+panel
+param
+pyconfs[toml]
+pyplugs
+python-dotenv
+requests
+typer
