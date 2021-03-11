@@ -13,24 +13,30 @@ One way to run this application is using docker-compose. Simply run `docker-comp
 The app and api is protected by oauth2.
 
 These variables are required for security:
-- AUTHORITY=<URL to OAuth authority>
-- CLIENT_ID=<OAuth client ID>
-- CLIENT_SECRET=<OAuth client secret>
-- AUDIENCE=<OAuth audience>
+```
+AUTHORITY=<URL to OAuth authority>
+CLIENT_ID=<OAuth client ID>
+CLIENT_SECRET=<OAuth client secret>
+AUDIENCE=<OAuth audience>
+```
 
 ### Data files
 
 All files must be stored in an azure blob container.
 
 These variables are required for storage:
-- STORAGE_URL=<URL to Azure blob>
-- CONTAINER=<Name of blob storage container>
-- FOLDER_NAME=<Folder inside the blob storage container>
+```
+STORAGE_URL=<URL to Azure blob>
+CONTAINER=<Name of blob storage container>
+FOLDER_NAME=<Folder inside the blob storage container>
+```
 
 3 files are required per module (deep and shallow):
-- complexes.json
-- elements.json
-- systems.json
+```
+complexes.json
+elements.json
+systems.json
+```
 
 [examples/data/deep](examples/data/deep) shows an example structure for these files. Inspect the code to see details of required directory structure.
 
