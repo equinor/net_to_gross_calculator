@@ -16,7 +16,6 @@ from fastapi import Security
 
 # Geo:N:G imports
 from api import config
-from api import models
 from api.config.validators import BlobSettings
 from api.config.validators import get_blob_settings
 from api.config.validators import get_log_settings
@@ -26,6 +25,7 @@ from api.data import TableName
 from api.data import get_dataframe_from_blob
 from api.utils import oidc
 from api.utils.auth import Oauth
+from geong_common.data import models
 from geong_common.log import logger
 
 router = APIRouter()
@@ -112,6 +112,4 @@ async def run_model(
         )
     except ResourceNotFoundError:
         raise HTTPException(status_code=500)
-    return models.calculate(geong_data, config.api.models[dataset]).to_dict(
-        orient="split"
-    )
+    return models.calculate(geong_data, dataset).to_dict(orient="split")

@@ -37,17 +37,11 @@ msrest==0.6.21
 numpy==1.20.1
     # via
     #   pandas
-    #   patsy
-    #   scipy
-    #   statsmodels
 oauthlib==3.1.0
     # via requests-oauthlib
 pandas==1.2.2
     # via
     #   -r requirements.in
-    #   statsmodels
-patsy==0.5.1
-    # via statsmodels
 pyconfs[toml]==0.5.1
     # via -r requirements.in
 pycparser==2.20
@@ -72,18 +66,13 @@ requests==2.25.1
     #   azure-core
     #   msrest
     #   requests-oauthlib
-scipy==1.6.0
-    # via statsmodels
 six==1.15.0
     # via
     #   azure-core
     #   isodate
-    #   patsy
     #   python-dateutil
 starlette==0.13.6
     # via fastapi
-statsmodels==0.12.2
-    # via -r requirements.in
 toml==0.10.2
     # via pyconfs
 typer==0.3.2
