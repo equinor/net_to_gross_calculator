@@ -13,6 +13,5 @@ pyconfs[toml]
 PyJWT
 python-dotenv
 requests
-statsmodels
 typer
 uvicorn

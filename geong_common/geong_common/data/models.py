@@ -7,6 +7,9 @@ import pandas as pd
 from statsmodels.genmod.families.family import Binomial
 from statsmodels.genmod.generalized_linear_model import GLM
 
+# Geo:N:G imports
+from geong_common import config
+
 
 def filter_data(data, filters: Dict[str, str]):
     """Filter data in a DataFrame based on the given filters"""
@@ -45,7 +48,12 @@ def _get_combinations(model_cfg):
     return pd.DataFrame(combinations, columns=[model_cfg.label_column] + factors)
 
 
-def calculate(elements, model_cfg):
+def calculate(elements, dataset):
+    """Calculate the Geo:N:G models, read config based on dataset"""
+    return calculate_from_config(elements, config.geong.models[dataset])
+
+
+def calculate_from_config(elements, model_cfg):
     """Calculate the Geo:N:G models"""
     models = _train(elements, model_cfg)
     combinations = _get_combinations(model_cfg)

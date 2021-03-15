@@ -4,3 +4,4 @@ isort
 pandas
 panel
 pytest
+statsmodels

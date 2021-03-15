@@ -7,8 +7,8 @@ import pytest
 from pyconfs import Configuration
 
 # Geo:N:G imports
-from api import config
-from api.models import calculate
+from geong_common import config
+from geong_common.data.models import calculate_from_config
 
 
 @pytest.fixture
@@ -56,11 +56,11 @@ def simplified_data():
 
 @pytest.fixture
 def model_config():
-    return config.api.models.deep
+    return config.geong.models.deep
 
 
 def test_synthetic_model(synthetic_data, synthetic_config):
-    models = calculate(synthetic_data, synthetic_config)
+    models = calculate_from_config(synthetic_data, synthetic_config)
     expected = pd.DataFrame(
         [
             ["type_1", "A", 0.15],
@@ -74,7 +74,7 @@ def test_synthetic_model(synthetic_data, synthetic_config):
 
 
 def test_model_with_config(simplified_data, model_config):
-    models = calculate(simplified_data, model_config)
+    models = calculate_from_config(simplified_data, model_config)
 
     # Test the output of some models
     assert models.query(
