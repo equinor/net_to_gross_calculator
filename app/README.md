@@ -1,4 +1,4 @@
-# Geo:N:G - Quantitative reservoir predictor
+# Net to Gross Calculator - Quantitative reservoir predictor
 
 This is a web app built using the [Panel](https://panel.holoviz.org/) library.
 
@@ -11,18 +11,18 @@ This is a web app built using the [Panel](https://panel.holoviz.org/) library.
     $ python -m pip install -r requirements_dev.txt
     ```
 
-    If you plan only plan to run Geo:N:G, you can install the basic dependencies instead: `requirements.txt`.
+    If you plan only plan to run it, you can install the basic dependencies instead: `requirements.txt`.
 
-2. Install Geo:N:G. The `-e` option installs the package in _editable_ mode, meaning that you don't need to reinstall the app when you change the source code:
+2. Install the app. The `-e` option installs the package in _editable_ mode, meaning that you don't need to reinstall the app when you change the source code:
 
     ```
     $ python -m pip install -e .
     ```
 
 
-## Running Geo:N:G
+## Running the Net to Gross Calculator
 
-Geo:N:G is based on [Panel](https://panel.holoviz.org/). You run the app by starting it with `panel serve`:
+The Net to Gross Calculator is based on [Panel](https://panel.holoviz.org/). You run the app by starting it with `panel serve`:
 
 ```
 $ python -m panel serve app
@@ -35,7 +35,7 @@ $ python -m panel serve app --dev *.py
 ```
 
 
-## Testing Geo:N:G
+## Testing the app
 
 Running tests are supported using [Tox](https://tox.readthedocs.io/). This assumes that you have installed the developer dependencies as described [above](#local-installation).
 

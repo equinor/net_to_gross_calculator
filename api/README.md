@@ -1,4 +1,4 @@
-# Geo:N:G - Data API
+# Net to Gross Calculator - Data API
 
 This is a REST API service built using the [FastAPI](https://fastapi.tiangolo.com/) library.
 
@@ -11,18 +11,18 @@ This is a REST API service built using the [FastAPI](https://fastapi.tiangolo.co
     $ python -m pip install -r requirements_dev.txt
     ```
 
-    If you plan only plan to run Geo:N:G API, you can install the basic dependencies instead: `requirements.txt`.
+    If you plan only plan to run it, you can install the basic dependencies instead: `requirements.txt`.
 
-2. Install Geo:N:G API. The `-e` option installs the package in _editable_ mode, meaning that you don't need to reinstall the app when you change the source code:
+2. Install the api. The `-e` option installs the package in _editable_ mode, meaning that you don't need to reinstall the app when you change the source code:
 
     ```
     $ python -m pip install -e .
     ```
 
 
-## Running Geo:N:G API
+## Running
 
-Geo:N:G API is installed as an executable, named `geong_api`. You can see basic usage of the executable when running it with the `--help` option.
+The api is installed as an executable, named `geong_api`. You can see basic usage of the executable when running it with the `--help` option.
 
 To run the app for testing and development, you can simply run the executable without any other options or arguments:
 
@@ -33,7 +33,7 @@ $ geong_api
 Run `geong_api --help` for more information.
 
 
-## Testing Geo:N:G API
+## Testing
 
 Running tests are supported using [Tox](https://tox.readthedocs.io/). This assumes that you have installed the developer dependencies as described [above](#local-installation).
 
@@ -52,7 +52,7 @@ Note that the first time you run `tox` it will build new virtual environments fo
 
 ## Environment Variables
 
-Geo:N:G API requires several environment variables to be set. Using a `.env` file is supported when you're running locally. The following `.env` template shows the mandatory environment variables:
+The api requires several environment variables to be set. Using a `.env` file is supported when you're running locally. The following `.env` template shows the mandatory environment variables:
 
 ```
 AUTHORITY=<URL to OAuth authority>
@@ -72,7 +72,7 @@ Additionally, you may set the following environment variables. However, these ha
 
 ## Docker Support
 
-The `Dockerfile` can be used to build a Docker image for Geo:N:G. Build the image as follows:
+The `Dockerfile` can be used to build a Docker image. Build the image as follows:
 
     $ docker build -t api .
 
