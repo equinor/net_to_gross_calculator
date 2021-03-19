@@ -8,11 +8,11 @@ appdirs==1.4.4
     # via black
 attrs==20.3.0
     # via pytest
-azure-core==1.11.0
+azure-core==1.12.0
     # via
     #   -r requirements.txt
     #   azure-storage-blob
-azure-storage-blob==12.7.1
+azure-storage-blob==12.8.0
     # via -r requirements.txt
 black==20.8b1
     # via -r requirements_dev.in
@@ -21,7 +21,7 @@ certifi==2020.12.5
     #   -r requirements.txt
     #   msrest
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements.txt
     #   cryptography
@@ -35,15 +35,15 @@ click==7.1.2
     #   black
     #   typer
     #   uvicorn
-coverage==5.4
+coverage==5.5
     # via pytest-cov
-cryptography==3.4.4
+cryptography==3.4.6
     # via
     #   -r requirements.txt
     #   azure-storage-blob
 fastapi==0.63.0
     # via -r requirements.txt
-flake8==3.8.4
+flake8==3.9.0
     # via -r requirements_dev.in
 h11==0.12.0
     # via
@@ -81,16 +81,15 @@ oauthlib==3.1.0
     #   requests-oauthlib
 packaging==20.9
     # via pytest
-pandas==1.2.2
-    # via
-    #   -r requirements.txt
+pandas==1.2.3
+    # via -r requirements.txt
 pathspec==0.8.1
     # via black
 pluggy==0.13.1
     # via pytest
 py==1.10.0
     # via pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via flake8
 pyconfs[toml]==0.5.1
     # via -r requirements.txt
@@ -98,17 +97,17 @@ pycparser==2.20
     # via
     #   -r requirements.txt
     #   cffi
-pydantic==1.7.3
+pydantic==1.8.1
     # via
     #   -r requirements.txt
     #   fastapi
-pyflakes==2.2.0
+pyflakes==2.3.0
     # via flake8
 pyjwt==2.0.1
     # via -r requirements.txt
 pyparsing==2.4.7
     # via packaging
-pyplugs==0.3.2
+pyplugs==0.4.0
     # via
     #   -r requirements.txt
     #   pyconfs
@@ -131,7 +130,7 @@ pytz==2021.1
     # via
     #   -r requirements.txt
     #   pandas
-regex==2020.11.13
+regex==2021.3.17
     # via black
 requests-mock==1.8.0
     # via -r requirements_dev.in
@@ -168,10 +167,13 @@ typed-ast==1.4.2
 typer==0.3.2
     # via -r requirements.txt
 typing-extensions==3.7.4.3
-    # via black
-urllib3==1.26.3
+    # via
+    #   -r requirements.txt
+    #   black
+    #   pydantic
+urllib3==1.26.4
     # via
     #   -r requirements.txt
     #   requests
-uvicorn==0.13.3
+uvicorn==0.13.4
     # via -r requirements.txt
