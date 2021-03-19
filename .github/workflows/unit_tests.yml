@@ -29,3 +29,7 @@ jobs:
       working-directory: ./geong_common
       run: |
         tox -e ${{ matrix.tox }}
+    - name: Run scripts tox tests
+      working-directory: ./scripts
+      run: |
+        tox -e ${{ matrix.tox }}
