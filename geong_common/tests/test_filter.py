@@ -4,7 +4,7 @@ import pandas as pd
 import pytest
 
 # Geo:N:G imports
-from api.models import filter_data
+from geong_common.data.models import filter_data
 
 
 @pytest.fixture()

@@ -75,9 +75,6 @@ numpy==1.20.1
     # via
     #   -r requirements.txt
     #   pandas
-    #   patsy
-    #   scipy
-    #   statsmodels
 oauthlib==3.1.0
     # via
     #   -r requirements.txt
@@ -87,13 +84,8 @@ packaging==20.9
 pandas==1.2.2
     # via
     #   -r requirements.txt
-    #   statsmodels
 pathspec==0.8.1
     # via black
-patsy==0.5.1
-    # via
-    #   -r requirements.txt
-    #   statsmodels
 pluggy==0.13.1
     # via pytest
 py==1.10.0
@@ -154,24 +146,17 @@ requests==2.25.1
     #   msrest
     #   requests-mock
     #   requests-oauthlib
-scipy==1.6.0
-    # via
-    #   -r requirements.txt
-    #   statsmodels
 six==1.15.0
     # via
     #   -r requirements.txt
     #   azure-core
     #   isodate
-    #   patsy
     #   python-dateutil
     #   requests-mock
 starlette==0.13.6
     # via
     #   -r requirements.txt
     #   fastapi
-statsmodels==0.12.2
-    # via -r requirements.txt
 toml==0.10.2
     # via
     #   -r requirements.txt
