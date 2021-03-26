@@ -1,17 +1,17 @@
 unique_id,building_block_type,descriptive_reservoir_quality
-1,Channel Complex,Moderate 30-65%NG
-2,Lobe Complex,Moderate 30-65%NG
-3,Channel Complex,Moderate 30-65%NG
-4,Channel Complex,Poor <30%NG
-4,Channel Complex,Poor <30%NG
-5,Lobe Complex,Poor <30%NG
-7,Lobe Complex,Exceptional 85-100%NG
-8,Lobe Complex,Exceptional 85-100%NG
+1,Channel Complex,Moderate 30-65% NG
+2,Lobe Complex,Moderate 30-65% NG
+3,Channel Complex,Moderate 30-65% NG
+4,Channel Complex,Poor <30% NG
+4,Channel Complex,Poor <30% NG
+5,Lobe Complex,Poor <30% NG
+7,Lobe Complex,Exceptional 85-100% NG
+8,Lobe Complex,Exceptional 85-100% NG
 9,Channel Complex,Good 65-85% NG
-11,Lobe Complex,Moderate 30-65%NG
+11,Lobe Complex,Moderate 30-65% NG
 13,Lobe Complex,Good 65-85% NG
-14,Lobe Complex,Poor <30%NG
+14,Lobe Complex,Poor <30% NG
 15,Lobe Complex,Good 65-85% NG
 25,Channel Complex,Good 65-85% NG
-48,Channel Complex,Exceptional 85-100%NG
-52,Channel Complex,Exceptional 85-100%NG
+48,Channel Complex,Exceptional 85-100% NG
+52,Channel Complex,Exceptional 85-100% NG
