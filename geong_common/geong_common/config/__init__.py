@@ -14,7 +14,12 @@ with resources.path(__package__, "") as config_dir:
 # Add information from environment variables
 geong.vars.update(
     {
-        "API_URL": os.environ.get("API_URL", "Please set the API_URL env. variable"),
+        "API_URL": os.environ.get(
+            "API_URL", "Please set the API_URL environment variable"
+        ),
+        "DATA_PATH": os.environ.get(
+            "DATA_PATH", "Please set the DATA_PATH environment variable"
+        ),
     }
 )
 geong.update_from_env(

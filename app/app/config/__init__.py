@@ -22,6 +22,7 @@ app.update_from_env(
         "HEADER_COLOR": ("style", "header_color"),
         "LOGO": ("style", "logo"),
         "REPORT_TEMPLATE": ("report", "net_gross_ppt", "template"),
+        "READER": ("apps", "reader"),
     },
     converters={"RAW_CSS": "list", "CSS_FILES": "list"},
 )

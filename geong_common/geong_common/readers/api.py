@@ -8,6 +8,7 @@ import requests
 
 # Geo:N:G imports
 from geong_common import config
+from geong_common.data import composition
 from geong_common.exceptions import APIResponseError
 from geong_common.exceptions import MissingAccessTokenError
 from geong_common.log import logger
@@ -36,23 +37,12 @@ def read_filtered(dataset, table, **filters):
 def read_elements(dataset, base_table, **filters):
     """Get elements satisfying filters on base table
 
-    TODO: Move more of this functionality to the API
+    TODO: Move more of this functionality to the API to avoid calling the API twice
     """
     # Filter to get wells
     wells = read_filtered(dataset=dataset, table=base_table, **filters)
-
-    # Merge with elements
-    parents = {
-        "complexes": "parent_complex_identifier",
-        "systems": "parent_system_identifier",
-    }
-    return wells.merge(
-        read_all(dataset=dataset, table="elements"),
-        how="left",
-        left_on="unique_id",
-        right_on=parents[base_table],
-        suffixes=("_table", ""),
-    )
+    elements = read_all(dataset=dataset, table="elements")
+    return composition.combine_scale_and_elements(base_table, wells, elements)
 
 
 @pyplugs.register
