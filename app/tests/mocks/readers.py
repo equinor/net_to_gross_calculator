@@ -9,6 +9,10 @@ import pathlib
 # Third party imports
 import pandas as pd
 
+# Geo:N:G imports
+from geong_common.data import composition
+from geong_common.data import models
+
 DATA_DIR = pathlib.Path(__file__).resolve().parent
 
 
@@ -20,32 +24,15 @@ def read_all(reader, dataset, table):
 def read_filtered(reader, dataset, table, **filters):
     """Mock for calling read_filtered() without contacting the API"""
     unfiltered = read_all(reader, dataset=dataset, table=table)
-
-    # Combine filters to a query
-    query = " and ".join(f"{col} == {value!r}" for col, value in filters.items())
-    if query:
-        return unfiltered.query(query)
-    else:
-        return unfiltered
+    return models.filter_data(unfiltered, filters)
 
 
 def read_elements(reader, dataset, base_table, **filters):
     """Mock for calling read_elements() without contacting the API"""
     # Filter to get wells
     wells = read_filtered(reader, dataset=dataset, table=base_table, **filters)
-
-    # Merge with elements
-    parents = {
-        "complexes": "parent_complex_identifier",
-        "systems": "parent_system_identifier",
-    }
-    return wells.merge(
-        read_all(reader, dataset=dataset, table="elements"),
-        how="left",
-        left_on="unique_id",
-        right_on=parents[base_table],
-        suffixes=("_table", ""),
-    )
+    elements = read_all(reader, dataset=dataset, table="elements")
+    return composition.combine_scale_and_elements(base_table, wells, elements)
 
 
 def read_model(reader, dataset):
