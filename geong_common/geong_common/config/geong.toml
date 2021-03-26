@@ -40,6 +40,11 @@ dev_level        = "DEBUG"
         data             = "{API_URL}/data/{dataset}/{table}"
         model            = "{API_URL}/model/{dataset}"
 
+    [readers.local]
+
+        [readers.local.path]
+        data             = "{DATA_PATH}/{dataset}/{table}.json"
+
 
 #
 # Models

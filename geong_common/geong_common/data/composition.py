@@ -39,3 +39,18 @@ def calculate_filter_classes(elements, filter_classes):
         )
 
     return composition
+
+
+def combine_scale_and_elements(scale_table, wells, elements):
+    """Combine systems or complexes table with elements"""
+    parents = {
+        "complexes": "parent_complex_identifier",
+        "systems": "parent_system_identifier",
+    }
+    return wells.merge(
+        elements,
+        how="left",
+        left_on="unique_id",
+        right_on=parents[scale_table],
+        suffixes=("_table", ""),
+    )
