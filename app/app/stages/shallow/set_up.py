@@ -43,9 +43,9 @@ class Model(param.Parameterized):
     )
     reservoir_quality = param.Selector(
         {
-            "Poor (0 - 30%)": "Poor <30%NG",
-            "Moderate (30 - 65%)": "Moderate 30-65%NG",
-            "Good (65 - 85%)": "Good 65-85%NG",
+            "Poor (0 - 30%)": "Poor <30% NG",
+            "Moderate (30 - 65%)": "Moderate 30-65% NG",
+            "Good (65 - 85%)": "Good 65-85% NG",
             "Exceptional (85 - 100%)": "Exceptional 85-100% NG",
         },
         label="What is the anticipated N:G quality bracket?",

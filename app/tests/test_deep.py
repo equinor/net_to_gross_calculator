@@ -66,7 +66,7 @@ def test_output_from_set_up():
     # Choose settings covered by the limited test set
     stage.gross_geomorphology = "channel"
     stage.stratigraphic_scale = "complexes"
-    stage.reservoir_quality = "Moderate 30-65%NG"
+    stage.reservoir_quality = "Moderate 30-65% NG"
 
     # Expected output
     expected_composition = {"Channel Fill": 29, "Lobe": 57, "MTD": 14}
@@ -103,7 +103,7 @@ def test_composition_of_no_matching_elements():
     # Choose settings not covered by the limited test set
     stage.gross_geomorphology = "fan"
     stage.stratigraphic_scale = "systems"
-    stage.reservoir_quality = "Exceptional 85-100%NG"
+    stage.reservoir_quality = "Exceptional 85-100% NG"
 
     # Expected output
     expected_composition = {}
