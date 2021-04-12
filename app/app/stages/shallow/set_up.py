@@ -62,13 +62,15 @@ class Model(param.Parameterized):
             building_block_type=self.depositional_setting,
             descriptive_reservoir_quality=self.reservoir_quality,
         )
+        group_composition = composition.calculate_composition_in_group(
+            elements=elements,
+            column="building_block_type",
+            threshold=self.composition_threshold,
+        )
 
         return {
-            "composition": composition.calculate_composition_in_group(
-                elements=elements,
-                column="building_block_type",
-                threshold=self.composition_threshold,
-            )
+            "composition": group_composition,
+            "reservoir_quality": {e: self.reservoir_quality for e in group_composition},
         }
 
     # Output recorded in the final report

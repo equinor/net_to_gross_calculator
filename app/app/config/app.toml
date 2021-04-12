@@ -16,6 +16,7 @@ header_color         = "#ffffff"
 header_background    = "#00cc99"
 
     [style.colors]
+    default          = "#00cc99"
     lobe             = "#ffea18"
     channel_fill     = "#fdc801"
     overbank         = "#b5cf6d"
@@ -59,7 +60,7 @@ reader           = "api"
 
         [apps.shallow.workflow]
         label            = "Workflow"
-        stages           = ["set_up", "result"]
+        stages           = ["set_up", "composition", "result"]
 
 
 #
@@ -98,8 +99,22 @@ reader           = "api"
         [stages.shallow.set_up]
         label            = "Set Up"
 
+        [stages.shallow.composition]
+        label            = "Element Composition"
+
+            [stages.shallow.composition.params]
+            ready_parameter  = "sum_to_100"
+
         [stages.shallow.result]
         label            = "Result"
+
+            [stages.shallow.result.params]
+            ready_parameter  = "ready"
+            auto_advance     = true
+
+        [stages.shallow.report]
+        label            = "Final Report"
+        report           = "net_gross_ppt"
 
 
 #

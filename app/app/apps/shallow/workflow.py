@@ -23,6 +23,7 @@ def view():
         pipeline.add_stage(
             stages_cfg[stage].label,
             stages.get_stage(APP, stage),
+            **stages.get_params(APP, stage),
         )
 
     # Use pipeline.layout to render the default layout or use pipeline.title,
