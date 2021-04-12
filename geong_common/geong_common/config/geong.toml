@@ -96,76 +96,190 @@ dev_level        = "DEBUG"
 
         [models.shallow.bay_lagoon_lake]
         label                        = "Bay/Lagoon/Lake"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.beach]
         label                        = "Beach"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.deltaplain_overbank]
         label                        = "Deltaplain Overbank"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.distributary_fluvial_channel_fill]
         label                        = "Distributary Fluvial Channel-Fill"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.floodplain_overbank]
         label                        = "Floodplain Overbank"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.lower_delta_front]
         label                        = "Lower Delta Front"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.lower_fan_delta_slope]
         label                        = "Lower Fan Delta Slope"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.lower_shoreface]
         label                        = "Lower Shoreface"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.mass_transport_deposits]
         label                        = "Mass Transport Deposits"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            # No data with "Good 65-85% NG" quality in the dataset
+            # No data with "Moderate 30-65% NG" quality in the dataset
+            "Poor <30% NG",
+        ]
 
         [models.shallow.offshore_fines]
         label                        = "Offshore Fines"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.offshore_transition]
         label                        = "Offshore Transition"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.prodelta]
         label                        = "Prodelta"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.swamp_marsh]
         label                        = "Swamp/Marsh"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.tidal_channel_fill]
         label                        = "Tidal Channel-Fill"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.tidal_dunes_bars]
         label                        = "Tidal Dunes/Bars"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.tidal_flat]
         label                        = "Tidal Flat"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.upper_delta_front]
         label                        = "Upper Delta Front"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]
 
         [models.shallow.upper_fan_delta_slope]
         label                        = "Upper Fan Delta Slope"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            # No data with "Poor <30% NG" quality in the dataset
+        ]
 
         [models.shallow.upper_shoreface]
         label                        = "Upper Shoreface"
-        factors                      = []
+        factors                      = ["descriptive_reservoir_quality"]
+        descriptive_reservoir_quality = [
+            "Exceptional 85-100% NG",
+            "Good 65-85% NG",
+            "Moderate 30-65% NG",
+            "Poor <30% NG",
+        ]

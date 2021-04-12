@@ -27,6 +27,21 @@ def calculate_composition_in_group(elements, column, threshold=0):
     )
 
 
+def calculate_quality_in_group(all_elements, elements, column):
+    """Calculate quality of elements grouped on a given column
+
+    For each group, pick the quality bracket with the most elements relative to
+    the overall distribution of all elements.
+    """
+    quality_col = "descriptive_reservoir_quality"
+    logger.info(f"Calculate {column} quality based on {len(elements)} elements")
+
+    distribution = all_elements.groupby([quality_col, column]).size().unstack()
+    group_distribution = elements.groupby([quality_col, column]).size().unstack()
+
+    return (group_distribution / distribution).idxmax().dropna().to_dict()
+
+
 def calculate_filter_classes(elements, filter_classes):
     """Calculate initial filter classes based on historical elements"""
 
