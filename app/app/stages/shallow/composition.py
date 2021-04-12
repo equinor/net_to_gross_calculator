@@ -48,10 +48,7 @@ class Model(param.Parameterized):
     net_gross = param.Number(
         float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
     )
-
     element_names = param.List(label="Choose elements:")
-    element_widgets = pn.Column(sizing_mode="stretch_both")
-    visible_elements = {}
 
     # Elements
     bay_lagoon_lake = param.Integer(0, label="Bay/Lagoon/Lake", bounds=(0, 100))
@@ -136,7 +133,8 @@ class Model(param.Parameterized):
         super().__init__()
         self.report_from_set_up = report_from_set_up
         self._state = state.get_user_state().setdefault(APP, {})
-        self.reset_element_widgets()
+        self.element_widgets = pn.Column(sizing_mode="stretch_both")
+        self.visible_elements = {}
 
         self._initialize_qualities(
             reservoir_quality=_to_keys(initial_values["reservoir_quality"]),
@@ -211,11 +209,6 @@ class Model(param.Parameterized):
 
         for element in sorted(set(self.element_names) - set(self.visible_elements)):
             self.add_element_widget(element)
-
-    def reset_element_widgets(self):
-        """Remove all element widgets"""
-        self.element_widgets.clear()
-        self.visible_elements.clear()
 
     def add_element_widget(self, element):
         if element in self.visible_elements:
