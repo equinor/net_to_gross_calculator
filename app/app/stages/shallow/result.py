@@ -13,7 +13,6 @@ import pyplugs
 from app import config
 from app.assets import panes
 from app.assets import state
-from geong_common import readers
 from geong_common.log import logger
 
 # Find name of app and stage
@@ -25,35 +24,34 @@ class Model(param.Parameterized):
     """Data defining this stage"""
 
     # Values set by previous stage
-    initial_values = param.Dict()
-    report_from_set_up = param.Dict()
+    report_from_composition = param.Dict()
 
     # Parameters for the current stage
     headline = param.String(label=CFG.label)
     ready = param.Boolean(default=False)
-    net_gross = param.Number(label="Net/Gross", bounds=(0, 100))
+    net_gross = param.Number(label="Net/Gross", softbounds=(0, 100))
     scenario_name = param.String(label="Scenario Name")
 
-    def __init__(self, initial_values, report_from_set_up):
+    def __init__(self, report_from_composition, net_gross):
         """Set initial values based on previous stage"""
         super().__init__()
-        self._initial_values = initial_values
-
         self._state = state.get_user_state().setdefault(APP, {})
         self._state.setdefault("scenarios", {})
         self._current_scenario_name = None
-
-        self.net_gross = calculate_net_gross(initial_values["composition"])
+        self.composition = report_from_composition["building_block_type"]
+        self.net_gross = net_gross
         self.scenario_name = f"Scenario {len(self._state['scenarios']) + 1}"
 
         try:
             session_id = pn.state.curdoc.session_context.id
             logger.insights(f"New result: {self.net_gross}, SessionID: {session_id}")
-            logger.insights(f"SessionID: {session_id}, Choices: {report_from_set_up}")
+            logger.insights(
+                f"SessionID: {session_id}, Choices: {report_from_composition}"
+            )
         except AttributeError as e:
             logger.error(f"SessionID not available: {e}")
             logger.insights(f"New result: {self.net_gross}")
-            logger.insights(f"Choices: {report_from_set_up}")
+            logger.insights(f"Choices: {report_from_composition}")
 
     def _store_scenario(self):
         """Store results for the current scenario"""
@@ -127,9 +125,6 @@ class View:
         return pn.Column(
             panes.headline(self.param.headline),
             pn.Row(
-                pn.pane.DataFrame(
-                    pd.DataFrame({"Composition": self._initial_values["composition"]})
-                ),
                 pn.indicators.Number.from_param(
                     self.param.net_gross, format="{value:.0f}%"
                 ),
@@ -147,16 +142,3 @@ class View:
 @pyplugs.register
 class StageResult(Model, View):
     """Connect the model and the view"""
-
-
-def calculate_net_gross(composition):
-    """Calculate a net gross estimate based on the given composition"""
-    model = readers.read_model(reader=config.app.apps.reader, dataset=APP)
-    net_gross = model.assign(
-        bb_pct=lambda df: df.apply(
-            lambda row: composition.get(row.building_block_type, 0),
-            axis="columns",
-        ),
-    )
-
-    return net_gross.loc[:, ["net_gross", "bb_pct"]].prod(axis="columns").sum()
