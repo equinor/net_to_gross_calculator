@@ -1,5 +1,8 @@
 """Customized panes used by Geo:N:G"""
 
+# Standard library imports
+import textwrap
+
 # Third party imports
 import panel as pn
 
@@ -20,3 +23,8 @@ def markdown_from_url(url):
     """Create a Markdown pane by getting the markdown string from a URL"""
     markdown = files.get_url_or_asset(url, local_assets="app.assets").read_text()
     return pn.pane.Markdown(markdown)
+
+
+def warning(text):
+    """Create a warning alert pane with the given text"""
+    return pn.pane.Alert(f"**Warning:** {textwrap.dedent(text)}", alert_type="danger")

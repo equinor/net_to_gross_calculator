@@ -102,6 +102,29 @@ reader           = "api"
         [stages.shallow.composition]
         label            = "Element Composition"
 
+            [stages.shallow.composition.warnings]
+            no_elements_text = """
+                No result. Your choices are not reflected in the underlying data
+                and are considered geologically unlikely.
+
+                Choose other another start point on the previous page or build a
+                model using the customisation functionality above.
+                """
+            not_100_text     = """
+                The weights should equal **100%**.
+
+                Currently, the weights sum to **{total:.0f}%**
+                """
+            ng_above         = 90
+            ng_above_text    = """
+                Very high N:G values (~85-90% and above) are unlikely for an
+                entire trap GRV unless strong observational or empirical evidence
+                supports it.
+
+                Consider sources of heterogeneity and build them in to your model
+                with the appropriate elements and qualities.
+                """
+
             [stages.shallow.composition.params]
             ready_parameter  = "sum_to_100"
 
