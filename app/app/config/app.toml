@@ -60,7 +60,7 @@ reader           = "api"
 
         [apps.shallow.workflow]
         label            = "Workflow"
-        stages           = ["set_up", "composition", "result"]
+        stages           = ["set_up", "composition", "result", "report"]
 
 
 #
