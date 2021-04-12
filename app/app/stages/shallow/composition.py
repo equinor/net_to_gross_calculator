@@ -18,7 +18,7 @@ from geong_common.log import logger
 
 # Find name of app and stage
 *_, PACKAGE, APP, STAGE = __name__.split(".")
-
+CFG = config.app[PACKAGE][APP][STAGE]
 
 # Get list of elements from model configuration
 ELEMENT_OPTIONS = {
@@ -174,21 +174,18 @@ class Model(param.Parameterized):
         """Ensure that the different weights add up to 100%"""
         self.sum_to_100 = self.total == 100
 
-    @param.depends(*ALL_ELEMENTS)
-    def warn_not_100_percent(self):
+    @param.depends("element_names", *ALL_ELEMENTS, *ALL_QUALITIES)
+    def warnings(self):
         """Show a warning if the total sum of weights is not 100%"""
-        if self.total == 100:
-            return pn.pane.Alert(
-                f"Sum of weights: **{self.total}%**", alert_type="success"
-            )
+        if not self.element_names:
+            return panes.warning(CFG.warnings.replace("no_elements_text"))
+        elif self.total != 100:
+            return panes.warning(CFG.warnings.replace("not_100_text", total=self.total))
+        elif self.net_gross >= CFG.warnings.ng_above:
+            return panes.warning(CFG.warnings.replace("ng_above_text"))
         else:
-            return pn.pane.Alert(
-                f"Sum of weights: **{self.total}%** "
-                "Make sure the weights add up to **100%**",
-                alert_type="warning",
-            )
+            return pn.pane.Alert("", alert_type="light")
 
-    # Output recorded in the final report
     @param.output(param.Dict)
     def report_from_composition(self):
         """Store user input to the final report"""
@@ -309,7 +306,6 @@ class View:
                         sizing_mode="fixed",
                     ),
                     self.element_widgets,
-                    self.warn_not_100_percent,
                     sizing_mode="stretch_width",
                 ),
                 pn.Column(
@@ -317,11 +313,12 @@ class View:
                         self.param.net_gross,
                         format="{value:.0f}%",
                         nan_format="...",
-                        default_color="gold",
-                        colors=[(100, "black")],
-                    )
+                        default_color="red",
+                        colors=[(CFG.warnings.ng_above, "black")],
+                    ),
                 ),
             ),
+            self.warnings,
             sizing_mode="stretch_width",
         )
 
