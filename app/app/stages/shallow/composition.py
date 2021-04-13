@@ -212,27 +212,9 @@ class Model(param.Parameterized):
             return
 
         logger.debug(f"Adding {element} widget")
-        colors = config.app.style.colors
-        widget = pn.Row(
-            pn.pane.Markdown(
-                f"**{getattr(self.param, element).label}:**",
-                width=150,
-                sizing_mode="fixed",
-            ),
-            pn.widgets.IntSlider.from_param(
-                getattr(self.param, element),
-                name="",
-                bar_color=colors.get(element, colors.default),
-                sizing_mode="stretch_width",
-                show_value=False,
-            ),
-            pn.widgets.Spinner.from_param(
-                getattr(self.param, element), name="", width=100
-            ),
-            pn.widgets.RadioButtonGroup.from_param(
-                getattr(self.param, f"{element}_quality"),
-                button_type="default",
-            ),
+        widget = panes.element_slider(
+            param=getattr(self.param, element),
+            quality_param=getattr(self.param, f"{element}_quality"),
         )
         self.element_names.append(element)
         self.visible_elements[element] = widget.name
