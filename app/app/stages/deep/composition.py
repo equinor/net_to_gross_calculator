@@ -81,18 +81,13 @@ class View:
     """Define the look and feel of the stage"""
 
     def panel(self):
-        colors = config.app.style.colors
         return pn.Column(
             panes.headline(self.param.headline),
-            pn.widgets.IntSlider.from_param(self.param.lobe, bar_color=colors.lobe),
-            pn.widgets.IntSlider.from_param(
-                self.param.channel_fill, bar_color=colors.channel_fill
-            ),
-            pn.widgets.IntSlider.from_param(
-                self.param.overbank, bar_color=colors.overbank
-            ),
-            pn.widgets.IntSlider.from_param(self.param.mtd, bar_color=colors.mtd),
-            pn.widgets.IntSlider.from_param(self.param.drape, bar_color=colors.drape),
+            panes.element_slider(self.param.lobe),
+            panes.element_slider(self.param.channel_fill),
+            panes.element_slider(self.param.overbank),
+            panes.element_slider(self.param.mtd),
+            panes.element_slider(self.param.drape),
             self.warnings,
             sizing_mode="stretch_width",
         )

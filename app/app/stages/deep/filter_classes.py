@@ -6,7 +6,6 @@ import param
 import pyplugs
 
 # Geo:N:G imports
-from app import config
 from app.assets import panes
 from geong_common.log import logger
 
@@ -136,116 +135,65 @@ class View:
     """Define the look and feel of the stage"""
 
     def panel(self):
-        colors = config.app.style.colors
-        return pn.Column(
-            pn.Card(
-                pn.Row(
-                    pn.Column(
-                        panes.headline(self.param.lobe_spatial),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_spatial_zone1, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_spatial_zone2, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_spatial_zone3, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(self.param.lobe_spatial_ignore),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
-                    pn.Column(
-                        panes.headline(self.param.lobe_confinement),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_confinement_confined, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_confinement_unconfined, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_confinement_weaklyconfined, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(
-                            self.param.lobe_confinement_ignore
-                        ),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
-                    pn.Column(
-                        panes.headline(self.param.lobe_conventional),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_conventional_conventionalturbidites, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_conventional_hybrideventbeds, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(
-                            self.param.lobe_conventional_ignore
-                        ),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
-                    pn.Column(
-                        panes.headline(self.param.lobe_architectural),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_architectural_lobechannelised, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.lobe_architectural_lobenonchannelised, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(
-                            self.param.lobe_architectural_ignore
-                        ),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
+        return pn.Row(
+            pn.layout.HSpacer(),
+            pn.Column(
+                panes.division_slider(
+                    "Lobe",
+                    "Spatial Position",
+                    params=self.param,
+                    param_1="lobe_spatial_zone1",
+                    param_2="lobe_spatial_zone2",
+                    param_3="lobe_spatial_zone3",
+                    ignore_param="lobe_spatial_ignore",
                 ),
-                title="Lobe Filter Classes",
-                header_background=colors.lobe,
-                active_header_background=colors.lobe,
-                background="white",
-            ),
-            pn.Card(
-                pn.Row(
-                    pn.Column(
-                        panes.headline(self.param.chan_relative),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_relative_axial, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_relative_offaxis, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_relative_margin, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(self.param.chan_relative_ignore),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
-                    pn.Column(
-                        panes.headline(self.param.chan_architectural),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_architectural_laterallymigrating, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_architectural_erosionallyconfined, step=1
-                        ),
-                        pn.widgets.IntInput.from_param(
-                            self.param.chan_architectural_overbankconfined, step=1
-                        ),
-                        pn.widgets.Checkbox.from_param(
-                            self.param.chan_architectural_ignore
-                        ),
-                        max_width=300,
-                        sizing_mode="stretch_width",
-                    ),
+                panes.division_slider(
+                    "Lobe",
+                    "Confinement",
+                    params=self.param,
+                    param_1="lobe_confinement_confined",
+                    param_2="lobe_confinement_unconfined",
+                    param_3="lobe_confinement_weaklyconfined",
+                    ignore_param="lobe_confinement_ignore",
                 ),
-                title="Channel Fill Filter Classes",
-                header_background=colors.channel_fill,
-                active_header_background=colors.channel_fill,
-                background="white",
+                panes.division_slider(
+                    "Channel Fill",
+                    "Spatial Position",
+                    params=self.param,
+                    param_1="chan_relative_axial",
+                    param_2="chan_relative_offaxis",
+                    param_3="chan_relative_margin",
+                    ignore_param="chan_relative_ignore",
+                ),
             ),
+            pn.Column(
+                panes.division_slider(
+                    "Lobe",
+                    "Bed Type",
+                    params=self.param,
+                    param_1="lobe_conventional_conventionalturbidites",
+                    param_2="lobe_conventional_hybrideventbeds",
+                    ignore_param="lobe_conventional_ignore",
+                ),
+                panes.division_slider(
+                    "Lobe",
+                    "Archetypes",
+                    params=self.param,
+                    param_1="lobe_architectural_lobechannelised",
+                    param_2="lobe_architectural_lobenonchannelised",
+                    ignore_param="lobe_architectural_ignore",
+                ),
+                panes.division_slider(
+                    "Channel Fill",
+                    "Archetypes",
+                    params=self.param,
+                    param_1="chan_architectural_laterallymigrating",
+                    param_2="chan_architectural_erosionallyconfined",
+                    param_3="chan_architectural_overbankconfined",
+                    ignore_param="chan_architectural_ignore",
+                ),
+            ),
+            pn.layout.HSpacer(),
             sizing_mode="stretch_width",
         )
 
