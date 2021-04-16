@@ -8,10 +8,18 @@ import pyplugs
 # Geo:N:G imports
 from app import config
 from app.assets import panes
+from geong_common import config as geong_config
 
 # Find name of app and stage
 *_, PACKAGE, APP, STAGE = __name__.split(".")
 CFG = config.app[PACKAGE][APP][STAGE]
+
+# Get list of elements from model configuration
+ELEMENT_OPTIONS = {
+    section.label: name
+    for name, section in geong_config.geong.models[APP].section_items
+}
+ALL_ELEMENTS = list(ELEMENT_OPTIONS.values())
 
 
 class Model(param.Parameterized):
@@ -25,15 +33,15 @@ class Model(param.Parameterized):
     headline = param.String(label="Element Composition", doc="Todo")
     ready = param.Boolean(default=True)
 
-    lobe = param.Integer(0, label="Lobe", bounds=(0, 100))
-    channel_fill = param.Integer(0, label="Channel Fill", bounds=(0, 100))
-    overbank = param.Integer(0, label="Overbank", bounds=(0, 100))
-    mtd = param.Integer(0, label="MTD", bounds=(0, 100))
-    drape = param.Integer(0, label="Drape", bounds=(0, 100))
-
     def __init__(self, report_from_set_up, initial_values):
         """Set initial values based on previous stage"""
+        # Add elements as parameters
+        for label, element in ELEMENT_OPTIONS.items():
+            self.param._add_parameter(
+                element, param.Integer(0, label=label, bounds=(0, 100))
+            )
         super().__init__()
+
         self.report_from_set_up = report_from_set_up
         self._initial_filter_classes = initial_values["filter_classes"]
         for building_block_type, value in initial_values["composition"].items():
@@ -42,14 +50,14 @@ class Model(param.Parameterized):
     @property
     def total(self):
         """The total sum of the different weights"""
-        return self.lobe + self.channel_fill + self.overbank + self.mtd + self.drape
+        return sum(getattr(self, element) for element in ALL_ELEMENTS)
 
-    @param.depends("lobe", "channel_fill", "overbank", "mtd", "drape", watch=True)
+    @param.depends(*ALL_ELEMENTS, watch=True)
     def adds_to_100_percent(self):
         """Ensure that the different weights add up to 100%"""
         self.ready = self.total == 100
 
-    @param.depends("lobe", "channel_fill", "overbank", "mtd", "drape")
+    @param.depends(*ALL_ELEMENTS)
     def warnings(self):
         """Show a warning if the total sum of weights is not 100%"""
         if self.total != 100:
@@ -72,7 +80,7 @@ class Model(param.Parameterized):
             "building_block_type": {
                 self.param.params(k).label: v
                 for k, v in self.param.get_param_values()
-                if k in {"lobe", "channel_fill", "overbank", "mtd", "drape"}
+                if k in ALL_ELEMENTS
             },
         }
 
@@ -81,13 +89,16 @@ class View:
     """Define the look and feel of the stage"""
 
     def panel(self):
+        sliders = pn.Column(
+            *[
+                panes.element_slider(getattr(self.param, element))
+                for element in ALL_ELEMENTS
+            ],
+            sizing_mode="stretch_width",
+        )
         return pn.Column(
             panes.headline(self.param.headline),
-            panes.element_slider(self.param.lobe),
-            panes.element_slider(self.param.channel_fill),
-            panes.element_slider(self.param.overbank),
-            panes.element_slider(self.param.mtd),
-            panes.element_slider(self.param.drape),
+            sliders,
             self.warnings,
             sizing_mode="stretch_width",
         )
