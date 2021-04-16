@@ -23,7 +23,7 @@ CFG = config.app[PACKAGE][APP][STAGE]
 # Get list of elements from model configuration
 ELEMENT_OPTIONS = {
     section.label: name
-    for name, section in geong_config.geong.models.shallow.section_items
+    for name, section in geong_config.geong.models[APP].section_items
 }
 QUALITY_OPTIONS = {
     "Poor": "Poor <30% NG",
@@ -50,87 +50,21 @@ class Model(param.Parameterized):
     )
     element_names = param.List(label="Choose elements:")
 
-    # Elements
-    bay_lagoon_lake = param.Integer(0, label="Bay/Lagoon/Lake", bounds=(0, 100))
-    bay_lagoon_lake_quality = param.Selector(
-        QUALITY_OPTIONS, label="Bay/Lagoon/Lake Quality"
-    )
-    beach = param.Integer(0, label="Beach", bounds=(0, 100))
-    beach_quality = param.Selector(QUALITY_OPTIONS, label="Beach Quality")
-    deltaplain_overbank = param.Integer(0, label="Deltaplain Overbank", bounds=(0, 100))
-    deltaplain_overbank_quality = param.Selector(
-        QUALITY_OPTIONS, label="Deltaplain Overbank Quality"
-    )
-    distributary_fluvial_channel_fill = param.Integer(
-        0, label="Distributary Fluvial Channel-Fill", bounds=(0, 100)
-    )
-    distributary_fluvial_channel_fill_quality = param.Selector(
-        QUALITY_OPTIONS, label="Distributary Fluvial Channel-Fill Quality"
-    )
-    floodplain_overbank = param.Integer(0, label="Floodplain Overbank", bounds=(0, 100))
-    floodplain_overbank_quality = param.Selector(
-        QUALITY_OPTIONS, label="Floodplain Overbank Quality"
-    )
-    lower_delta_front = param.Integer(0, label="Lower Delta Front", bounds=(0, 100))
-    lower_delta_front_quality = param.Selector(
-        QUALITY_OPTIONS, label="Lower Delta Front Quality"
-    )
-    lower_fan_delta_slope = param.Integer(
-        0, label="Lower Fan Delta Slope", bounds=(0, 100)
-    )
-    lower_fan_delta_slope_quality = param.Selector(
-        QUALITY_OPTIONS, label="Lower Fan Delta Slope Quality"
-    )
-    lower_shoreface = param.Integer(0, label="Lower Shoreface", bounds=(0, 100))
-    lower_shoreface_quality = param.Selector(
-        QUALITY_OPTIONS, label="Lower Shoreface Quality"
-    )
-    mass_transport_deposits = param.Integer(
-        0, label="Mass Transport Deposits", bounds=(0, 100)
-    )
-    mass_transport_deposits_quality = param.Selector(
-        QUALITY_OPTIONS, label="Mass Transport Deposits Quality"
-    )
-    offshore_fines = param.Integer(0, label="Offshore Fines", bounds=(0, 100))
-    offshore_fines_quality = param.Selector(
-        QUALITY_OPTIONS, label="Offshore Fines Quality"
-    )
-    offshore_transition = param.Integer(0, label="Offshore Transition", bounds=(0, 100))
-    offshore_transition_quality = param.Selector(
-        QUALITY_OPTIONS, label="Offshore Transition Quality"
-    )
-    prodelta = param.Integer(0, label="Prodelta", bounds=(0, 100))
-    prodelta_quality = param.Selector(QUALITY_OPTIONS, label="Prodelta Quality")
-    swamp_marsh = param.Integer(0, label="Swamp/Marsh", bounds=(0, 100))
-    swamp_marsh_quality = param.Selector(QUALITY_OPTIONS, label="Swamp/Marsh Quality")
-    tidal_channel_fill = param.Integer(0, label="Tidal Channel-Fill", bounds=(0, 100))
-    tidal_channel_fill_quality = param.Selector(
-        QUALITY_OPTIONS, label="Tidal Channel-Fill Quality"
-    )
-    tidal_dunes_bars = param.Integer(0, label="Tidal Dunes/Bars", bounds=(0, 100))
-    tidal_dunes_bars_quality = param.Selector(
-        QUALITY_OPTIONS, label="Tidal Dunes/Bars Quality"
-    )
-    tidal_flat = param.Integer(0, label="Tidal Flat", bounds=(0, 100))
-    tidal_flat_quality = param.Selector(QUALITY_OPTIONS, label="Tidal Flat Quality")
-    upper_delta_front = param.Integer(0, label="Upper Delta Front", bounds=(0, 100))
-    upper_delta_front_quality = param.Selector(
-        QUALITY_OPTIONS, label="Upper Delta Front Quality"
-    )
-    upper_fan_delta_slope = param.Integer(
-        0, label="Upper Fan Delta Slope", bounds=(0, 100)
-    )
-    upper_fan_delta_slope_quality = param.Selector(
-        QUALITY_OPTIONS, label="Upper Fan Delta Slope Quality"
-    )
-    upper_shoreface = param.Integer(0, label="Upper Shoreface", bounds=(0, 100))
-    upper_shoreface_quality = param.Selector(
-        QUALITY_OPTIONS, label="Upper Shoreface Quality"
-    )
-
     def __init__(self, report_from_set_up, initial_values):
         """Set initial values based on previous stage"""
+
+        # Add elements as parameters
+        for label, element in ELEMENT_OPTIONS.items():
+            self.param._add_parameter(
+                element, param.Integer(0, label=label, bounds=(0, 100))
+            )
+            self.param._add_parameter(
+                f"{element}_quality",
+                param.Selector(QUALITY_OPTIONS, label=f"{label} Quality"),
+            )
         super().__init__()
+
+        # Initialize parameter values
         self.report_from_set_up = report_from_set_up
         self._state = state.get_user_state().setdefault(APP, {})
         self.element_widgets = pn.Column(sizing_mode="stretch_both")
