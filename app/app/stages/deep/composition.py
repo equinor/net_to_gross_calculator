@@ -11,6 +11,7 @@ from app.assets import panes
 
 # Find name of app and stage
 *_, PACKAGE, APP, STAGE = __name__.split(".")
+CFG = config.app[PACKAGE][APP][STAGE]
 
 
 class Model(param.Parameterized):
@@ -49,18 +50,12 @@ class Model(param.Parameterized):
         self.ready = self.total == 100
 
     @param.depends("lobe", "channel_fill", "overbank", "mtd", "drape")
-    def warn_not_100_percent(self):
+    def warnings(self):
         """Show a warning if the total sum of weights is not 100%"""
-        if self.total == 100:
-            return pn.pane.Alert(
-                f"Sum of weights: **{self.total}%**", alert_type="success"
-            )
+        if self.total != 100:
+            return panes.warning(CFG.warnings.replace("not_100_text", total=self.total))
         else:
-            return pn.pane.Alert(
-                f"Sum of weights: **{self.total}%** "
-                "Make sure the weights add up to **100%**",
-                alert_type="warning",
-            )
+            return pn.pane.Alert("", alert_type="light")
 
     # Output passed on to the next stage
     @param.output(param.Dict)
@@ -98,7 +93,7 @@ class View:
             ),
             pn.widgets.IntSlider.from_param(self.param.mtd, bar_color=colors.mtd),
             pn.widgets.IntSlider.from_param(self.param.drape, bar_color=colors.drape),
-            self.warn_not_100_percent,
+            self.warnings,
             sizing_mode="stretch_width",
         )
 

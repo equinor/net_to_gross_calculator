@@ -76,6 +76,13 @@ reader           = "api"
         [stages.deep.composition]
         label            = "Element Composition"
 
+            [stages.deep.composition.warnings]
+            not_100_text     = """
+                The weights should equal **100%**.
+
+                Currently, the weights sum to **{total:.0f}%**
+                """
+
             [stages.deep.composition.params]
             ready_parameter  = "ready"
 
