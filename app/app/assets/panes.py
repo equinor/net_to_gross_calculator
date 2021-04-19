@@ -1,15 +1,19 @@
 """Customized panes used by Geo:N:G"""
 
 # Standard library imports
+import io
 import textwrap
 
 # Third party imports
+import pandas as pd
 import panel as pn
 import param
+from bokeh.models.widgets.tables import NumberFormatter
 
 # Geo:N:G imports
 from app import config
 from geong_common import files
+from geong_common import readers
 
 
 def headline(param):
@@ -202,3 +206,81 @@ def markdown_from_url(url):
 def warning(text):
     """Create a warning alert pane with the given text"""
     return pn.pane.Alert(f"**Warning:** {textwrap.dedent(text)}", alert_type="danger")
+
+
+def data_viewer(dataset, tables, columns_per_table, **widget_args):
+    """Show all data in a downloadable table"""
+
+    formatters = {
+        "ng_vsh40_pct": NumberFormatter(format="0"),
+        "thickness_mtvd": NumberFormatter(format="0.0"),
+        "top_depth_mtvd": NumberFormatter(format="0.0"),
+        "base_depth_mtvd": NumberFormatter(format="0.0"),
+        "mean_phie_pct": NumberFormatter(format="0.00"),
+        "mean_phit_pct": NumberFormatter(format="0.00"),
+        "mean_k_md": NumberFormatter(format="0.00"),
+        "mean_sw_pct": NumberFormatter(format="0.00"),
+    }
+
+    def get_filename(table):
+        return f"{dataset}-{table}.xlsx"
+
+    table_name = pn.widgets.Select(
+        name="Choose table",
+        options={t.title(): t for t in tables},
+        value=tables[0],
+        size=1,
+    )
+    filename = pn.widgets.TextInput(
+        name="File name", value=get_filename(table_name.value)
+    )
+
+    @pn.depends(table_name.param.value)
+    def table(table_name):
+        columns = columns_per_table.get(table_name, {})
+        data = readers.read_all(config.app.apps.reader, dataset, table_name).loc[
+            :, columns.keys()
+        ]
+
+        return pn.widgets.Tabulator(
+            data,
+            disabled=True,
+            titles=columns,
+            formatters=formatters,
+            layout="fit_data_stretch",
+            **widget_args,
+        )
+
+    @pn.depends(table_name.param.value, watch=True)
+    def update_filename(table_name):
+        filename.value = get_filename(table_name)
+
+    def download_file():
+        """Download data as an Excel file"""
+        output_bytes = io.BytesIO()
+
+        # Write data as Excel
+        excel_writer = pd.ExcelWriter(output_bytes, engine="xlsxwriter")
+        readers.read_all(config.app.apps.reader, dataset, table_name.value).to_excel(
+            excel_writer, sheet_name=table_name.value.title()
+        )
+        excel_writer.save()
+
+        # Reset output stream and return it
+        output_bytes.seek(0)
+        return output_bytes
+
+    @pn.depends(filename.param.value)
+    def download_button(filename):
+        return pn.widgets.FileDownload(
+            callback=download_file, filename=filename, button_type="success"
+        )
+
+    return pn.Row(
+        pn.Column(
+            table_name,
+            filename,
+            download_button,
+        ),
+        pn.Column(table, sizing_mode="stretch_width"),
+    )

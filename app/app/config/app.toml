@@ -70,10 +70,74 @@ reader           = "api"
 
         [apps.deep.data_viewer]
         label            = "Data Viewer"
+        tables           = ["systems", "complexes", "elements"]
+        page_size        = 20
+
+            [apps.deep.data_viewer.columns]
+
+                [apps.deep.data_viewer.columns.systems]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                conventional_facies_vs_hebs     = "Conventional Facies Vs Hebs"
+                confinement                     = "Confinement"
+                relative_dip_position           = "Relative Dip Position"
+                relative_strike_position        = "Relative Strike Position"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
+
+                [apps.deep.data_viewer.columns.complexes]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                parent_system_identifier        = "Parent System Identifier"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                conventional_facies_vs_hebs     = "Conventional Facies Vs Hebs"
+                confinement                     = "Confinement"
+                relative_dip_position           = "Relative Dip Position"
+                relative_strike_position        = "Relative Strike Position"
+                architectural_style             = "Architectural Style"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
+
+                [apps.deep.data_viewer.columns.elements]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                parent_complex_identifier       = "Parent Complex Identifier"
+                parent_system_identifier        = "Parent System Identifier"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                conventional_facies_vs_hebs     = "Conventional Facies Vs Hebs"
+                confinement                     = "Confinement"
+                relative_dip_position           = "Relative Dip Position"
+                relative_strike_position        = "Relative Strike Position"
+                spatial_position                = "Spatial Position"
+                architectural_style             = "Architectural Style"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
 
     [apps.shallow]
     label            = "Shallow Marine"
-    views            = ["instructions", "workflow"]
+    views            = ["instructions", "workflow", "data_viewer"]
     primary_view     = "workflow"
 
         [apps.shallow.instructions]
@@ -84,6 +148,57 @@ reader           = "api"
         label            = "Workflow"
         stages           = ["set_up", "composition", "result", "report"]
 
+        [apps.shallow.data_viewer]
+        label            = "Data Viewer"
+        tables           = ["systems", "complexes", "elements"]
+        page_size        = 20
+
+            [apps.shallow.data_viewer.columns]
+
+                [apps.shallow.data_viewer.columns.systems]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
+
+                [apps.shallow.data_viewer.columns.complexes]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                parent_system_identifier        = "Parent System Identifier"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
+
+                [apps.shallow.data_viewer.columns.elements]
+                smda_well_name                  = "SMDA Well Name"
+                building_block_type             = "Building Block Type"
+                unique_id                       = "Unique ID"
+                descriptive_reservoir_quality   = "Reservoir Quality"
+                parent_complex_identifier       = "Parent Complex Identifier"
+                parent_system_identifier        = "Parent System Identifier"
+                thickness_mtvd                  = "Thickness Mtvd"
+                top_depth_mtvd                  = "Top Depth Mtvd"
+                base_depth_mtvd                 = "Base Depth Mtvd"
+                ng_vsh40_pct                    = "Net Gross"
+                mean_phie_pct                   = "Mean Phie Pct"
+                mean_phit_pct                   = "Mean Phit Pct"
+                mean_k_md                       = "Mean K Md"
+                mean_sw_pct                     = "Mean Sw Pct"
 
 #
 # Stages
