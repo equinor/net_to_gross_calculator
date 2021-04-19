@@ -17,3 +17,4 @@ pyplugs
 python-dotenv
 requests
 typer
+XlsxWriter
