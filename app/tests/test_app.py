@@ -68,19 +68,19 @@ def test_apps_on_splash_screen(main):
 
 def test_click_in_sidebar_updates_header(sidebar, header):
     """Test that clicking in the sidebar updates the header"""
-    expected = "Shallow Marine"
+    expected = "Instructions"
 
     # Confirm that header starts with a different text
     actual = header.object.strip("# ")
     assert actual != expected
 
-    # Get Instructions button from Shallow Marine and click it
+    # Get Instructions button for Shallow Marine and click it
     button, *_ = [
         button
         for name, menu in zip(sidebar._names, sidebar)
-        if name == "Shallow Marine"
+        if name == "Instructions"
         for button in menu
-        if button.name == "Instructions"
+        if button.name == "Shallow Marine"
     ]
     button.clicks += 1
 
@@ -95,9 +95,9 @@ def test_click_in_sidebar_updates_main(sidebar, main):
     # Record state of main view at startup
     initial_objects = main.objects.copy()
 
-    # Get the first Instructions button and click it
+    # Get the first Deep Marine button and click it
     button, *_ = [
-        b for b in sidebar.select(pn.widgets.Button) if b.name == "Instructions"
+        b for b in sidebar.select(pn.widgets.Button) if b.name == "Deep Marine"
     ]
     button.clicks += 1
 

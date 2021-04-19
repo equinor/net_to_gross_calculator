@@ -51,18 +51,14 @@ header_background    = "#00cc99"
 #
 [apps]
 title            = "Geo:N:G"
-apps             = ["deep", "shallow"]
+apps             = ["deep", "shallow", "instructions"]
 primary_app      = "deep"
 reader           = "api"
 
     [apps.deep]
     label            = "Deep Marine"
-    views            = ["instructions", "workflow", "data_viewer"]
+    views            = ["workflow", "data_viewer"]
     primary_view     = "workflow"
-
-        [apps.deep.instructions]
-        label            = "Instructions"
-        url              = "{ASSET_INSTRUCTIONS}/deep.md"
 
         [apps.deep.workflow]
         label            = "Workflow"
@@ -137,12 +133,8 @@ reader           = "api"
 
     [apps.shallow]
     label            = "Shallow Marine"
-    views            = ["instructions", "workflow", "data_viewer"]
+    views            = ["workflow", "data_viewer"]
     primary_view     = "workflow"
-
-        [apps.shallow.instructions]
-        label            = "Instructions"
-        url              = "{ASSET_INSTRUCTIONS}/shallow.md"
 
         [apps.shallow.workflow]
         label            = "Workflow"
@@ -199,6 +191,24 @@ reader           = "api"
                 mean_phit_pct                   = "Mean Phit Pct"
                 mean_k_md                       = "Mean K Md"
                 mean_sw_pct                     = "Mean Sw Pct"
+
+    [apps.instructions]
+    label            = "Instructions"
+    views            = ["net_to_gross", "deep", "shallow"]
+    primary_view     = "net_to_gross"
+
+        [apps.instructions.net_to_gross]
+        label            = "Net to Gross Calculator"
+        url              = "{ASSET_INSTRUCTIONS}/net_to_gross.md"
+
+        [apps.instructions.deep]
+        label            = "Deep Marine"
+        url              = "{ASSET_INSTRUCTIONS}/deep.md"
+
+        [apps.instructions.shallow]
+        label            = "Shallow Marine"
+        url              = "{ASSET_INSTRUCTIONS}/shallow.md"
+
 
 #
 # Stages
