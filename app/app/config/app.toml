@@ -340,6 +340,14 @@ reader           = "api"
             table.type           = "table"
             table.content        = "ref:composition"
 
+            [[report.net_gross_ppt.scenarios.slide]]
+            layout               = "test_content"
+            title                = "Modified estimate: {net_gross_modified:.0f}%"
+            chart.type           = "chart"
+            chart.content        = "ref:composition"
+            table.type           = "table"
+            table.content        = "ref:composition"
+
             [report.net_gross_ppt.scenarios.content]
 
                 [report.net_gross_ppt.scenarios.content.chart.composition]
