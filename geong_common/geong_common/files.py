@@ -10,6 +10,9 @@ from typing import Union
 # Third party imports
 import requests
 
+# Geo:N:G imports
+from geong_common.log import logger
+
 # RegExp used to recognize URLs
 RE_URL_PROTOCOL = re.compile(r"https?://.+")
 
@@ -71,7 +74,14 @@ class URL:
         """Read the contents from the URL as bytes"""
         if self._bytes is None:
             response = requests.get(self.url)
-            self._bytes = response.content
+            if response:
+                self._bytes = response.content
+            else:
+                logger.error(
+                    f"GET request to {self.url} returned "
+                    f"{response.status_code} {response.reason}"
+                )
+                self._bytes = f"Missing file: {self.name}".encode()
 
         return self._bytes
 
