@@ -2,7 +2,6 @@
 
 # Standard library imports
 import itertools
-from datetime import datetime
 
 # Third party imports
 import pandas as pd
@@ -31,8 +30,12 @@ class Model(param.Parameterized):
     # Parameters for the current stage
     headline = param.String(label=CFG.label)
     ready = param.Boolean(default=False)
-    net_gross = param.Number(label="Net/Gross", bounds=(0, 101))
+    net_gross = param.Number(label="Net/Gross", softbounds=(0, 100))
     scenario_name = param.String(label="Scenario Name")
+    porosity_modifier = param.Number(
+        default=0, label="Porosity Modifier", bounds=(0, 100)
+    )
+    net_gross_modified = param.Number(label="Modified N/G", bounds=(0, 100))
 
     def __init__(self, report_from_filter_classes):
         """Set initial values based on previous stage"""
@@ -55,21 +58,30 @@ class Model(param.Parameterized):
             logger.insights(f"New result: {self.net_gross}")
             logger.insights(f"Choices: {report_from_filter_classes}")
 
-    @property
-    def data(self):
-        """Data made available for the final report"""
-        return {
-            "date": datetime.now(),
-            "scenario_name": self.scenario_name,
-            "net_gross": self.net_gross,
-        }
+    @param.depends("net_gross", watch=True)
+    def update_porosity_bounds(self):
+        net_gross = dict(self.param.get_param_values())["net_gross"]
+        if self.porosity_modifier > net_gross:
+            self.porosity_modifier = self.net_gross
+        self.param.porosity_modifier.bounds = (0, round(net_gross))
+
+    @param.depends("net_gross", "porosity_modifier", watch=True)
+    def update_ng_from_porosity(self):
+        """Calculate modified net gross based on porosity"""
+        if self.porosity_modifier > self.net_gross:
+            self.porosity_modifier = self.net_gross
+
+        self.net_gross_modified = self.net_gross - self.porosity_modifier
 
     def _store_scenario(self):
         """Store results for the current scenario"""
         scenarios = self._state["scenarios"]
 
         # Make sure name does not overwrite previous scenarios
-        if self.scenario_name in scenarios:
+        if (
+            self.scenario_name != self._current_scenario_name
+            and self.scenario_name in scenarios
+        ):
             for suffix in itertools.count(start=2):
                 name = f"{self.scenario_name} ({suffix})"
                 if name not in scenarios:
@@ -82,11 +94,14 @@ class Model(param.Parameterized):
         else:
             scenario_info = {"net_gross": self.net_gross}
 
+        # Update scenario information
+        scenario_info["net_gross_modified"] = self.net_gross_modified
+
         # Store scenario information
         scenarios[self.scenario_name] = scenario_info
         self._current_scenario_name = self.scenario_name
 
-    @param.depends("scenario_name")
+    @param.depends("scenario_name", "porosity_modifier")
     def scenario_table(self):
         """Table showing current scenarios"""
         self._store_scenario()
@@ -94,11 +109,14 @@ class Model(param.Parameterized):
         scenarios = self._state["scenarios"]
         table_data = pd.DataFrame(
             {
-                "Scenario": [s for s in scenarios.keys()],
+                "Scenario Name": [s for s in scenarios.keys()],
                 "Net/Gross": [round(s["net_gross"]) for s in scenarios.values()],
+                "Modified N/G": [
+                    round(s["net_gross_modified"]) for s in scenarios.values()
+                ],
             }
-        ).set_index("Scenario")
-        return pn.pane.DataFrame(table_data)
+        ).set_index("Scenario Name")
+        return pn.pane.DataFrame(table_data, sizing_mode="stretch_width")
 
     def new_scenario_button(self):
         """Button for starting new scenario"""
@@ -108,7 +126,7 @@ class Model(param.Parameterized):
             reset_button = self._state["update_view"]["workflow"]
             reset_button.clicks += 1
 
-        button = pn.widgets.Button(name="New Scenario")
+        button = pn.widgets.Button(name="New Scenario", width=120)
         button.on_click(restart_scenario)
         return button
 
@@ -119,7 +137,7 @@ class Model(param.Parameterized):
             """Move to next stage to finish workflow"""
             self.ready = True
 
-        button = pn.widgets.Button(name="Finalize Report")
+        button = pn.widgets.Button(name="Finalize Report", width=120)
         button.on_click(next_stage)
         return button
 
@@ -137,15 +155,38 @@ class View:
             panes.headline(self.param.headline),
             pn.Row(
                 pn.indicators.Number.from_param(
-                    self.param.net_gross, format="{value:.0f}%"
+                    self.param.net_gross,
+                    format="{value:.0f}%",
+                    font_size="54pt",
+                    title_size="18pt",
                 ),
+                pn.layout.HSpacer(),
                 pn.Column(
-                    pn.widgets.TextInput.from_param(self.param.scenario_name),
+                    "##### Save scenario to report:",
+                    pn.Row(
+                        pn.widgets.TextInput.from_param(self.param.scenario_name),
+                        pn.Column(
+                            self.new_scenario_button,
+                            self.finalize_workflow_button,
+                        ),
+                    ),
                     self.scenario_table,
-                    pn.Row(self.new_scenario_button, self.finalize_workflow_button),
                     sizing_mode="stretch_width",
                 ),
+                pn.layout.HSpacer(),
+                pn.Column(
+                    pn.indicators.Number.from_param(
+                        self.param.net_gross_modified,
+                        format="{value:.0f}%",
+                        font_size="36pt",
+                        title_size="14pt",
+                    ),
+                    pn.widgets.IntInput.from_param(
+                        self.param.porosity_modifier, width=180
+                    ),
+                ),
             ),
+            pn.layout.Spacer(height=30),
             sizing_mode="stretch_width",
         )
 
