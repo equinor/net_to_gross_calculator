@@ -28,7 +28,9 @@ pn.extension(
     raw_css=[
         files.get_url_or_asset(css, local_assets="app.assets").read_text()
         for css in _STYLE.raw_css
-    ],
+    ]
+    # Workaround to apply header color to app header (Geo:N:G)
+    + [f".title {{color: {_STYLE.header_color} !important;}}"],
     css_files=_STYLE.css_files,
 )
 
