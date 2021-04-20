@@ -197,10 +197,10 @@ def _division_slider_with_3_params(params, param_1, param_2, param_3):
     return spinners, slider
 
 
-def markdown_from_url(url):
+def markdown_from_url(url, **markdown_args):
     """Create a Markdown pane by getting the markdown string from a URL"""
     markdown = files.get_url_or_asset(url, local_assets="app.assets").read_text()
-    return pn.pane.Markdown(markdown)
+    return pn.pane.Markdown(markdown, **markdown_args)
 
 
 def warning(text):

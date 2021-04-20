@@ -13,6 +13,7 @@ from codetiming import Timer
 
 # Geo:N:G imports
 from app import config
+from app.assets import panes
 from app.assets import state
 from geong_common import files
 from geong_common.log import logger
@@ -87,19 +88,33 @@ def view():
 def create_splash(header_canvas, view_canvas, sidebar_menu, **layout_args):
     """Create a splash screen shown when app is starting up
 
-    Use spacers to center button row on screen.
+    Use spacers to center text and button rows on screen.
     """
-    splash_row = pn.Row(pn.layout.HSpacer(), pn.layout.HSpacer(), **layout_args)
+    splash_text = panes.markdown_from_url(
+        CFG.splash.replace("text_url"),
+        sizing_mode="stretch_width",
+        max_width=600,
+        align="center",
+    )
+    splash_buttons = pn.Row(pn.layout.HSpacer(), pn.layout.HSpacer(), **layout_args)
     for app in CFG.apps:
+        if app in CFG.splash.get("exclude_apps", []):
+            continue
         app_button = pn.widgets.Button(name=CFG[app].label)
         app_button.on_click(
             _update_view_factory(
                 header_canvas, view_canvas, sidebar_menu, app, CFG[app].primary_view
             )
         )
-        splash_row.insert(-1, app_button)
+        splash_buttons.insert(-1, app_button)
 
-    return [pn.layout.VSpacer(), splash_row, pn.layout.VSpacer()]
+    return [
+        pn.layout.Spacer(height=30),
+        splash_text,
+        pn.layout.VSpacer(),
+        splash_buttons,
+        pn.layout.VSpacer(),
+    ]
 
 
 def create_menu(header_canvas, view_canvas, **layout_args):

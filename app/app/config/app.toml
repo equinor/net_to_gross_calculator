@@ -55,6 +55,10 @@ apps             = ["deep", "shallow", "instructions"]
 primary_app      = "deep"
 reader           = "api"
 
+    [apps.splash]
+    exclude_apps     = []
+    text_url         = "{ASSET_INSTRUCTIONS}/splash_intro.md"
+
     [apps.deep]
     label            = "Deep Marine"
     views            = ["workflow", "data_viewer"]
