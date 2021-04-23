@@ -1,11 +1,9 @@
 """Customized panes used by Geo:N:G"""
 
 # Standard library imports
-import io
 import textwrap
 
 # Third party imports
-import pandas as pd
 import panel as pn
 import param
 from bokeh.models.widgets.tables import NumberFormatter
@@ -222,17 +220,11 @@ def data_viewer(dataset, tables, columns_per_table, **widget_args):
         "mean_sw_pct": NumberFormatter(format="0.00"),
     }
 
-    def get_filename(table):
-        return f"{dataset}-{table}.xlsx"
-
     table_name = pn.widgets.Select(
         name="Choose table",
         options={t.title(): t for t in tables},
         value=tables[0],
         size=1,
-    )
-    filename = pn.widgets.TextInput(
-        name="File name", value=get_filename(table_name.value)
     )
 
     @pn.depends(table_name.param.value)
@@ -251,36 +243,4 @@ def data_viewer(dataset, tables, columns_per_table, **widget_args):
             **widget_args,
         )
 
-    @pn.depends(table_name.param.value, watch=True)
-    def update_filename(table_name):
-        filename.value = get_filename(table_name)
-
-    def download_file():
-        """Download data as an Excel file"""
-        output_bytes = io.BytesIO()
-
-        # Write data as Excel
-        excel_writer = pd.ExcelWriter(output_bytes, engine="xlsxwriter")
-        readers.read_all(config.app.apps.reader, dataset, table_name.value).to_excel(
-            excel_writer, sheet_name=table_name.value.title()
-        )
-        excel_writer.save()
-
-        # Reset output stream and return it
-        output_bytes.seek(0)
-        return output_bytes
-
-    @pn.depends(filename.param.value)
-    def download_button(filename):
-        return pn.widgets.FileDownload(
-            callback=download_file, filename=filename, button_type="success"
-        )
-
-    return pn.Row(
-        pn.Column(
-            table_name,
-            filename,
-            download_button,
-        ),
-        pn.Column(table, sizing_mode="stretch_width"),
-    )
+    return pn.Column(table_name, table, sizing_mode="stretch_width")
