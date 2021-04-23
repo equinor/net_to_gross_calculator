@@ -152,11 +152,28 @@ class View:
         return pn.Column(
             panes.headline(self.param.headline),
             pn.Row(
-                pn.indicators.Number.from_param(
-                    self.param.net_gross,
-                    format="{value:.0f}%",
-                    font_size="54pt",
-                    title_size="18pt",
+                pn.Column(
+                    pn.Row(
+                        pn.indicators.Number.from_param(
+                            self.param.net_gross,
+                            format="{value:.0f}%",
+                            font_size="54pt",
+                            title_size="18pt",
+                        ),
+                        pn.layout.HSpacer(),
+                        pn.Column(
+                            pn.indicators.Number.from_param(
+                                self.param.net_gross_modified,
+                                format="{value:.0f}%",
+                                font_size="36pt",
+                                title_size="14pt",
+                            ),
+                            pn.widgets.IntInput.from_param(
+                                self.param.porosity_modifier, width=180
+                            ),
+                        ),
+                    ),
+                    sizing_mode="stretch_width",
                 ),
                 pn.layout.HSpacer(),
                 pn.Column(
@@ -169,19 +186,6 @@ class View:
                         ),
                     ),
                     self.scenario_table,
-                    sizing_mode="stretch_width",
-                ),
-                pn.layout.HSpacer(),
-                pn.Column(
-                    pn.indicators.Number.from_param(
-                        self.param.net_gross_modified,
-                        format="{value:.0f}%",
-                        font_size="36pt",
-                        title_size="14pt",
-                    ),
-                    pn.widgets.IntInput.from_param(
-                        self.param.porosity_modifier, width=180
-                    ),
                 ),
             ),
             pn.layout.Spacer(height=30),
