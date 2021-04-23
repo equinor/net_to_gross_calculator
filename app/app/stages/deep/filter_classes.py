@@ -1,5 +1,8 @@
 """Third stage: Filter classes"""
 
+# Standard library imports
+import re
+
 # Third party imports
 import panel as pn
 import param
@@ -8,35 +11,57 @@ import pyplugs
 # Geo:N:G imports
 from app.assets import panes
 from app.assets import state
+from geong_common import config as geong_config
 from geong_common.data import net_gross
-from geong_common.log import logger
 
 # Find name of app and stage
 *_, PACKAGE, APP, STAGE = __name__.split(".")
 
-ALL_ELEMENTS = [
-    "lobe_spatial_zone1",
-    "lobe_spatial_zone2",
-    "lobe_spatial_zone3",
-    "lobe_spatial_ignore",
-    "lobe_confinement_confined",
-    "lobe_confinement_unconfined",
-    "lobe_confinement_weaklyconfined",
-    "lobe_confinement_ignore",
-    "lobe_conventional_conventionalturbidites",
-    "lobe_conventional_hybrideventbeds",
-    "lobe_conventional_ignore",
-    "lobe_architectural_lobechannelised",
-    "lobe_architectural_lobenonchannelised",
-    "lobe_architectural_ignore",
-    "chan_relative_axial",
-    "chan_relative_offaxis",
-    "chan_relative_margin",
-    "chan_relative_ignore",
-    "chan_architectural_laterallymigrating",
-    "chan_architectural_erosionallyconfined",
-    "chan_architectural_overbankconfined",
-    "chan_architectural_ignore",
+# Generate nested dictionary of parameters from model definition in geong.toml:
+#
+# {
+#     "Lobe": {                                      <- building_block (label)
+#         "Spatial Position": (                      <- filter_class (label)
+#             "spatial_position",                    <- filter_class
+#             {
+#                 "Zone1": "lobe_spatial_zone1",     <- value (label: param)
+#                 "Zone2": "lobe_spatial_zone2",
+#                 "Zone3": "lobe_spatial_zone3",
+#                 "Ignore Spatial Position": "lobe_spatial_ignore",
+#             },
+#         ),
+#         "Confinement": ...,
+#     }
+# }
+FILTER_CLASS_PARAMS = {
+    building_block.label: {
+        building_block[filter_class].label: (
+            filter_class,
+            {
+                **{
+                    value: (
+                        f"{name[:4]}_{filter_class.split('_')[0]}_"
+                        f"{re.sub('[ -]', '', value.lower())}"
+                    )
+                    for value in building_block[filter_class]["values"]
+                },
+                f"Ignore {building_block[filter_class].label}": (
+                    f"{name[:4]}_{filter_class.split('_')[0]}_ignore"
+                ),
+            },
+        )
+        for filter_class in building_block.factors
+    }
+    for name, building_block in geong_config.geong.models[APP].section_items
+    if building_block.factors
+}
+
+# List of leafs (parameters) in FILTER_CLASS_PARAMS
+ALL_PARAMS = [
+    param
+    for fc in FILTER_CLASS_PARAMS.values()
+    for _, val in fc.values()
+    for param in val.values()
 ]
 
 
@@ -50,123 +75,47 @@ class Model(param.Parameterized):
         float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
     )
 
-    # Spatial position (Lobe)
-    lobe_spatial = param.String(label="Spatial Position", doc="Todo")
-    lobe_spatial_zone1 = param.Integer(0, label="Zone1", bounds=(0, 100))
-    lobe_spatial_zone2 = param.Integer(0, label="Zone2", bounds=(0, 100))
-    lobe_spatial_zone3 = param.Integer(0, label="Zone3", bounds=(0, 100))
-    lobe_spatial_ignore = param.Boolean(label="Ignore Spatial Position")
-
-    # Confinement (Lobe)
-    lobe_confinement = param.String(label="Confinement")
-    lobe_confinement_confined = param.Integer(0, label="Confined", bounds=(0, 100))
-    lobe_confinement_unconfined = param.Integer(0, label="Unconfined", bounds=(0, 100))
-    lobe_confinement_weaklyconfined = param.Integer(
-        0, label="Weakly Confined", bounds=(0, 100)
-    )
-    lobe_confinement_ignore = param.Boolean(label="Ignore Confinement")
-
-    # Bed type (Lobe)
-    lobe_conventional = param.String(label="Bed Type")
-    lobe_conventional_conventionalturbidites = param.Integer(
-        0, label="Conventional Turbidites", bounds=(0, 100)
-    )
-    lobe_conventional_hybrideventbeds = param.Integer(
-        0, label="Hybrid Event Beds", bounds=(0, 100)
-    )
-    lobe_conventional_ignore = param.Boolean(label="Ignore Bed Type")
-
-    # Archetypes (Lobe)
-    lobe_architectural = param.String(label="Archetypes")
-    lobe_architectural_lobechannelised = param.Integer(
-        0, label="Lobe Channelised", bounds=(0, 100)
-    )
-    lobe_architectural_lobenonchannelised = param.Integer(
-        0, label="Lobe Non-Channelised", bounds=(0, 100)
-    )
-    lobe_architectural_ignore = param.Boolean(label="Ignore Archetypes")
-
-    # Spatial position (Channel Fill)
-    chan_relative = param.String(label="Spatial Position", doc="Todo")
-    chan_relative_axial = param.Integer(0, label="Axial", bounds=(0, 100))
-    chan_relative_offaxis = param.Integer(0, label="Off Axis", bounds=(0, 100))
-    chan_relative_margin = param.Integer(0, label="Margin", bounds=(0, 100))
-    chan_relative_ignore = param.Boolean(label="Ignore Spatial Position")
-
-    # Archetypes (Channel Fill)
-    chan_architectural = param.String(label="Archetypes")
-    chan_architectural_laterallymigrating = param.Integer(
-        0, label="Laterally Migrating", bounds=(0, 100)
-    )
-    chan_architectural_erosionallyconfined = param.Integer(
-        0, label="Erosionally Confined", bounds=(0, 100)
-    )
-    chan_architectural_overbankconfined = param.Integer(
-        0, label="Overbank Confined", bounds=(0, 100)
-    )
-    chan_architectural_ignore = param.Boolean(label="Ignore Archetypes")
-
     def __init__(self, initial_filter_classes, report_from_composition, net_gross):
         """Set initial values based on previous stage"""
+
+        # Add filter classes as parameters
+        for bblock, filter_classes in FILTER_CLASS_PARAMS.items():
+            for fclass, values in filter_classes.values():
+                for label, param_name in values.items():
+                    if label.startswith("Ignore "):
+                        self.param._add_parameter(
+                            param_name, param.Boolean(False, label=label)
+                        )
+                    else:
+                        value = initial_filter_classes[bblock][fclass].get(label, 0)
+                        self.param._add_parameter(
+                            param_name,
+                            param.Integer(value, label=label, bounds=(0, 100)),
+                        )
         super().__init__()
+
+        # Set up other parameters
+        self._state = state.get_user_state().setdefault(APP, {})
         self.report_from_composition = report_from_composition
         self.net_gross = net_gross
-        self._state = state.get_user_state().setdefault(APP, {})
-
-        # Initialize filter class parameters
-        for building_block, filter_classes in initial_filter_classes.items():
-            for filter_class, classes in filter_classes.items():
-                prefix = f"{building_block[:4].lower()}_{filter_class.split('_')[0]}"
-                for label, value in classes.items():
-                    prop = f"{prefix}_{label.replace(' ', '').replace('-', '').lower()}"
-                    if hasattr(self, prop):
-                        setattr(self, prop, value)
-                    else:
-                        logger.warning(f"Unknown property: {prop!r}")
 
     # Output recorded in the final report
     @param.output(param.Dict)
     def report_from_filter_classes(self):
         """Store user input to the final report"""
-        return {
-            **self.report_from_composition,
-            "Lobe": {
-                "architectural_style": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("lobe_architectural")
-                },
-                "confinement": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("lobe_confinement")
-                },
-                "conventional_facies_vs_hebs": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("lobe_conventional")
-                },
-                "spatial_position": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("lobe_spatial")
-                },
-            },
-            "Channel Fill": {
-                "architectural_style": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("chan_architectural")
-                },
-                "relative_strike_position": {
-                    self.param.params(k).label: v
-                    for k, v in self.param.get_param_values()
-                    if k.startswith("chan_relative")
-                },
-            },
-        }
+        param_values = dict(self.param.get_param_values())
 
-    @param.depends(*ALL_ELEMENTS, watch=True)
+        params = {}
+        for bblock, filter_classes in FILTER_CLASS_PARAMS.items():
+            params.setdefault(bblock, {})
+            for fclass, values in filter_classes.values():
+                params[bblock].setdefault(fclass, {})
+                for param_label, param_name in values.items():
+                    params[bblock][fclass][param_label] = param_values[param_name]
+
+        return {**self.report_from_composition, **params}
+
+    @param.depends(*ALL_PARAMS, watch=True)
     def estimate_net_gross(self):
         self.net_gross = net_gross.calculate_deep_net_gross(
             model=self._state["model"],
@@ -180,65 +129,40 @@ class Model(param.Parameterized):
 class View:
     """Define the look and feel of the stage"""
 
+    def division_slider(self, building_block_type, filter_class):
+        """Simplify setting up division slider widgets"""
+        param_info = FILTER_CLASS_PARAMS[building_block_type][filter_class][1]
+        params = {
+            f"param_{n}": p
+            for n, (label, p) in enumerate(param_info.items(), start=1)
+            if not label.startswith("Ignore ")
+        }
+        ignore_params = [
+            p for label, p in param_info.items() if label.startswith("Ignore ")
+        ]
+
+        return panes.division_slider(
+            building_block_type,
+            filter_class,
+            params=self.param,
+            ignore_param=ignore_params[0],  # There is only 1 ignore parameter
+            **params,
+        )
+
     def panel(self):
         return pn.Row(
             pn.layout.HSpacer(),
             pn.Column(
-                panes.division_slider(
-                    "Lobe",
-                    "Spatial Position",
-                    params=self.param,
-                    param_1="lobe_spatial_zone1",
-                    param_2="lobe_spatial_zone2",
-                    param_3="lobe_spatial_zone3",
-                    ignore_param="lobe_spatial_ignore",
-                ),
-                panes.division_slider(
-                    "Lobe",
-                    "Confinement",
-                    params=self.param,
-                    param_1="lobe_confinement_confined",
-                    param_2="lobe_confinement_unconfined",
-                    param_3="lobe_confinement_weaklyconfined",
-                    ignore_param="lobe_confinement_ignore",
-                ),
-                panes.division_slider(
-                    "Channel Fill",
-                    "Spatial Position",
-                    params=self.param,
-                    param_1="chan_relative_axial",
-                    param_2="chan_relative_offaxis",
-                    param_3="chan_relative_margin",
-                    ignore_param="chan_relative_ignore",
-                ),
+                self.division_slider("Lobe", "Spatial Position"),
+                self.division_slider("Lobe", "Confinement"),
+                self.division_slider("Channel Fill", "Spatial Position"),
             ),
             pn.Column(
-                panes.division_slider(
-                    "Lobe",
-                    "Bed Type",
-                    params=self.param,
-                    param_1="lobe_conventional_conventionalturbidites",
-                    param_2="lobe_conventional_hybrideventbeds",
-                    ignore_param="lobe_conventional_ignore",
-                ),
-                panes.division_slider(
-                    "Lobe",
-                    "Archetypes",
-                    params=self.param,
-                    param_1="lobe_architectural_lobechannelised",
-                    param_2="lobe_architectural_lobenonchannelised",
-                    ignore_param="lobe_architectural_ignore",
-                ),
-                panes.division_slider(
-                    "Channel Fill",
-                    "Archetypes",
-                    params=self.param,
-                    param_1="chan_architectural_laterallymigrating",
-                    param_2="chan_architectural_erosionallyconfined",
-                    param_3="chan_architectural_overbankconfined",
-                    ignore_param="chan_architectural_ignore",
-                ),
+                self.division_slider("Lobe", "Bed Type"),
+                self.division_slider("Lobe", "Archetypes"),
+                self.division_slider("Channel Fill", "Archetypes"),
             ),
+            pn.layout.HSpacer(),
             pn.Column(
                 pn.indicators.Number.from_param(
                     self.param.net_gross,

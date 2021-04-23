@@ -29,7 +29,34 @@ STAGES = {
         "report_from_set_up": {},
     },
     "filter_classes": {
-        "initial_filter_classes": {},
+        "initial_filter_classes": {
+            "Lobe": {
+                "spatial_position": {
+                    "Zone1": 100,
+                },
+                "confinement": {
+                    "Confined": 33,
+                    "Weakly Confined": 67,
+                },
+                "conventional_facies_vs_hebs": {
+                    "Conventional Turbidites": 100,
+                },
+                "architectural_style": {
+                    "Lobe Channelised": 30,
+                    "Lobe Non-Channelised": 70,
+                    "Ignore Archetypes": "lobe_architectural_ignore",
+                },
+            },
+            "Channel Fill": {
+                "relative_strike_position": {
+                    "Off Axis": 100,
+                },
+                "architectural_style": {
+                    "Laterally Migrating": 1,
+                    "Overbank Confined": 99,
+                },
+            },
+        },
         "report_from_composition": {},
         "net_gross": 28.1,
     },

@@ -43,8 +43,12 @@ def _get_combinations(model_cfg):
     combinations = []
     for model in model_cfg.sections:
         combinations.extend(
-            itertools.product([model.label], *[model.get(f, [""]) for f in factors])
+            itertools.product(
+                [model.label],
+                *[model.get(f, {}).get("values", [""]) for f in factors],
+            )
         )
+
     return pd.DataFrame(combinations, columns=[model_cfg.label_column] + factors)
 
 

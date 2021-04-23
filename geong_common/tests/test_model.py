@@ -37,7 +37,10 @@ def synthetic_config():
           [models.type_1]
           label           = "type_1"
           factors         = ["key"]
-          key             = ["A", "B", "C"]
+
+            [models.type_1.key]
+            label           = "Key"
+            values          = ["A", "B", "C"]
 
           [models.type_2]
           label           = "type_2"
