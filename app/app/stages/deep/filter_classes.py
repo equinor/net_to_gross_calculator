@@ -7,7 +7,37 @@ import pyplugs
 
 # Geo:N:G imports
 from app.assets import panes
+from app.assets import state
+from geong_common.data import net_gross
 from geong_common.log import logger
+
+# Find name of app and stage
+*_, PACKAGE, APP, STAGE = __name__.split(".")
+
+ALL_ELEMENTS = [
+    "lobe_spatial_zone1",
+    "lobe_spatial_zone2",
+    "lobe_spatial_zone3",
+    "lobe_spatial_ignore",
+    "lobe_confinement_confined",
+    "lobe_confinement_unconfined",
+    "lobe_confinement_weaklyconfined",
+    "lobe_confinement_ignore",
+    "lobe_conventional_conventionalturbidites",
+    "lobe_conventional_hybrideventbeds",
+    "lobe_conventional_ignore",
+    "lobe_architectural_lobechannelised",
+    "lobe_architectural_lobenonchannelised",
+    "lobe_architectural_ignore",
+    "chan_relative_axial",
+    "chan_relative_offaxis",
+    "chan_relative_margin",
+    "chan_relative_ignore",
+    "chan_architectural_laterallymigrating",
+    "chan_architectural_erosionallyconfined",
+    "chan_architectural_overbankconfined",
+    "chan_architectural_ignore",
+]
 
 
 class Model(param.Parameterized):
@@ -16,6 +46,9 @@ class Model(param.Parameterized):
     # Values set by previous stage
     initial_filter_classes = param.Dict()
     report_from_composition = param.Dict()
+    net_gross = param.Number(
+        float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
+    )
 
     # Spatial position (Lobe)
     lobe_spatial = param.String(label="Spatial Position", doc="Todo")
@@ -73,20 +106,23 @@ class Model(param.Parameterized):
     )
     chan_architectural_ignore = param.Boolean(label="Ignore Archetypes")
 
-    def __init__(self, initial_filter_classes, report_from_composition):
+    def __init__(self, initial_filter_classes, report_from_composition, net_gross):
         """Set initial values based on previous stage"""
         super().__init__()
         self.report_from_composition = report_from_composition
-        for (building_block, filter_class), classes in initial_filter_classes.items():
-            prop_prefix = f"{building_block[:4].lower()}_{filter_class.split('_')[0]}"
-            for label, value in classes.items():
-                prop = (
-                    f"{prop_prefix}_{label.replace(' ', '').replace('-', '').lower()}"
-                )
-                if hasattr(self, prop):
-                    setattr(self, prop, value)
-                else:
-                    logger.warning(f"Unknown property: {prop!r}")
+        self.net_gross = net_gross
+        self._state = state.get_user_state().setdefault(APP, {})
+
+        # Initialize filter class parameters
+        for building_block, filter_classes in initial_filter_classes.items():
+            for filter_class, classes in filter_classes.items():
+                prefix = f"{building_block[:4].lower()}_{filter_class.split('_')[0]}"
+                for label, value in classes.items():
+                    prop = f"{prefix}_{label.replace(' ', '').replace('-', '').lower()}"
+                    if hasattr(self, prop):
+                        setattr(self, prop, value)
+                    else:
+                        logger.warning(f"Unknown property: {prop!r}")
 
     # Output recorded in the final report
     @param.output(param.Dict)
@@ -129,6 +165,16 @@ class Model(param.Parameterized):
                 },
             },
         }
+
+    @param.depends(*ALL_ELEMENTS, watch=True)
+    def estimate_net_gross(self):
+        self.net_gross = net_gross.calculate_deep_net_gross(
+            model=self._state["model"],
+            composition={
+                **self.report_from_composition,
+                **self.report_from_filter_classes(),
+            },
+        )
 
 
 class View:
@@ -191,6 +237,15 @@ class View:
                     param_2="chan_architectural_erosionallyconfined",
                     param_3="chan_architectural_overbankconfined",
                     ignore_param="chan_architectural_ignore",
+                ),
+            ),
+            pn.Column(
+                pn.indicators.Number.from_param(
+                    self.param.net_gross,
+                    format="{value:.0f}%",
+                    nan_format="...",
+                    default_color="red",
+                    colors=[(100, "black")],
                 ),
             ),
             pn.layout.HSpacer(),

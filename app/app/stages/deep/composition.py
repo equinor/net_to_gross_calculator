@@ -8,7 +8,10 @@ import pyplugs
 # Geo:N:G imports
 from app import config
 from app.assets import panes
+from app.assets import state
 from geong_common import config as geong_config
+from geong_common import readers
+from geong_common.data import net_gross
 
 # Find name of app and stage
 *_, PACKAGE, APP, STAGE = __name__.split(".")
@@ -31,10 +34,14 @@ class Model(param.Parameterized):
 
     # Parameters for the current stage
     headline = param.String(label="Element Composition", doc="Todo")
-    ready = param.Boolean(default=True)
+    sum_to_100 = param.Boolean(default=True)
+    net_gross = param.Number(
+        float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
+    )
 
     def __init__(self, report_from_set_up, initial_values):
         """Set initial values based on previous stage"""
+
         # Add elements as parameters
         for label, element in ELEMENT_OPTIONS.items():
             self.param._add_parameter(
@@ -43,6 +50,7 @@ class Model(param.Parameterized):
         super().__init__()
 
         self.report_from_set_up = report_from_set_up
+        self._state = state.get_user_state().setdefault(APP, {})
         self._initial_filter_classes = initial_values["filter_classes"]
         for building_block_type, value in initial_values["composition"].items():
             setattr(self, building_block_type.replace(" ", "_").lower(), value)
@@ -55,7 +63,7 @@ class Model(param.Parameterized):
     @param.depends(*ALL_ELEMENTS, watch=True)
     def adds_to_100_percent(self):
         """Ensure that the different weights add up to 100%"""
-        self.ready = self.total == 100
+        self.sum_to_100 = self.total == 100
 
     @param.depends(*ALL_ELEMENTS)
     def warnings(self):
@@ -84,21 +92,54 @@ class Model(param.Parameterized):
             },
         }
 
+    @param.depends(*ALL_ELEMENTS, watch=True)
+    def estimate_net_gross(self):
+        if self.sum_to_100:
+            self.net_gross = self.calculate_net_gross(
+                {
+                    **self._initial_filter_classes,
+                    "building_block_type": {
+                        self.param.params(k).label: v
+                        for k, v in self.param.get_param_values()
+                        if k in ALL_ELEMENTS
+                    },
+                }
+            )
+        else:
+            self.net_gross = float("nan")
+
+    def calculate_net_gross(self, composition):
+        """Calculate a net gross estimate based on the given composition"""
+        if "model" not in self._state:
+            self._state["model"] = readers.read_model(
+                reader=config.app.apps.reader, dataset=APP
+            )
+        return net_gross.calculate_deep_net_gross(self._state["model"], composition)
+
 
 class View:
     """Define the look and feel of the stage"""
 
     def panel(self):
-        sliders = pn.Column(
-            *[
-                panes.element_slider(getattr(self.param, element))
-                for element in ALL_ELEMENTS
-            ],
-            sizing_mode="stretch_width",
-        )
+        sliders = [
+            panes.element_slider(getattr(self.param, element))
+            for element in ALL_ELEMENTS
+        ]
+
         return pn.Column(
             panes.headline(self.param.headline),
-            sliders,
+            pn.Row(
+                pn.Column(*sliders, sizing_mode="stretch_width"),
+                pn.Column(
+                    pn.indicators.Number.from_param(
+                        self.param.net_gross,
+                        format="{value:.0f}%",
+                        nan_format="...",
+                        default_color="red",
+                        colors=[(100, "black")],
+                    ),
+                ),
+            ),
             self.warnings,
             sizing_mode="stretch_width",
         )
