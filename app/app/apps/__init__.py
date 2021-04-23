@@ -159,7 +159,7 @@ def _update_view_factory(
     def update_view(event):
         """Update canvas to show the given app/view"""
         header_canvas.object = f"#### {CFG[app].label}"
-        view_canvas[:] = get_view(app=app, view=view)
         sidebar_menu.active = [sidebar_menu._names.index(CFG[app].label)]
+        view_canvas[:] = get_view(app=app, view=view)
 
     return update_view
