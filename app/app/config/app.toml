@@ -61,12 +61,12 @@ reader           = "api"
 
     [apps.instructions]
     label            = "Instructions"
-    views            = ["net_to_gross", "deep", "shallow"]
-    primary_view     = "net_to_gross"
+    views            = ["purpose", "deep", "shallow"]
+    primary_view     = "purpose"
 
-        [apps.instructions.net_to_gross]
-        label            = "Net to Gross Calculator"
-        url              = "{ASSET_INSTRUCTIONS}/net_to_gross.md"
+        [apps.instructions.purpose]
+        label            = "Purpose and Tips"
+        url              = "{ASSET_INSTRUCTIONS}/purpose.md"
 
         [apps.instructions.deep]
         label            = "Deep Marine"
