@@ -235,7 +235,7 @@ reader           = "api"
                 """
 
             [stages.deep.composition.params]
-            ready_parameter  = "ready"
+            ready_parameter  = "sum_to_100"
 
         [stages.deep.filter_classes]
         label            = "Lobe/Channel Filters"

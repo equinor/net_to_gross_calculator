@@ -48,7 +48,8 @@ def calculate_filter_classes(elements, filter_classes):
     # Calculate filter classes as ratio of each building block type
     composition = {}
     for building_block_type, filter_class in filter_classes:
-        composition[building_block_type, filter_class] = calculate_composition_in_group(
+        bb_composition = composition.setdefault(building_block_type, {})
+        bb_composition[filter_class] = calculate_composition_in_group(
             elements.query("building_block_type == @building_block_type"),
             column=filter_class,
         )

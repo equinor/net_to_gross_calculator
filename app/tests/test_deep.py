@@ -28,7 +28,11 @@ STAGES = {
         },
         "report_from_set_up": {},
     },
-    "filter_classes": {"initial_filter_classes": {}, "report_from_composition": {}},
+    "filter_classes": {
+        "initial_filter_classes": {},
+        "report_from_composition": {},
+        "net_gross": 28.1,
+    },
     "result": {
         "report_from_filter_classes": {
             "building_block_type": {
@@ -40,12 +44,13 @@ STAGES = {
             },
             "Lobe": {},
             "Channel Fill": {},
-        }
+        },
+        "net_gross": 28.1,
     },
 }
 
 
-@mock.patch("app.stages.deep.result.readers", readers)
+@mock.patch("app.stages.deep.composition.readers", readers)
 def get_stage(stage):
     """Get and initialize one stage"""
     stage_obj = stages.get_stage(APP, stage)
@@ -71,22 +76,26 @@ def test_output_from_set_up():
     # Expected output
     expected_composition = {"Channel Fill": 29, "Lobe": 57, "MTD": 14}
     expected_filter_classes = {
-        ("Channel Fill", "architectural_style"): {
-            "Laterally Migrating": 50,
-            "Overbank Confined": 50,
+        "Channel Fill": {
+            "architectural_style": {
+                "Laterally Migrating": 50,
+                "Overbank Confined": 50,
+            },
+            "relative_strike_position": {"Off Axis": 100},
         },
-        ("Channel Fill", "relative_strike_position"): {"Off Axis": 100},
-        ("Lobe", "architectural_style"): {"Lobe Non-Channelised": 100},
-        ("Lobe", "confinement"): {
-            "Confined": 50,
-            "Unconfined": 25,
-            "Weakly Confined": 25,
+        "Lobe": {
+            "architectural_style": {"Lobe Non-Channelised": 100},
+            "confinement": {
+                "Confined": 50,
+                "Unconfined": 25,
+                "Weakly Confined": 25,
+            },
+            "conventional_facies_vs_hebs": {
+                "Conventional Turbidites": 50,
+                "Hybrid Event Beds": 50,
+            },
+            "spatial_position": {"Zone2": 50, "Zone3": 50},
         },
-        ("Lobe", "conventional_facies_vs_hebs"): {
-            "Conventional Turbidites": 50,
-            "Hybrid Event Beds": 50,
-        },
-        ("Lobe", "spatial_position"): {"Zone2": 50, "Zone3": 50},
     }
 
     # Check actual output
@@ -108,12 +117,13 @@ def test_composition_of_no_matching_elements():
     # Expected output
     expected_composition = {}
     expected_filter_classes = {
-        ("Channel Fill", "architectural_style"): {},
-        ("Channel Fill", "relative_strike_position"): {},
-        ("Lobe", "architectural_style"): {},
-        ("Lobe", "confinement"): {},
-        ("Lobe", "conventional_facies_vs_hebs"): {},
-        ("Lobe", "spatial_position"): {},
+        "Channel Fill": {"architectural_style": {}, "relative_strike_position": {}},
+        "Lobe": {
+            "architectural_style": {},
+            "confinement": {},
+            "conventional_facies_vs_hebs": {},
+            "spatial_position": {},
+        },
     }
 
     # Check actual output
@@ -126,18 +136,18 @@ def test_composition_of_no_matching_elements():
 def test_next_enabled_when_weights_total_100():
     stage = get_stage("composition")
 
-    assert stage.total == 100 and stage.ready
+    assert stage.total == 100 and stage.sum_to_100
 
 
 def test_next_disabled_when_weights_dont_total_100():
     stage = get_stage("composition")
     stage.lobe += 1
 
-    assert stage.total != 100 and not stage.ready
+    assert stage.total != 100 and not stage.sum_to_100
 
 
 def test_output_from_result():
     stage = get_stage("result")
 
-    expected_net_gross = 25.0
+    expected_net_gross = 28.1
     assert stage.net_gross == pytest.approx(expected_net_gross)

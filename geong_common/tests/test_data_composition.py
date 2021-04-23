@@ -52,10 +52,14 @@ def test_composition_inside_classes(synthetic_elements):
         ],
     )
     expected = {
-        ("type_1", "letter"): {"A": 50, "B": 25, "C": 25},
-        ("type_1", "color"): {"blue": 75, "green": 25},
-        ("type_2", "letter"): {"": 100},
-        ("type_2", "color"): {"red": 50, "green": 50},
+        "type_1": {
+            "letter": {"A": 50, "B": 25, "C": 25},
+            "color": {"blue": 75, "green": 25},
+        },
+        "type_2": {
+            "letter": {"": 100},
+            "color": {"red": 50, "green": 50},
+        },
     }
 
     assert actual == expected

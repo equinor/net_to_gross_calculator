@@ -13,7 +13,6 @@ import pyplugs
 from app import config
 from app.assets import panes
 from app.assets import state
-from geong_common import readers
 from geong_common.log import logger
 
 # Find name of app and stage
@@ -26,26 +25,25 @@ class Model(param.Parameterized):
 
     # Values set by previous stage
     report_from_filter_classes = param.Dict()
+    net_gross = param.Number(label="Net/Gross", softbounds=(0, 100))
 
     # Parameters for the current stage
     headline = param.String(label=CFG.label)
     ready = param.Boolean(default=False)
-    net_gross = param.Number(label="Net/Gross", softbounds=(0, 100))
     scenario_name = param.String(label="Scenario Name")
     porosity_modifier = param.Number(
         default=0, label="Porosity Modifier", bounds=(0, 100)
     )
     net_gross_modified = param.Number(label="Modified N/G", bounds=(0, 100))
 
-    def __init__(self, report_from_filter_classes):
+    def __init__(self, report_from_filter_classes, net_gross):
         """Set initial values based on previous stage"""
         super().__init__()
         self._state = state.get_user_state().setdefault(APP, {})
         self._state.setdefault("scenarios", {})
         self._current_scenario_name = None
-
-        self.net_gross = calculate_net_gross(report_from_filter_classes)
         self.scenario_name = f"Scenario {len(self._state['scenarios']) + 1}"
+        self.net_gross = net_gross
 
         try:
             session_id = pn.state.curdoc.session_context.id
@@ -194,40 +192,3 @@ class View:
 @pyplugs.register
 class StageResult(Model, View):
     """Connect the model and the view"""
-
-
-def calculate_net_gross(composition):
-    """Calculate a net gross estimate based on the given composition"""
-    model = readers.read_model(reader=config.app.apps.reader, dataset=APP)
-    net_gross = model.assign(
-        bb_pct=lambda df: df.apply(
-            lambda row: composition["building_block_type"][row.building_block_type],
-            axis="columns",
-        ),
-        cls_ratio=1.0,
-    )
-
-    for building_block_type in ("Channel Fill", "Lobe"):
-        for cls, values in composition[building_block_type].items():
-            ignores = [v for k, v in values.items() if k.startswith("Ignore ")]
-            if ignores and not ignores[0]:
-                for value, pct in values.items():
-                    if value not in net_gross.loc[:, cls].unique():
-                        continue
-                    idx = net_gross.query(
-                        f"building_block_type == {building_block_type!r} and "
-                        f"{cls} == {value!r}"
-                    ).index
-                    net_gross.loc[idx, "cls_ratio"] *= pct / 100
-            else:
-                idx = net_gross.query(
-                    f"building_block_type == {building_block_type!r}"
-                ).index
-                num_values = len([v for v in net_gross.loc[idx, cls].unique() if v])
-                net_gross.loc[idx, "cls_ratio"] /= num_values
-
-    return (
-        net_gross.loc[:, ["net_gross", "bb_pct", "cls_ratio"]]
-        .prod(axis="columns")
-        .sum()
-    )
