@@ -1,8 +1,5 @@
 """Second stage: Composition"""
 
-# Standard library imports
-import re
-
 # Third party imports
 import panel as pn
 import param
@@ -14,6 +11,7 @@ from app.assets import panes
 from app.assets import state
 from geong_common import config as geong_config
 from geong_common import readers
+from geong_common.data import net_gross
 from geong_common.log import logger
 
 # Find name of app and stage
@@ -71,13 +69,18 @@ class Model(param.Parameterized):
         self.visible_elements = {}
 
         self._initialize_qualities(
-            reservoir_quality=_to_keys(initial_values["reservoir_quality"]),
+            reservoir_quality={
+                ELEMENT_OPTIONS[k]: v
+                for k, v in initial_values["reservoir_quality"].items()
+            },
             default=report_from_set_up["set_up"][
                 "What is the anticipated N:G quality bracket?"
             ],
         )
         self._initialize_composition(
-            composition=_to_keys(initial_values["composition"])
+            composition={
+                ELEMENT_OPTIONS[k]: v for k, v in initial_values["composition"].items()
+            }
         )
 
     def _initialize_composition(self, composition):
@@ -172,35 +175,20 @@ class Model(param.Parameterized):
     @param.depends("element_names", *ALL_ELEMENTS, *ALL_QUALITIES, watch=True)
     def estimate_net_gross(self):
         if self.sum_to_100:
-            self.net_gross = self.calculate_net_gross(
-                {
+            if "model" not in self._state:
+                self._state["model"] = readers.read_model(
+                    reader=config.app.apps.reader, dataset=APP
+                )
+            self.net_gross = net_gross.calculate_shallow_net_gross(
+                model=self._state["model"],
+                composition={
                     self.param.params(k).label: v
                     for k, v in self.param.get_param_values()
                     if k in ALL_ELEMENTS or k in ALL_QUALITIES
-                }
+                },
             )
         else:
             self.net_gross = float("nan")
-
-    def calculate_net_gross(self, composition):
-        """Calculate a net gross estimate based on the given composition"""
-        if "model" not in self._state:
-            self._state["model"] = readers.read_model(
-                reader=config.app.apps.reader, dataset=APP
-            )
-        model = self._state["model"]
-
-        net_gross = model.assign(
-            bb_pct=lambda df: df.apply(
-                lambda row: composition.get(row.building_block_type, 0)
-                if composition.get(f"{row.building_block_type} Quality")
-                == row.descriptive_reservoir_quality
-                else 0,
-                axis="columns",
-            ),
-        )
-
-        return net_gross.loc[:, ["net_gross", "bb_pct"]].prod(axis="columns").sum()
 
 
 class View:
@@ -242,8 +230,3 @@ class View:
 @pyplugs.register
 class StageElementComposition(Model, View):
     """Connect the model and the view"""
-
-
-def _to_keys(data):
-    """Convert dictionary keys from 'human names' to 'computer names'"""
-    return {re.sub("[ /-]", "_", key).lower(): val for key, val in data.items()}
