@@ -25,8 +25,6 @@ def view():
             name=CFG.label,
             pagination="remote",
             page_size=CFG.page_size,
-            frozen_columns=[0],
-            width=1000,
             show_index=False,
         ),
     ]

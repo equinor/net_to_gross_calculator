@@ -210,14 +210,10 @@ def data_viewer(dataset, tables, columns_per_table, **widget_args):
     """Show all data in a downloadable table"""
 
     formatters = {
-        "ng_vsh40_pct": NumberFormatter(format="0"),
+        "ng_vsh40_pct": NumberFormatter(format="0 %"),
         "thickness_mtvd": NumberFormatter(format="0.0"),
         "top_depth_mtvd": NumberFormatter(format="0.0"),
         "base_depth_mtvd": NumberFormatter(format="0.0"),
-        "mean_phie_pct": NumberFormatter(format="0.00"),
-        "mean_phit_pct": NumberFormatter(format="0.00"),
-        "mean_k_md": NumberFormatter(format="0.00"),
-        "mean_sw_pct": NumberFormatter(format="0.00"),
     }
 
     table_name = pn.widgets.Select(
@@ -230,16 +226,18 @@ def data_viewer(dataset, tables, columns_per_table, **widget_args):
     @pn.depends(table_name.param.value)
     def table(table_name):
         columns = columns_per_table.get(table_name, {})
-        data = readers.read_all(config.app.apps.reader, dataset, table_name).loc[
-            :, columns.keys()
-        ]
+        data = (
+            readers.read_all(config.app.apps.reader, dataset, table_name)
+            .loc[:, columns.keys()]
+            .assign(ng_vsh40_pct=lambda d: d.ng_vsh40_pct / 100)  # Percent
+        )
 
         return pn.widgets.Tabulator(
             data,
             disabled=True,
             titles=columns,
             formatters=formatters,
-            layout="fit_data_stretch",
+            layout="fit_data_table",
             **widget_args,
         )
 
