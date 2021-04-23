@@ -8,6 +8,8 @@ import pytest
 from app import apps
 from app import config
 
+CFG = config.app.apps
+
 
 @pytest.fixture
 def app():
@@ -41,7 +43,7 @@ def test_app_alive(app):
 def test_header_shows_app(header):
     """Test that the header shows name of active app"""
     # Expected title of primary app
-    expected = "Deep Marine"
+    expected = CFG[CFG.primary_app].label
 
     # Remove Markdown markup
     actual = header.object.strip("# ")
@@ -51,7 +53,7 @@ def test_header_shows_app(header):
 
 def test_apps_in_sidebar(sidebar):
     """Test that sidebar menu contains links to all apps"""
-    expected = [config.app.apps[app].label for app in config.app.apps.apps]
+    expected = [CFG[app].label for app in CFG.apps]
     actual = sidebar._names
 
     assert actual == expected
@@ -59,7 +61,9 @@ def test_apps_in_sidebar(sidebar):
 
 def test_apps_on_splash_screen(main):
     """Test that splash screen contains links to all apps"""
-    expected = {config.app.apps[app].label for app in config.app.apps.apps}
+    expected = {
+        CFG[app].label for app in CFG.apps if app not in CFG.splash.exclude_apps
+    }
     buttons = {b.name for b in main.select(pn.widgets.Button)}
     actual = buttons & expected
 
@@ -68,19 +72,19 @@ def test_apps_on_splash_screen(main):
 
 def test_click_in_sidebar_updates_header(sidebar, header):
     """Test that clicking in the sidebar updates the header"""
-    expected = "Instructions"
+    expected = "Shallow Marine"
 
     # Confirm that header starts with a different text
     actual = header.object.strip("# ")
     assert actual != expected
 
-    # Get Instructions button for Shallow Marine and click it
+    # Get Workflow button for Shallow Marine and click it
     button, *_ = [
         button
         for name, menu in zip(sidebar._names, sidebar)
-        if name == "Instructions"
+        if name == "Shallow Marine"
         for button in menu
-        if button.name == "Shallow Marine"
+        if button.name == "Workflow"
     ]
     button.clicks += 1
 

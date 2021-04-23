@@ -51,13 +51,30 @@ header_background    = "#00cc99"
 #
 [apps]
 title            = "Geo:N:G"
-apps             = ["deep", "shallow", "instructions"]
-primary_app      = "deep"
+apps             = ["instructions", "deep", "shallow"]
+primary_app      = "instructions"
 reader           = "api"
 
     [apps.splash]
-    exclude_apps     = []
+    exclude_apps     = ["instructions"]
     text_url         = "{ASSET_INSTRUCTIONS}/splash_intro.md"
+
+    [apps.instructions]
+    label            = "Instructions"
+    views            = ["net_to_gross", "deep", "shallow"]
+    primary_view     = "net_to_gross"
+
+        [apps.instructions.net_to_gross]
+        label            = "Net to Gross Calculator"
+        url              = "{ASSET_INSTRUCTIONS}/net_to_gross.md"
+
+        [apps.instructions.deep]
+        label            = "Deep Marine"
+        url              = "{ASSET_INSTRUCTIONS}/deep.md"
+
+        [apps.instructions.shallow]
+        label            = "Shallow Marine"
+        url              = "{ASSET_INSTRUCTIONS}/shallow.md"
 
     [apps.deep]
     label            = "Deep Marine"
@@ -195,23 +212,6 @@ reader           = "api"
                 mean_phit_pct                   = "Mean Phit Pct"
                 mean_k_md                       = "Mean K Md"
                 mean_sw_pct                     = "Mean Sw Pct"
-
-    [apps.instructions]
-    label            = "Instructions"
-    views            = ["net_to_gross", "deep", "shallow"]
-    primary_view     = "net_to_gross"
-
-        [apps.instructions.net_to_gross]
-        label            = "Net to Gross Calculator"
-        url              = "{ASSET_INSTRUCTIONS}/net_to_gross.md"
-
-        [apps.instructions.deep]
-        label            = "Deep Marine"
-        url              = "{ASSET_INSTRUCTIONS}/deep.md"
-
-        [apps.instructions.shallow]
-        label            = "Shallow Marine"
-        url              = "{ASSET_INSTRUCTIONS}/shallow.md"
 
 
 #
