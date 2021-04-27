@@ -19,6 +19,7 @@ app.update_from_env(
         "RAW_CSS": ("style", "raw_css"),
         "CSS_FILES": ("style", "css_files"),
         "FAVICON": ("style", "favicon"),
+        "APP_TITLE": ("apps", "title"),
         "HEADER_BACKGROUND": ("style", "header_background"),
         "HEADER_COLOR": ("style", "header_color"),
         "LOGO": ("style", "logo"),
