@@ -1,5 +1,65 @@
 /* This file can be used to define special Geo:N:G CSS */
-
 .headline {
     color: black;
+}
+
+/* Pop-up on hover, based on https://codepen.io/MJBurrage/pen/pvmPdd */
+abbr, abbr[data-title] {
+    cursor: help;
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(0,0,0,0.4);
+    border-radius: 8px;
+}
+abbr:hover {
+    background: rgba(0,0,0,0.1);
+}
+abbr[data-title]:hover {
+    position: relative;
+    background: rgba(0,255,0,.2);
+}
+abbr[data-title]:hover:after {
+    position: absolute;
+    left: 16px; top: calc(100% + .8em); z-index: 20;
+    content: attr(data-title);
+    white-space: nowrap;
+    padding: 2px 4px 0;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0,128,0,.5);
+    background: linear-gradient(#ffffff, #cccccc);
+    color: #000000;
+}
+div.tip {
+    display: inline-block !important;
+    margin: 0;
+    background: red;
+}
+abbr span, div.tip div {
+    position: absolute;
+    display: none;
+    z-index: 10;
+    padding: 2px 4px 0;
+    margin:1.5em 0 0 8px;
+    min-width: 200px;
+    max-width: 900px;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(96, 128, 96, .5);
+    background: linear-gradient(#ffffff, #cccccc);
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition:
+        visibility 2s linear,
+        opacity 2s linear;
+    transition:
+        visibility 2s linear,
+        opacity 2s linear;
+}
+abbr:hover span, div.tip:hover div {
+    display: inline-block;
+    max-width: 900px;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
 }

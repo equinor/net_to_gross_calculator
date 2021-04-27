@@ -2,8 +2,9 @@
 # URLs for hosting assets, defaults use the Panel server (--static-dirs) with
 # relative URLs. These are used as {ASSET_...} variables in the rest of the
 # configuration, and can be overridden with ASSET_... environment variables.
+images               = "images"
 instructions         = "instructions"
-
+popups               = "popups"
 
 [style]
 # raw_css, css_files, logo, and favicon all support supplying URLs so style can

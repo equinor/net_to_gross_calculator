@@ -41,7 +41,6 @@ class Model(param.Parameterized):
     report_from_set_up = param.Dict()
 
     # Parameters for the current stage
-    composition_headline = param.String(label="Element Composition")
     sum_to_100 = param.Boolean(default=True)
     net_gross = param.Number(
         float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
@@ -196,7 +195,7 @@ class View:
 
     def panel(self):
         return pn.Column(
-            panes.headline(self.param.composition_headline),
+            panes.headline(CFG.label, popup_label="shallow_composition"),
             pn.Row(
                 pn.Column(
                     pn.widgets.MultiChoice.from_param(

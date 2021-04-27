@@ -56,6 +56,11 @@ class URL:
         """Represent the URL using a pure string representation"""
         return self.url
 
+    def joinpath(self, *args):
+        """Append one or several strings at the end of the URL, separated by /"""
+        parts = [p.strip("/") for p in args]
+        return self / "/".join(parts)
+
     def resolve(self):
         """Resolving the URL is a no-op
 
@@ -87,15 +92,15 @@ class URL:
 
 
 def get_url_or_asset(
-    path: str, local_assets: str = "geong_common.assets"
+    path: str, *path_parts, local_assets: str = "geong_common.assets"
 ) -> Union[URL, pathlib.Path]:
     """Seamlessly work with local assets and resources available online
 
     This is used to be able to inject assets without touching the source code.
     """
     if RE_URL_PROTOCOL.match(path):
-        return URL(url=path)
+        return URL(url=path).joinpath(*path_parts)
     else:
         # Try to read from the assets directory if no http/https protocol is given
         with resources.path(local_assets, "") as assets:
-            return assets / path
+            return assets.joinpath(path, *path_parts)

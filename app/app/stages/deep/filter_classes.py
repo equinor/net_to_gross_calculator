@@ -137,15 +137,17 @@ class View:
             for n, (label, p) in enumerate(param_info.items(), start=1)
             if not label.startswith("Ignore ")
         }
-        ignore_params = [
+        ignore_param = [
             p for label, p in param_info.items() if label.startswith("Ignore ")
-        ]
+        ][0]
+        popup_label = f"deep_{ignore_param[:-7]}"  # Without _ignore suffix
 
         return panes.division_slider(
             building_block_type,
             filter_class,
             params=self.param,
-            ignore_param=ignore_params[0],  # There is only 1 ignore parameter
+            ignore_param=ignore_param,
+            popup_label=popup_label,
             **params,
         )
 

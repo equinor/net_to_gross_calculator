@@ -27,7 +27,6 @@ class Model(param.Parameterized):
     # Values set by previous stage
 
     # Parameters for the current stage
-    headline = param.String(label=CFG.label)
     geox_id = param.String(label="GeoX ID")
     scenario_names = param.List()
 
@@ -101,7 +100,7 @@ class View:
 
     def panel(self):
         return pn.Column(
-            panes.headline(self.param.headline),
+            panes.headline(CFG.label),
             self.scenario_selector,
             pn.Row(
                 pn.widgets.TextInput.from_param(self.param.geox_id),

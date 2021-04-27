@@ -33,7 +33,6 @@ class Model(param.Parameterized):
     report_from_set_up = param.Dict()
 
     # Parameters for the current stage
-    headline = param.String(label="Element Composition", doc="Todo")
     sum_to_100 = param.Boolean(default=True)
     net_gross = param.Number(
         float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
@@ -127,7 +126,7 @@ class View:
         ]
 
         return pn.Column(
-            panes.headline(self.param.headline),
+            panes.headline(CFG.label, popup_label="deep_composition"),
             pn.Row(
                 pn.Column(*sliders, sizing_mode="stretch_width"),
                 pn.Column(

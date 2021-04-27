@@ -7,6 +7,7 @@ import textwrap
 import panel as pn
 import param
 from bokeh.models.widgets.tables import NumberFormatter
+from pyconfs.configuration import Variables
 
 # Geo:N:G imports
 from app import config
@@ -14,13 +15,39 @@ from geong_common import files
 from geong_common import readers
 
 
-def headline(param):
+def headline(label, popup_label=None):
     """Create an HTML headline pane for the given parameter"""
-    text = f"<b>{param.label}</b>"
-    if param.doc:
-        text += f" [<abbr>?<span>{param.doc}</span></abbr>]"
+    widget = pn.Row(pn.pane.HTML(f"<h6>{label}</h6>", css_classes=["headline"]))
+    if popup_label is not None:
+        widget.append(pn.pane.HTML(popup(label=popup_label)))
 
-    return pn.pane.HTML(text, css_classes=["headline"])
+    return widget
+
+
+def markdown_from_url(url, **markdown_args):
+    """Create a Markdown pane by getting the markdown string from a URL"""
+    markdown = files.get_url_or_asset(url, local_assets="app.assets").read_text()
+    return pn.pane.Markdown(markdown, **markdown_args)
+
+
+def warning(text):
+    """Create a warning alert pane with the given text"""
+    return pn.pane.Alert(f"**Warning:** {textwrap.dedent(text)}", alert_type="danger")
+
+
+def popup(label, text="?"):
+    """Create HTML for a popup tip based on a label that corresponds to templates"""
+    popup_html = (
+        files.get_url_or_asset(
+            config.app.asset_hosts.replace("popups"),
+            f"{label}.html",
+            local_assets="app.assets",
+        )
+        .read_text()
+        .format_map(Variables(**config.app.vars))  # Interpolate with config variables
+    )
+
+    return f"[<abbr>{text}<span>{popup_html}</span></abbr>]"
 
 
 def element_slider(param, quality_param=None):
@@ -62,6 +89,7 @@ def division_slider(
     param_2,
     param_3=None,
     ignore_param=None,
+    popup_label=None,
 ):
     """Create a slider used to divide the range 0-100 into 2 or 3 parts"""
     colors = config.app.style.colors
@@ -103,6 +131,9 @@ def division_slider(
         def collapse_card(var_ignore):
             """Collapse card when parameter is ignored"""
             widget.collapsed = var_ignore
+
+    if popup_label is not None:
+        widget[-1].append(popup(label=popup_label))
 
     return widget
 
@@ -193,17 +224,6 @@ def _division_slider_with_3_params(params, param_1, param_2, param_3):
         params.set_param(**{param_1: var_1, param_2: var_2, param_3: var_3})
 
     return spinners, slider
-
-
-def markdown_from_url(url, **markdown_args):
-    """Create a Markdown pane by getting the markdown string from a URL"""
-    markdown = files.get_url_or_asset(url, local_assets="app.assets").read_text()
-    return pn.pane.Markdown(markdown, **markdown_args)
-
-
-def warning(text):
-    """Create a warning alert pane with the given text"""
-    return pn.pane.Alert(f"**Warning:** {textwrap.dedent(text)}", alert_type="danger")
 
 
 def data_viewer(dataset, tables, columns_per_table, **widget_args):
