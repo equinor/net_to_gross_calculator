@@ -20,8 +20,11 @@ CFG = config.app[PACKAGE][APP][STAGE]
 
 # Get list of elements from model configuration
 ELEMENT_OPTIONS = {
-    section.label: name
-    for name, section in geong_config.geong.models[APP].section_items
+    **{
+        section.label: name
+        for name, section in geong_config.geong.models[APP].section_items
+    },
+    **{"Non-Reservoir Drape": "non_reservoir_drape"},
 }
 QUALITY_OPTIONS = {
     "Poor": "Poor <30% NG",
