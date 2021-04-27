@@ -3,6 +3,11 @@
     color: black;
 }
 
+.centeredimage {
+    margin: 0px auto;
+    display: block;
+}
+
 /* Pop-up on hover, based on https://codepen.io/MJBurrage/pen/pvmPdd */
 abbr, abbr[data-title] {
     cursor: help;
@@ -38,10 +43,9 @@ abbr span, div.tip div {
     position: absolute;
     display: none;
     z-index: 10;
-    padding: 2px 4px 0;
-    margin:1.5em 0 0 8px;
-    min-width: 200px;
-    max-width: 900px;
+    padding: 12px;
+    margin: 20px;
+    width: 800px;
     border: 3px solid #000000;
     border-radius: 12px;
     box-shadow: 2px 2px 4px rgba(96, 128, 96, .5);
@@ -57,7 +61,7 @@ abbr span, div.tip div {
 }
 abbr:hover span, div.tip:hover div {
     display: inline-block;
-    max-width: 900px;
+    max-width: 800px;
     visibility: visible;
     opacity: 1;
     -webkit-transition-delay: 0s;
