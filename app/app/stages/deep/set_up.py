@@ -97,12 +97,9 @@ class View:
         return pn.Row(
             pn.layout.HSpacer(),
             pn.Column(
-                panes.headline(self.param.gross_geomorphology.label),
-                pn.widgets.RadioBoxGroup.from_param(self.param.gross_geomorphology),
-                panes.headline(self.param.stratigraphic_scale.label),
-                pn.widgets.RadioBoxGroup.from_param(self.param.stratigraphic_scale),
-                panes.headline(self.param.reservoir_quality.label),
-                pn.widgets.RadioBoxGroup.from_param(self.param.reservoir_quality),
+                panes.multiple_choice(self.param.gross_geomorphology),
+                panes.multiple_choice(self.param.stratigraphic_scale),
+                panes.multiple_choice(self.param.reservoir_quality),
                 sizing_mode="stretch_width",
             ),
             pn.layout.HSpacer(),
