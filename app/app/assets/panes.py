@@ -17,9 +17,13 @@ from geong_common import readers
 
 def headline(label, popup_label=None):
     """Create an HTML headline pane for the given parameter"""
-    widget = pn.Row(pn.pane.HTML(f"<b>{label}</b>", css_classes=["headline"]))
+    widget = pn.Row(
+        pn.pane.HTML(
+            f"<b>{label}</b>", css_classes=["headline"], sizing_mode="stretch_width"
+        )
+    )
     if popup_label is not None:
-        widget.append(pn.pane.HTML(popup(label=popup_label)))
+        widget.insert(0, pn.pane.HTML(popup(label=popup_label)))
 
     return widget
 

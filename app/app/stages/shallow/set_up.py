@@ -92,16 +92,20 @@ class View:
     def panel(self):
         """Display the first stage using radio boxes"""
 
-        return pn.Column(
-            panes.headline(self.param.composition_threshold.label),
-            pn.widgets.RadioBoxGroup.from_param(self.param.composition_threshold),
-            panes.headline(self.param.depositional_setting.label),
-            pn.widgets.RadioBoxGroup.from_param(self.param.depositional_setting),
-            panes.headline(self.param.stratigraphic_scale.label),
-            pn.widgets.RadioBoxGroup.from_param(self.param.stratigraphic_scale),
-            panes.headline(self.param.reservoir_quality.label),
-            pn.widgets.RadioBoxGroup.from_param(self.param.reservoir_quality),
-            sizing_mode="stretch_width",
+        return pn.Row(
+            pn.layout.HSpacer(),
+            pn.Column(
+                panes.headline(self.param.composition_threshold.label),
+                pn.widgets.RadioBoxGroup.from_param(self.param.composition_threshold),
+                panes.headline(self.param.depositional_setting.label),
+                pn.widgets.RadioBoxGroup.from_param(self.param.depositional_setting),
+                panes.headline(self.param.stratigraphic_scale.label),
+                pn.widgets.RadioBoxGroup.from_param(self.param.stratigraphic_scale),
+                panes.headline(self.param.reservoir_quality.label),
+                pn.widgets.RadioBoxGroup.from_param(self.param.reservoir_quality),
+                sizing_mode="stretch_width",
+            ),
+            pn.layout.HSpacer(),
         )
 
 
