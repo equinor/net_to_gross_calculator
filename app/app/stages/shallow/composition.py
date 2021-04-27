@@ -87,7 +87,8 @@ class Model(param.Parameterized):
 
     def _initialize_composition(self, composition):
         """Initialize composition weights"""
-        for element, value in sorted(composition.items()):
+        for element in ALL_ELEMENTS:
+            value = composition.get(element, 0)
             setattr(self, element, value)
             if value > 0:
                 self.element_names.append(element)
@@ -143,7 +144,11 @@ class Model(param.Parameterized):
         for element in set(self.visible_elements) - set(self.element_names):
             self.remove_element_widget(element)
 
-        for element in sorted(set(self.element_names) - set(self.visible_elements)):
+        for element in [
+            e
+            for e in ALL_ELEMENTS
+            if e in self.element_names and e not in self.visible_elements
+        ]:
             self.add_element_widget(element)
 
     def add_element_widget(self, element):
@@ -155,9 +160,12 @@ class Model(param.Parameterized):
             param=getattr(self.param, element),
             quality_param=getattr(self.param, f"{element}_quality"),
         )
-        self.element_names.append(element)
+
+        # Sort elements in the same order as ALL_ELEMENTS
+        ordered = sorted(self.element_names, key=lambda e: ALL_ELEMENTS.index(e))
+        idx = ordered.index(element)
         self.visible_elements[element] = widget.name
-        self.element_widgets.append(widget)
+        self.element_widgets.insert(idx, widget)
 
     def remove_element_widget(self, element):
         """Remove a widget for an element"""
@@ -209,6 +217,7 @@ class View:
                         height_policy="min",
                         margin=(0, 25),
                         height=120,
+                        placeholder="Choose elements to build a model",
                         sizing_mode="fixed",
                     ),
                     self.element_widgets,

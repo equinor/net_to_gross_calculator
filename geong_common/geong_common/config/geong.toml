@@ -113,11 +113,37 @@ dev_level        = "DEBUG"
     target                       = "I(ng_vsh40_pct / 100)"
     label_column                 = "building_block_type"
 
-        [models.shallow.bay_lagoon_lake]
-        label                        = "Bay/Lagoon/Lake"
+        [models.shallow.distributary_fluvial_channel_fill]
+        label                        = "Distributary Fluvial Channel-Fill"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.bay_lagoon_lake.descriptive_reservoir_quality]
+            [models.shallow.distributary_fluvial_channel_fill.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                "Good 65-85% NG",
+                "Moderate 30-65% NG",
+                "Poor <30% NG",
+            ]
+
+        [models.shallow.upper_fan_delta_slope]
+        label                        = "Upper Fan Delta Slope"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.upper_fan_delta_slope.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                "Good 65-85% NG",
+                "Moderate 30-65% NG",
+                # No data with "Poor <30% NG" quality in the dataset
+            ]
+
+        [models.shallow.upper_shoreface]
+        label                        = "Upper Shoreface"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.upper_shoreface.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
@@ -139,11 +165,11 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.deltaplain_overbank]
-        label                        = "Deltaplain Overbank"
+        [models.shallow.lower_shoreface]
+        label                        = "Lower Shoreface"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.deltaplain_overbank.descriptive_reservoir_quality]
+            [models.shallow.lower_shoreface.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
@@ -152,11 +178,50 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.distributary_fluvial_channel_fill]
-        label                        = "Distributary Fluvial Channel-Fill"
+        [models.shallow.mass_transport_deposits]
+        label                        = "Mass Transport Deposits"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.distributary_fluvial_channel_fill.descriptive_reservoir_quality]
+            [models.shallow.mass_transport_deposits.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                # No data with "Good 65-85% NG" quality in the dataset
+                # No data with "Moderate 30-65% NG" quality in the dataset
+                "Poor <30% NG",
+            ]
+
+        [models.shallow.tidal_channel_fill]
+        label                        = "Tidal Channel-Fill"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.tidal_channel_fill.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                "Good 65-85% NG",
+                "Moderate 30-65% NG",
+                "Poor <30% NG",
+            ]
+
+        [models.shallow.tidal_dunes_bars]
+        label                        = "Tidal Dunes/Bars"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.tidal_dunes_bars.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                "Good 65-85% NG",
+                "Moderate 30-65% NG",
+                "Poor <30% NG",
+            ]
+
+        [models.shallow.upper_delta_front]
+        label                        = "Upper Delta Front"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.upper_delta_front.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
@@ -204,63 +269,11 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.lower_shoreface]
-        label                        = "Lower Shoreface"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.lower_shoreface.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                "Good 65-85% NG",
-                "Moderate 30-65% NG",
-                "Poor <30% NG",
-            ]
-
-        [models.shallow.mass_transport_deposits]
-        label                        = "Mass Transport Deposits"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.mass_transport_deposits.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                # No data with "Good 65-85% NG" quality in the dataset
-                # No data with "Moderate 30-65% NG" quality in the dataset
-                "Poor <30% NG",
-            ]
-
-        [models.shallow.offshore_fines]
-        label                        = "Offshore Fines"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.offshore_fines.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                "Good 65-85% NG",
-                "Moderate 30-65% NG",
-                "Poor <30% NG",
-            ]
-
         [models.shallow.offshore_transition]
         label                        = "Offshore Transition"
         factors                      = ["descriptive_reservoir_quality"]
 
             [models.shallow.offshore_transition.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                "Good 65-85% NG",
-                "Moderate 30-65% NG",
-                "Poor <30% NG",
-            ]
-
-        [models.shallow.prodelta]
-        label                        = "Prodelta"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.prodelta.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
@@ -282,32 +295,6 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.tidal_channel_fill]
-        label                        = "Tidal Channel-Fill"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.tidal_channel_fill.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                "Good 65-85% NG",
-                "Moderate 30-65% NG",
-                "Poor <30% NG",
-            ]
-
-        [models.shallow.tidal_dunes_bars]
-        label                        = "Tidal Dunes/Bars"
-        factors                      = ["descriptive_reservoir_quality"]
-
-            [models.shallow.tidal_dunes_bars.descriptive_reservoir_quality]
-            label                        = "N:G Quality Bracket"
-            values                       = [
-                "Exceptional 85-100% NG",
-                "Good 65-85% NG",
-                "Moderate 30-65% NG",
-                "Poor <30% NG",
-            ]
-
         [models.shallow.tidal_flat]
         label                        = "Tidal Flat"
         factors                      = ["descriptive_reservoir_quality"]
@@ -321,11 +308,11 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.upper_delta_front]
-        label                        = "Upper Delta Front"
+        [models.shallow.bay_lagoon_lake]
+        label                        = "Bay/Lagoon/Lake"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.upper_delta_front.descriptive_reservoir_quality]
+            [models.shallow.bay_lagoon_lake.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
@@ -334,24 +321,37 @@ dev_level        = "DEBUG"
                 "Poor <30% NG",
             ]
 
-        [models.shallow.upper_fan_delta_slope]
-        label                        = "Upper Fan Delta Slope"
+        [models.shallow.deltaplain_overbank]
+        label                        = "Deltaplain Overbank"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.upper_fan_delta_slope.descriptive_reservoir_quality]
+            [models.shallow.deltaplain_overbank.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
                 "Good 65-85% NG",
                 "Moderate 30-65% NG",
-                # No data with "Poor <30% NG" quality in the dataset
+                "Poor <30% NG",
             ]
 
-        [models.shallow.upper_shoreface]
-        label                        = "Upper Shoreface"
+        [models.shallow.offshore_fines]
+        label                        = "Offshore Fines"
         factors                      = ["descriptive_reservoir_quality"]
 
-            [models.shallow.upper_shoreface.descriptive_reservoir_quality]
+            [models.shallow.offshore_fines.descriptive_reservoir_quality]
+            label                        = "N:G Quality Bracket"
+            values                       = [
+                "Exceptional 85-100% NG",
+                "Good 65-85% NG",
+                "Moderate 30-65% NG",
+                "Poor <30% NG",
+            ]
+
+        [models.shallow.prodelta]
+        label                        = "Prodelta"
+        factors                      = ["descriptive_reservoir_quality"]
+
+            [models.shallow.prodelta.descriptive_reservoir_quality]
             label                        = "N:G Quality Bracket"
             values                       = [
                 "Exceptional 85-100% NG",
