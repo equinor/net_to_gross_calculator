@@ -49,7 +49,7 @@ class URL:
     def __truediv__(self, other):
         """Use / to append a string at the end of the URL"""
         cls = type(self)
-        slash = "" if self.url.endswith("/") else ""
+        slash = "" if self.url.endswith("/") else "/"
         return cls(f"{self.url}{slash}{other}")
 
     def __str__(self):
