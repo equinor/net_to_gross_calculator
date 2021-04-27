@@ -54,6 +54,14 @@ def popup(label, text="?"):
     return f"[<abbr>{text}<span>{popup_html}</span></abbr>]"
 
 
+def multiple_choice(param, popup_label=None):
+    """Create a multiple choice widget"""
+    return pn.Column(
+        headline(param.label, popup_label=popup_label),
+        pn.widgets.RadioBoxGroup.from_param(param),
+    )
+
+
 def element_slider(param, quality_param=None):
     """Create a widget with a slider and spinner for an element
 
