@@ -241,6 +241,12 @@ reader           = "api"
                 Consider sources of heterogeneity and build them in to your model
                 with the appropriate elements and qualities.
                 """
+            customize_quality_text = """
+                Customise the quality brackets to each element's general quality
+                tendency, indicated by the color of the slider bar, unless your
+                data observations support outlier quality.
+                """
+
 
             [stages.shallow.composition.params]
             ready_parameter  = "sum_to_100"

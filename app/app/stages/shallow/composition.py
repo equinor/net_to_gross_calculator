@@ -219,6 +219,9 @@ class View:
                         default_color="red",
                         colors=[(CFG.warnings.ng_above, "black")],
                     ),
+                    panes.warning(
+                        CFG.warnings.customize_quality_text, alert_type="light"
+                    ),
                 ),
             ),
             self.warnings,

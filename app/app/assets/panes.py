@@ -34,9 +34,9 @@ def markdown_from_url(url, **markdown_args):
     return pn.pane.Markdown(markdown, **markdown_args)
 
 
-def warning(text):
+def warning(text, label="Warning", alert_type="danger"):
     """Create a warning alert pane with the given text"""
-    return pn.pane.Alert(f"**Warning:** {textwrap.dedent(text)}", alert_type="danger")
+    return pn.pane.Alert(f"**{label}:** {textwrap.dedent(text)}", alert_type=alert_type)
 
 
 def popup(label, text="?"):
