@@ -20,14 +20,14 @@ class Model(param.Parameterized):
 
     gross_geomorphology = param.Selector(
         {"Fan Shaped": "fan", "Channel Shaped": "channel"},
-        label="Gross Geomorphology",
+        label="What is the gross geomorphology?",
     )
     stratigraphic_scale = param.Selector(
         {
             "Complex (~10's m thickness)": "complexes",
             "System (10's-100's m thickness)": "systems",
         },
-        label="Stratigraphic Scale",
+        label="What is the stratigraphic scale?",
     )
     reservoir_quality = param.Selector(
         {
@@ -36,7 +36,7 @@ class Model(param.Parameterized):
             "Good (65 - 85%)": "Good 65-85% NG",
             "Exceptional (85 - 100%)": "Exceptional 85-100% NG",
         },
-        label="N:G Quality Bracket",
+        label="What is the anticipated N:G quality bracket?",
     )
 
     def building_blocks_by_table(self):
