@@ -29,6 +29,7 @@ services:
       - BOKEH_ALLOW_WS_ORIGIN=localhost:8080
       - LOG_LEVEL
       - JSON_LOGS
+      - APP_TITLE
       - APPLICATIONINSIGHTS_INSTRUMENTATION_KEY
       - CONTEXT=app
       - API_URL=http://api:5000

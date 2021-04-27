@@ -51,7 +51,7 @@ header_background    = "#00cc99"
 # Apps
 #
 [apps]
-title            = "Geo:N:G"
+title            = "Net to Gross Calculator"
 apps             = ["instructions", "deep", "shallow"]
 primary_app      = "instructions"
 reader           = "api"
