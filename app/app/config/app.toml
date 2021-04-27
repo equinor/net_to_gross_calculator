@@ -17,7 +17,7 @@ header_color         = "#ffffff"
 header_background    = "#00cc99"
 
     [style.colors]
-    default          = "#00cc99"
+    default          = "#cccccc"
 
     # Deep
     lobe             = "#ffea18"
