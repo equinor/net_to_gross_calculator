@@ -114,7 +114,7 @@ def division_slider(
 
     if ignore_param is not None:
         var_ignore = getattr(params, ignore_param)
-        widget[-1].append(
+        widget.append(
             pn.Row(
                 pn.layout.HSpacer(),
                 pn.widgets.Checkbox.from_param(var_ignore, width_policy="min"),
