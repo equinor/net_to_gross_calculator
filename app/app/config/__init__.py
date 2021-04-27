@@ -15,6 +15,7 @@ app.update_from_env(
     env_paths={
         "ASSET_IMAGES": ("asset_hosts", "images"),
         "ASSET_INSTRUCTIONS": ("asset_hosts", "instructions"),
+        "ASSET_POPUPS": ("asset_hosts", "popups"),
         "RAW_CSS": ("style", "raw_css"),
         "CSS_FILES": ("style", "css_files"),
         "FAVICON": ("style", "favicon"),

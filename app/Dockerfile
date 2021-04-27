@@ -34,4 +34,4 @@ LABEL org.opencontainers.image.source https://github.com/equinor/geong
 
 # Serve the Geo:N:G app when the container is run
 EXPOSE 8080
-CMD ["panel", "serve", "--port=8080", "./app/app"]
+CMD ["panel", "serve", "--port=8080", "./app/app", "--static-dirs", "images=./app/app/assets/images"]

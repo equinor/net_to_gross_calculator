@@ -27,7 +27,6 @@ class Model(param.Parameterized):
     report_from_composition = param.Dict()
 
     # Parameters for the current stage
-    headline = param.String(label=CFG.label)
     ready = param.Boolean(default=False)
     net_gross = param.Number(label="Net/Gross", softbounds=(0, 100))
     scenario_name = param.String(label="Scenario Name")
@@ -151,7 +150,6 @@ class View:
 
     def panel(self):
         return pn.Column(
-            panes.headline(self.param.headline),
             pn.Row(
                 pn.Column(
                     pn.Row(
@@ -163,11 +161,14 @@ class View:
                         ),
                         pn.layout.HSpacer(),
                         pn.Column(
-                            pn.indicators.Number.from_param(
-                                self.param.net_gross_modified,
-                                format="{value:.0f}%",
-                                font_size="36pt",
-                                title_size="14pt",
+                            pn.Row(
+                                pn.indicators.Number.from_param(
+                                    self.param.net_gross_modified,
+                                    format="{value:.0f}%",
+                                    font_size="36pt",
+                                    title_size="14pt",
+                                ),
+                                pn.pane.HTML(panes.popup("shallow_porosity_modifier")),
                             ),
                             pn.widgets.IntInput.from_param(
                                 self.param.porosity_modifier, width=180
