@@ -67,7 +67,29 @@ class Model(param.Parameterized):
         # Initialize parameter values
         self.report_from_set_up = report_from_set_up
         self._state = state.get_user_state().setdefault(APP, {})
-        self.element_widgets = pn.Column(sizing_mode="stretch_both")
+        colors = config.app.style.colors
+        quality_colors = pn.Row(
+            pn.layout.HSpacer(),
+            pn.pane.HTML(background=colors.poor, width=40, height=20),
+            pn.layout.HSpacer(),
+            pn.layout.Spacer(width=4),  # Tweak to improve alignment
+            pn.pane.HTML(background=colors.moderate, width=40, height=20),
+            pn.layout.Spacer(width=4),  # Tweak to improve alignment
+            pn.layout.HSpacer(),
+            pn.pane.HTML(background=colors.good, width=40, height=20),
+            pn.layout.HSpacer(),
+            pn.layout.Spacer(width=5),  # Tweak to improve alignment
+            pn.pane.HTML(background=colors.exceptional, width=40, height=20),
+            pn.layout.Spacer(width=5),  # Tweak to improve alignment
+            pn.layout.HSpacer(),
+        )
+        self.element_widgets = pn.GridBox(
+            "**Element**",
+            "",
+            pn.Row(pn.layout.Spacer(width=10), "**Volume %**"),
+            quality_colors,
+            ncols=4,
+        )
         self.visible_elements = {}
 
         self._initialize_qualities(
@@ -156,28 +178,30 @@ class Model(param.Parameterized):
             return
 
         logger.debug(f"Adding {element} widget")
-        widget = panes.element_slider(
+        widgets = panes.element_slider(
             param=getattr(self.param, element),
             quality_param=getattr(self.param, f"{element}_quality"),
         )
 
         # Sort elements in the same order as ALL_ELEMENTS
         ordered = sorted(self.element_names, key=lambda e: ALL_ELEMENTS.index(e))
-        idx = ordered.index(element)
-        self.visible_elements[element] = widget.name
-        self.element_widgets.insert(idx, widget)
+        start_idx = 4 * (ordered.index(element) + 1)  # +1 because of headline
+
+        # Add widgets to screen
+        self.visible_elements[element] = list(widgets)
+        for idx, widget in enumerate(widgets, start=start_idx):
+            self.element_widgets.insert(idx, widget)
 
     def remove_element_widget(self, element):
-        """Remove a widget for an element"""
+        """Remove widgets for an element"""
         if element not in self.visible_elements:
             return
 
         logger.debug(f"Removing {element} widget")
-        widget_name = self.visible_elements[element]
+        widget_to_remove = self.visible_elements[element]
         for widget in self.element_widgets[:]:
-            if widget.name == widget_name:
+            if widget in widget_to_remove:
                 self.element_widgets.pop(widget)
-                break
 
         setattr(self, element, 0)
         del self.visible_elements[element]

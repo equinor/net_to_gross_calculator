@@ -27,21 +27,28 @@ header_background    = "#00cc99"
     drape            = "#078cb1"
 
     # Shallow
+    exceptional                        = "#ffff00"
     distributary_fluvial_channel_fill  = "#ffff00"
     upper_fan_delta_slope              = "#ffff00"
     upper_shoreface                    = "#ffff00"
+
+    good                               = "#ffff99"
     beach                              = "#ffff99"
     lower_shoreface                    = "#ffff99"
     mass_transport_deposits            = "#ffff99"
     tidal_channel_fill                 = "#ffff99"
     tidal_dunes_bars                   = "#ffff99"
     upper_delta_front                  = "#ffff99"
+
+    moderate                           = "#f4b084"
     floodplain_overbank                = "#f4b084"
     lower_delta_front                  = "#f4b084"
     lower_fan_delta_slope              = "#f4b084"
     offshore_transition                = "#f4b084"
     swamp_marsh                        = "#f4b084"
     tidal_flat                         = "#f4b084"
+
+    poor                               = "#ccccff"
     bay_lagoon_lake                    = "#ccccff"
     deltaplain_overbank                = "#ccccff"
     offshore_fines                     = "#ccccff"
