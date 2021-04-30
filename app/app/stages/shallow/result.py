@@ -41,8 +41,9 @@ class Model(param.Parameterized):
         self._state = state.get_user_state().setdefault(APP, {})
         self._state.setdefault("scenarios", {})
         self._current_scenario_name = None
-        self.composition = report_from_composition["building_block_type"]
+        # self.composition = report_from_composition["building_block_type"]
         self.net_gross = net_gross
+        self.report_from_composition = report_from_composition
         self.scenario_name = f"Scenario {len(self._state['scenarios']) + 1}"
 
         try:
@@ -90,10 +91,14 @@ class Model(param.Parameterized):
         if self._current_scenario_name in scenarios:
             scenario_info = scenarios.pop(self._current_scenario_name)
         else:
-            scenario_info = {"net_gross": self.net_gross}
+            scenario_info = {
+                "net_gross": self.net_gross,
+                **self.report_from_composition,
+            }
 
         # Update scenario information
         scenario_info["net_gross_modified"] = self.net_gross_modified
+        scenario_info["porosity_modifier"] = self.porosity_modifier
 
         # Store scenario information
         scenarios[self.scenario_name] = scenario_info
