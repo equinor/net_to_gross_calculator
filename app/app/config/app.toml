@@ -90,6 +90,7 @@ reader           = "api"
         label            = "Data Viewer"
         tables           = ["systems", "complexes", "elements"]
         page_size        = 20
+        frozen_columns   = ["building_block_type", "descriptive_reservoir_quality", "ng_vsh40_pct"]
 
             [apps.deep.data_viewer.columns]
 
