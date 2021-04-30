@@ -151,12 +151,19 @@ class Model(param.Parameterized):
     @param.output(param.Dict)
     def report_from_composition(self):
         """Store user input to the final report"""
+        elements_used = self.element_names
+        qualities_used = [f"{e}_quality" for e in elements_used]
         return {
             **self.report_from_set_up,
-            "building_block_type": {
+            "weights": {
                 self.param.params(k).label: v
                 for k, v in self.param.get_param_values()
-                if k in ALL_ELEMENTS or k in ALL_QUALITIES
+                if k in elements_used
+            },
+            "qualities": {
+                self.param.params(k).label[:-8]: v
+                for k, v in self.param.get_param_values()
+                if k in qualities_used
             },
         }
 

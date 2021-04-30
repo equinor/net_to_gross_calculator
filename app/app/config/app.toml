@@ -216,7 +216,7 @@ reader           = "api"
 
         [stages.deep.report]
         label            = "Final Report"
-        report           = "net_gross_ppt"
+        report           = "deep_net_gross_ppt"
 
 
     [stages.shallow]
@@ -268,7 +268,7 @@ reader           = "api"
 
         [stages.shallow.report]
         label            = "Final Report"
-        report           = "net_gross_ppt"
+        report           = "shallow_net_gross_ppt"
 
 
 #
@@ -276,59 +276,138 @@ reader           = "api"
 #
 [report]
 
-    [report.net_gross_ppt]
+    [report.deep_net_gross_ppt]
     generator = "powerpoint"
     template = "templates/geong_pptx.toml"
-    file_name = "geong_{date:%Y%m%d}.pptx"
+    file_name = "geong_deep_{date:%Y%m%d}.pptx"
 
-        [[report.net_gross_ppt.slide]]
+        [[report.deep_net_gross_ppt.slide]]
         layout               = "title"
         title                = "Geo:N:G Report: {geox_id}"
         subtitle.type        = "text"
         subtitle.content     = "{date:%d %b %Y}"
 
-        [[report.net_gross_ppt.slide]]
+        [[report.deep_net_gross_ppt.slide]]
         layout               = "one_column"
         title                = "{geox_id} Scenarios"
         content.type         = "text"
         content.content      = "{scenario_list}"
 
-        [[report.net_gross_ppt.slide]]
+        [[report.deep_net_gross_ppt.slide]]
         nested.cfg           = "scenarios"
         nested.data          = "scenarios"
 
-        [[report.net_gross_ppt.slide]]
+        [[report.deep_net_gross_ppt.slide]]
         layout               = "closing"
 
-        [report.net_gross_ppt.scenarios]
-            [[report.net_gross_ppt.scenarios.slide]]
+        [report.deep_net_gross_ppt.scenarios]
+            [[report.deep_net_gross_ppt.scenarios.slide]]
             layout               = "section"
-            title                = "Scenario {scenario_name}"
+            title                = "{scenario_name}"
 
-            [[report.net_gross_ppt.scenarios.slide]]
-            layout               = "test_content"
-            title                = "Final estimate: {net_gross:.0f}%"
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout               = "one_column"
+            title                = "Net:Gross Estimate: {net_gross:.0f}%"
+            content.type         = "text"
+            content.content      = "Net:Gross Estimate: {net_gross:.0f}%\nPorosity Modifier: {porosity_modifier:.0f}%\nModified Net:Gross: {net_gross_modified:.0f}%"
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout               = "table"
+            title                = "Set Up"
+            table.type           = "table"
+            table.content        = "ref:set_up"
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout               = "chart_table"
+            title                = "Element Composition"
             chart.type           = "chart"
             chart.content        = "ref:composition"
             table.type           = "table"
             table.content        = "ref:composition"
 
-            [[report.net_gross_ppt.scenarios.slide]]
-            layout               = "test_content"
-            title                = "Modified estimate: {net_gross_modified:.0f}%"
-            chart.type           = "chart"
-            chart.content        = "ref:composition"
-            table.type           = "table"
-            table.content        = "ref:composition"
+            [report.deep_net_gross_ppt.scenarios.content]
 
-            [report.net_gross_ppt.scenarios.content]
-
-                [report.net_gross_ppt.scenarios.content.chart.composition]
+                [report.deep_net_gross_ppt.scenarios.content.chart.composition]
                 type                 = "bar_clustered"
-                categories           = ["Lobe", "Channel Fill", "Overbank"]
-                series_1             = [67, 27, 6]
-                series_2             = [31, 55, 14]
+                series_names         = ["Weight"]
+                data                 = ["building_block_type"]
 
-                [report.net_gross_ppt.scenarios.content.table.composition]
-                rows                 = 2
-                cols                 = ["Building Block", "Weight", "N:G", "Contribution"]
+                [report.deep_net_gross_ppt.scenarios.content.table.set_up]
+                index_name           = "Question"
+                column_names         = ["Value"]
+                data                 = ["set_up"]
+                formats              = [""]
+
+                [report.deep_net_gross_ppt.scenarios.content.table.composition]
+                index_name           = "Element"
+                column_names         = ["Weight"]
+                data                 = ["building_block_type"]
+                formats              = ["{} %"]
+
+    [report.shallow_net_gross_ppt]
+    generator = "powerpoint"
+    template = "templates/geong_pptx.toml"
+    file_name = "geong_shallow_{date:%Y%m%d}.pptx"
+
+        [[report.shallow_net_gross_ppt.slide]]
+        layout               = "title"
+        title                = "Geo:N:G Report: {geox_id}"
+        subtitle.type        = "text"
+        subtitle.content     = "{date:%d %b %Y}"
+
+        [[report.shallow_net_gross_ppt.slide]]
+        layout               = "one_column"
+        title                = "{geox_id} Scenarios"
+        content.type         = "text"
+        content.content      = "{scenario_list}"
+
+        [[report.shallow_net_gross_ppt.slide]]
+        nested.cfg           = "scenarios"
+        nested.data          = "scenarios"
+
+        [[report.shallow_net_gross_ppt.slide]]
+        layout               = "closing"
+
+        [report.shallow_net_gross_ppt.scenarios]
+            [[report.shallow_net_gross_ppt.scenarios.slide]]
+            layout               = "section"
+            title                = "{scenario_name}"
+
+            [[report.shallow_net_gross_ppt.scenarios.slide]]
+            layout               = "one_column"
+            title                = "Net:Gross Estimate: {net_gross:.0f}%"
+            content.type         = "text"
+            content.content      = "Net:Gross Estimate: {net_gross:.0f}%\nPorosity Modifier: {porosity_modifier:.0f}%\nModified Net:Gross: {net_gross_modified:.0f}%"
+
+            [[report.shallow_net_gross_ppt.scenarios.slide]]
+            layout               = "table"
+            title                = "Set Up"
+            table.type           = "table"
+            table.content        = "ref:set_up"
+
+            [[report.shallow_net_gross_ppt.scenarios.slide]]
+            layout               = "chart_table"
+            title                = "Element Composition"
+            chart.type           = "chart"
+            chart.content        = "ref:composition"
+            table.type           = "table"
+            table.content        = "ref:composition"
+
+            [report.shallow_net_gross_ppt.scenarios.content]
+
+                [report.shallow_net_gross_ppt.scenarios.content.chart.composition]
+                type                 = "bar_clustered"
+                series_names         = ["Weight"]
+                data                 = ["weights"]
+
+                [report.shallow_net_gross_ppt.scenarios.content.table.set_up]
+                index_name           = "Question"
+                column_names         = ["Value"]
+                data                 = ["set_up"]
+                formats              = [""]
+
+                [report.shallow_net_gross_ppt.scenarios.content.table.composition]
+                index_name           = "Element"
+                column_names         = ["Weight", "Quality Bracket"]
+                data                 = ["weights", "qualities"]
+                formats              = ["{} %", ""]

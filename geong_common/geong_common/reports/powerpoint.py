@@ -90,14 +90,22 @@ def add_picture(placeholder, content, data):
 
 @pyplugs.register
 def add_chart(placeholder, content, data):
-    """Add chart to placeholder
+    """Add chart to placeholder"""
+    # Create a common index
+    categories = []
+    for col in content["data"]:
+        for key in data[col]:
+            if key not in categories:
+                categories.append(key)
 
-    TODO: Figure out what would be a useful general way of specifying content
-    """
+    # Add chart data
     chart = ChartData()
-    chart.categories = content.categories
-    chart.add_series("Series 1", content.series_1)
-    chart.add_series("Series 2", content.series_2)
+    chart.categories = categories
+    for series_name, col in zip(content["series_names"], content["data"]):
+        values = [data[col][cat] for cat in categories]
+        chart.add_series(series_name, values)
+
+    # Insert chart
     placeholder.insert_chart(
         getattr(pptx_charts.XL_CHART_TYPE, content.type.upper()), chart
     )
@@ -105,11 +113,47 @@ def add_chart(placeholder, content, data):
 
 @pyplugs.register
 def add_table(placeholder, content, data):
-    """Add table to placeholder
+    """Add table to placeholder"""
+    if "column_names" in content:
+        _add_horisontal_table(placeholder, content, data)
+    elif "row_names" in content:
+        _add_vertical_table(placeholder, content, data)
+    else:
+        raise ValueError("Either 'column_names' or 'row_names' should be defined")
 
-    TODO: Figure out what would be a useful general way of specifying content
-    """
-    table = placeholder.insert_table(rows=content.rows, cols=len(content.cols)).table
 
-    for idx, col_name in enumerate(content.cols):
-        table.cell(0, idx).text = col_name
+def _add_horisontal_table(placeholder, content, data):
+    """Add horisontal table to placeholder"""
+    # Create a common index
+    index_names = []
+    for col in content["data"]:
+        for key in data[col]:
+            if key not in index_names:
+                index_names.append(key)
+
+    # Set up column names
+    column_names = [content["index_name"]] + content["column_names"]
+
+    # Add table with headers
+    table = placeholder.insert_table(
+        rows=len(index_names) + 1, cols=len(column_names)
+    ).table
+    for idx, column_name in enumerate(column_names):
+        table.cell(0, idx).text = column_name
+    for idx, index_name in enumerate(index_names, start=1):
+        table.cell(idx, 0).text = index_name
+
+    # Add data to table
+    for col_idx, (col, fmt) in enumerate(
+        zip(content["data"], content["formats"]), start=1
+    ):
+        for row_idx, row in enumerate(index_names, start=1):
+            if row not in data[col]:
+                continue
+            value = data[col][row]
+            table.cell(row_idx, col_idx).text = fmt.format(value) if fmt else str(value)
+
+
+def _add_vertical_table(placeholder, content, data):
+    """Add vertical table to placeholder"""
+    raise NotImplementedError("Vertical tables are not yet implemented")

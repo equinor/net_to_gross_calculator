@@ -43,6 +43,7 @@ class Model(param.Parameterized):
         self._current_scenario_name = None
         self.scenario_name = f"Scenario {len(self._state['scenarios']) + 1}"
         self.net_gross = net_gross
+        self.report_from_filter_classes = report_from_filter_classes
 
         try:
             session_id = pn.state.curdoc.session_context.id
@@ -89,10 +90,14 @@ class Model(param.Parameterized):
         if self._current_scenario_name in scenarios:
             scenario_info = scenarios.pop(self._current_scenario_name)
         else:
-            scenario_info = {"net_gross": self.net_gross}
+            scenario_info = {
+                "net_gross": self.net_gross,
+                **self.report_from_filter_classes,
+            }
 
         # Update scenario information
         scenario_info["net_gross_modified"] = self.net_gross_modified
+        scenario_info["porosity_modifier"] = self.porosity_modifier
 
         # Store scenario information
         scenarios[self.scenario_name] = scenario_info

@@ -4,7 +4,9 @@ template         = "geong.pptx"
 title                    = "Title Slide"
 section                  = "Title Only"
 one_column               = "Title and Content"
-test_content             = "Test layout"
+table                    = "Table"
+chart                    = "Chart"
+chart_table              = "Chart and Table"
 closing                  = "Blank"
 
 
@@ -19,10 +21,15 @@ closing                  = "Blank"
     [placeholders.section]
     subtitle                       = 1
 
-    [placeholders.test_content]
+    [placeholders.table]
+    table                          = 13
+
+    [placeholders.chart]
     chart                          = 14
-    picture                        = 13
-    table                          = 15
+
+    [placeholders.chart_table]
+    chart                          = 13
+    table                          = 14
 
     [placeholders.closing]
     presenter                      = 1
