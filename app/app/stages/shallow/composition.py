@@ -94,12 +94,10 @@ class Model(param.Parameterized):
 
         self._initialize_qualities(
             reservoir_quality={
-                ELEMENT_OPTIONS[k]: v
-                for k, v in initial_values["reservoir_quality"].items()
+                ELEMENT_OPTIONS[k]: initial_values["reservoir_quality"]
+                for k in initial_values["composition"]
             },
-            default=report_from_set_up["set_up"][
-                "What is the anticipated N:G quality bracket?"
-            ],
+            default=initial_values["reservoir_quality"],
         )
         self._initialize_composition(
             composition={
