@@ -70,16 +70,22 @@ class Model(param.Parameterized):
 
         return {
             "composition": group_composition,
-            "reservoir_quality": {e: self.reservoir_quality for e in group_composition},
+            "reservoir_quality": self.reservoir_quality,
         }
 
     # Output recorded in the final report
     @param.output(param.Dict)
     def report_from_set_up(self):
         """Store user input to the final report"""
+        # Map values to user strings
+        value_to_user = {
+            p: {v: k for k, v in self.param.params(p).names.items()}
+            for p in self.param.params()
+            if p != "name"
+        }
         return {
             "set_up": {
-                self.param.params(k).label: v
+                self.param.params(k).label: value_to_user[k][v]
                 for k, v in self.param.get_param_values()
                 if k != "name"
             }
