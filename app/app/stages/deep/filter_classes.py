@@ -107,13 +107,34 @@ class Model(param.Parameterized):
 
         params = {}
         for bblock, filter_classes in FILTER_CLASS_PARAMS.items():
+            for fclass, values in filter_classes.values():
+                key = f"{bblock.lower()[:4]}_{fclass.split('_')[0]}"
+                params.setdefault(key, {})
+                ignore_param = f"{key}_ignore"
+                for param_label, param_name in values.items():
+                    if param_name == ignore_param:
+                        continue
+                    params[key][param_label] = (
+                        100 / (len(values) - 1)
+                        if param_values[ignore_param]
+                        else param_values[param_name]
+                    )
+
+        return {**self.report_from_composition, **params}
+
+    def filter_class_model_input(self):
+        """Input to the model from filter classes"""
+        param_values = dict(self.param.get_param_values())
+
+        params = {}
+        for bblock, filter_classes in FILTER_CLASS_PARAMS.items():
             params.setdefault(bblock, {})
             for fclass, values in filter_classes.values():
                 params[bblock].setdefault(fclass, {})
                 for param_label, param_name in values.items():
                     params[bblock][fclass][param_label] = param_values[param_name]
 
-        return {**self.report_from_composition, **params}
+        return params
 
     @param.depends(*ALL_PARAMS, watch=True)
     def estimate_net_gross(self):
@@ -121,7 +142,7 @@ class Model(param.Parameterized):
             model=self._state["model"],
             composition={
                 **self.report_from_composition,
-                **self.report_from_filter_classes(),
+                **self.filter_class_model_input(),
             },
         )
 

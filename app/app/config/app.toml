@@ -325,6 +325,84 @@ reader           = "api"
             table.type           = "table"
             table.content        = "ref:composition"
 
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Lobe: Spatial Position"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["lobe_spatial"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["lobe_spatial"]
+            table.content.formats        = ["{:.0f} %"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Lobe: Confinement"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["lobe_confinement"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["lobe_confinement"]
+            table.content.formats        = ["{:.0f} %"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Lobe: Bed Type"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["lobe_conventional"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["lobe_conventional"]
+            table.content.formats        = ["{:.0f} %"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Lobe: Archetypes"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["lobe_architectural"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["lobe_architectural"]
+            table.content.formats        = ["{:.0f} %"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Channel Fill: Spatial Position"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["chan_relative"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["chan_relative"]
+            table.content.formats        = ["{:.0f} %"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart_table"
+            title                        = "Channel Fill: Archetypes"
+            chart.type                   = "chart"
+            chart.content.type           = "column_clustered"
+            chart.content.series_names   = ["Weight"]
+            chart.content.data           = ["chan_architectural"]
+            table.type                   = "table"
+            table.content.index_name     = "Filter Class"
+            table.content.column_names   = ["Weight"]
+            table.content.data           = ["chan_architectural"]
+            table.content.formats        = ["{:.0f} %"]
+
             [report.deep_net_gross_ppt.scenarios.content]
 
                 [report.deep_net_gross_ppt.scenarios.content.chart.composition]
