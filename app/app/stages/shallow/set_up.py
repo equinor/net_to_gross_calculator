@@ -92,16 +92,12 @@ class View:
     def panel(self):
         """Display the first stage using radio boxes"""
 
-        return pn.Row(
-            pn.layout.HSpacer(),
-            pn.Column(
-                panes.multiple_choice(self.param.composition_threshold),
-                panes.multiple_choice(self.param.depositional_setting),
-                panes.multiple_choice(self.param.stratigraphic_scale),
-                panes.multiple_choice(self.param.reservoir_quality),
-                sizing_mode="stretch_width",
-            ),
-            pn.layout.HSpacer(),
+        return pn.Column(
+            panes.multiple_choice(self.param.composition_threshold),
+            panes.multiple_choice(self.param.depositional_setting),
+            panes.multiple_choice(self.param.stratigraphic_scale),
+            panes.multiple_choice(self.param.reservoir_quality),
+            sizing_mode="stretch_width",
         )
 
 

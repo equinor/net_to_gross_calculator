@@ -32,5 +32,5 @@ def view():
         pipeline.network,
         pipeline.error,
         pipeline.stage,
-        pn.Row(pn.layout.HSpacer(), pipeline.buttons, pn.layout.HSpacer()),
+        pipeline.buttons,
     ]
