@@ -23,10 +23,15 @@ app.update_from_env(
         "HEADER_BACKGROUND": ("style", "header_background"),
         "HEADER_COLOR": ("style", "header_color"),
         "LOGO": ("style", "logo"),
-        "REPORT_TEMPLATE": ("report", "net_gross_ppt", "template"),
         "READER": ("apps", "reader"),
     },
     converters={"RAW_CSS": "list", "CSS_FILES": "list"},
+)
+
+# Add template to each report
+app.update_from_env({"REPORT_TEMPLATE": ("report", "deep_net_gross_ppt", "template")})
+app.update_from_env(
+    {"REPORT_TEMPLATE": ("report", "shallow_net_gross_ppt", "template")}
 )
 
 # Set up asset hosts
