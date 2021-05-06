@@ -67,29 +67,7 @@ class Model(param.Parameterized):
         # Initialize parameter values
         self.report_from_set_up = report_from_set_up
         self._state = state.get_user_state().setdefault(APP, {})
-        colors = config.app.style.colors
-        quality_colors = pn.Row(
-            pn.layout.HSpacer(),
-            pn.pane.HTML(background=colors.poor, width=40, height=20),
-            pn.layout.HSpacer(),
-            pn.layout.Spacer(width=4),  # Tweak to improve alignment
-            pn.pane.HTML(background=colors.moderate, width=40, height=20),
-            pn.layout.Spacer(width=4),  # Tweak to improve alignment
-            pn.layout.HSpacer(),
-            pn.pane.HTML(background=colors.good, width=40, height=20),
-            pn.layout.HSpacer(),
-            pn.layout.Spacer(width=5),  # Tweak to improve alignment
-            pn.pane.HTML(background=colors.exceptional, width=40, height=20),
-            pn.layout.Spacer(width=5),  # Tweak to improve alignment
-            pn.layout.HSpacer(),
-        )
-        self.element_widgets = pn.GridBox(
-            "**Element**",
-            "",
-            pn.Row(pn.layout.Spacer(width=10), "**Volume %**"),
-            quality_colors,
-            ncols=4,
-        )
+        self.element_widgets = self.layout_element_widgets()
         self.visible_elements = {}
 
         self._initialize_qualities(
@@ -232,6 +210,32 @@ class Model(param.Parameterized):
 
 class View:
     """Define the look and feel of the stage"""
+
+    def layout_element_widgets(self):
+        """Add header line on top of element widgets container"""
+        colors = config.app.style.colors
+        quality_colors = pn.Row(
+            pn.layout.HSpacer(),
+            pn.pane.HTML(background=colors.poor, width=40, height=20),
+            pn.layout.HSpacer(),
+            pn.layout.Spacer(width=4),  # Tweak to improve alignment
+            pn.pane.HTML(background=colors.moderate, width=40, height=20),
+            pn.layout.Spacer(width=4),  # Tweak to improve alignment
+            pn.layout.HSpacer(),
+            pn.pane.HTML(background=colors.good, width=40, height=20),
+            pn.layout.HSpacer(),
+            pn.layout.Spacer(width=5),  # Tweak to improve alignment
+            pn.pane.HTML(background=colors.exceptional, width=40, height=20),
+            pn.layout.Spacer(width=5),  # Tweak to improve alignment
+            pn.layout.HSpacer(),
+        )
+        return pn.GridBox(
+            "**Element**",
+            "",
+            pn.Row(pn.layout.Spacer(width=10), "**Volume %**"),
+            quality_colors,
+            ncols=4,
+        )
 
     def panel(self):
         return pn.Column(
