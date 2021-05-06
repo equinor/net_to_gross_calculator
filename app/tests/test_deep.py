@@ -58,21 +58,35 @@ STAGES = {
             },
         },
         "report_from_composition": {},
-        "net_gross": 28.1,
+        "net_gross": 30,
     },
     "result": {
         "report_from_filter_classes": {
-            "building_block_type": {
+            "weights": {
                 "Lobe": 0,
                 "Channel Fill": 0,
                 "Overbank": 0,
                 "MTD": 100,
                 "Drape": 0,
             },
+            "element_net_gross": {
+                "Lobe": 90,
+                "Channel Fill": 70,
+                "Overbank": 50,
+                "MTD": 30,
+                "Drape": 10,
+            },
+            "contribution": {
+                "Lobe": 0,
+                "Channel Fill": 0,
+                "Overbank": 0,
+                "MTD": 30,
+                "Drape": 0,
+            },
             "Lobe": {},
             "Channel Fill": {},
         },
-        "net_gross": 28.1,
+        "net_gross": 30,
     },
 }
 
@@ -178,5 +192,5 @@ def test_next_disabled_when_weights_dont_total_100():
 def test_output_from_result():
     stage = get_stage("result")
 
-    expected_net_gross = 28.1
+    expected_net_gross = 30
     assert stage.net_gross == pytest.approx(expected_net_gross)

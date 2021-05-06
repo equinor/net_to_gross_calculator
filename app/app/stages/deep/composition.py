@@ -85,9 +85,7 @@ class Model(param.Parameterized):
         return {
             **self.report_from_set_up,
             "weights": {
-                self.param.params(k).label: v
-                for k, v in self.param.get_param_values()
-                if k in ALL_ELEMENTS
+                self.param.params(e).label: getattr(self, e) for e in ALL_ELEMENTS
             },
         }
 

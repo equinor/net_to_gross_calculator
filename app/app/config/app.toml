@@ -214,6 +214,11 @@ reader           = "api"
             ready_parameter  = "ready"
             auto_advance     = true
 
+            [stages.deep.result.columns]
+            element_net_gross    =  "Element N:G"
+            weights              =  "Weight"
+            contribution         =  "Contribution"
+
         [stages.deep.report]
         label            = "Final Report"
         report           = "deep_net_gross_ppt"
@@ -265,6 +270,13 @@ reader           = "api"
             [stages.shallow.result.params]
             ready_parameter  = "ready"
             auto_advance     = true
+
+            [stages.shallow.result.columns]
+            qualities            =  "Quality Bracket"
+            element_net_gross    =  "Element Net:Gross"
+            weights              =  "Weight"
+            contribution         =  "Contribution"
+
 
         [stages.shallow.report]
         label            = "Final Report"
