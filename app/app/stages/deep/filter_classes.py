@@ -125,6 +125,7 @@ class Model(param.Parameterized):
             self.model_result.groupby("building_block_type")
             .agg({"net_gross": "mean", "bb_pct": "max", "result": "sum"})
             .assign(element_net_gross=lambda df: df.result / df.bb_pct * 100)
+            .loc[list(self.report_from_composition["weights"])]  # Set order of rows
         )
         return {
             "element_net_gross": model_result.loc[:, "element_net_gross"].to_dict(),

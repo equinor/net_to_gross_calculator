@@ -11,6 +11,7 @@ import pyplugs
 
 # Geo:N:G imports
 from app import config
+from app.assets import charts
 from app.assets import panes
 from app.assets import state
 from geong_common.log import logger
@@ -44,6 +45,7 @@ class Model(param.Parameterized):
         self.scenario_name = f"Scenario {len(self._state['scenarios']) + 1}"
         self.net_gross = net_gross
         self.report_from_filter_classes = report_from_filter_classes
+        self.data = charts.data_as_dataframe(report_from_filter_classes, CFG.columns)
 
         try:
             session_id = pn.state.curdoc.session_context.id
@@ -178,10 +180,15 @@ class View:
                                 self.param.porosity_modifier, width=180
                             ),
                         ),
+                        pn.layout.HSpacer(),
+                    ),
+                    pn.layout.Spacer(height=30),
+                    pn.Row(
+                        charts.table_elements(self.data, CFG.columns),
+                        charts.figure_weights(self.data, CFG.columns),
                     ),
                     sizing_mode="stretch_width",
                 ),
-                pn.layout.HSpacer(),
                 pn.Column(
                     "##### Save scenario to report:",
                     pn.Row(
