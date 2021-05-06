@@ -1,7 +1,7 @@
 """Calculate Net:Gross estimates"""
 
 
-def calculate_deep_net_gross(model, composition):
+def calculate_deep_net_gross_model(model, composition):
     """Calculate a net gross estimate based on the given deep composition"""
     net_gross = model.assign(
         bb_pct=lambda df: df.apply(
@@ -34,14 +34,23 @@ def calculate_deep_net_gross(model, composition):
                     ).index
                     net_gross.loc[idx, "cls_ratio"] *= weights.get(value, 0) / 100
 
+    return net_gross.assign(
+        result=lambda df: df.loc[:, ["net_gross", "bb_pct", "cls_ratio"]].prod(
+            axis="columns"
+        )
+    )
+
+
+def calculate_deep_net_gross(model, composition):
+    """Calculate one net gross number"""
     return (
-        net_gross.loc[:, ["net_gross", "bb_pct", "cls_ratio"]]
-        .prod(axis="columns")
+        calculate_deep_net_gross_model(model=model, composition=composition)
+        .loc[:, "result"]
         .sum()
     )
 
 
-def calculate_shallow_net_gross(model, composition):
+def calculate_shallow_net_gross_model(model, composition):
     """Calculate a net gross estimate based on the given shallow composition"""
     net_gross = model.assign(
         bb_pct=lambda df: df.apply(
@@ -53,4 +62,15 @@ def calculate_shallow_net_gross(model, composition):
         ),
     )
 
-    return net_gross.loc[:, ["net_gross", "bb_pct"]].prod(axis="columns").sum()
+    return net_gross.assign(
+        result=lambda df: df.loc[:, ["net_gross", "bb_pct"]].prod(axis="columns")
+    )
+
+
+def calculate_shallow_net_gross(model, composition):
+    """Calculate one net gross number"""
+    return (
+        calculate_shallow_net_gross_model(model=model, composition=composition)
+        .loc[:, "result"]
+        .sum()
+    )
