@@ -66,6 +66,7 @@ class Model(param.Parameterized):
 
         # Initialize parameter values
         self.report_from_set_up = report_from_set_up
+        self.model_result = None
         self._state = state.get_user_state().setdefault(APP, {})
         self.element_widgets = self.layout_element_widgets()
         self.visible_elements = {}
@@ -127,20 +128,15 @@ class Model(param.Parameterized):
     @param.output(param.Dict)
     def report_from_composition(self):
         """Store user input to the final report"""
-        elements_used = self.element_names
-        qualities_used = [f"{e}_quality" for e in elements_used]
+        model_result = self.model_result.query("bb_pct > 0").set_index(
+            "building_block_type"
+        )
         return {
             **self.report_from_set_up,
-            "weights": {
-                self.param.params(k).label: v
-                for k, v in self.param.get_param_values()
-                if k in elements_used
-            },
-            "qualities": {
-                self.param.params(k).label[:-8]: v
-                for k, v in self.param.get_param_values()
-                if k in qualities_used
-            },
+            "weights": model_result.loc[:, "bb_pct"].to_dict(),
+            "qualities": model_result.loc[:, "descriptive_reservoir_quality"].to_dict(),
+            "element_net_gross": (model_result.loc[:, "net_gross"] * 100).to_dict(),
+            "contribution": model_result.loc[:, "result"].to_dict(),
         }
 
     @param.depends("element_names", watch=True)
@@ -196,7 +192,7 @@ class Model(param.Parameterized):
                 self._state["model"] = readers.read_model(
                     reader=config.app.apps.reader, dataset=APP
                 )
-            self.net_gross = net_gross.calculate_shallow_net_gross(
+            self.model_result = net_gross.calculate_shallow_net_gross_model(
                 model=self._state["model"],
                 composition={
                     self.param.params(k).label: v
@@ -204,6 +200,7 @@ class Model(param.Parameterized):
                     if k in ALL_ELEMENTS or k in ALL_QUALITIES
                 },
             )
+            self.net_gross = self.model_result.loc[:, "result"].sum()
         else:
             self.net_gross = float("nan")
 

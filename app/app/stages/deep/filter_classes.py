@@ -95,9 +95,10 @@ class Model(param.Parameterized):
         super().__init__()
 
         # Set up other parameters
+        self.model_result = None
         self._state = state.get_user_state().setdefault(APP, {})
         self.report_from_composition = report_from_composition
-        self.net_gross = net_gross
+        self.estimate_net_gross()
 
     # Output recorded in the final report
     @param.output(param.Dict)
@@ -120,7 +121,17 @@ class Model(param.Parameterized):
                         else param_values[param_name]
                     )
 
-        return {**self.report_from_composition, **params}
+        model_result = (
+            self.model_result.groupby("building_block_type")
+            .agg({"net_gross": "mean", "bb_pct": "max", "result": "sum"})
+            .assign(element_net_gross=lambda df: df.result / df.bb_pct * 100)
+        )
+        return {
+            "element_net_gross": model_result.loc[:, "element_net_gross"].to_dict(),
+            "contribution": model_result.loc[:, "result"].to_dict(),
+            **self.report_from_composition,
+            **params,
+        }
 
     def filter_class_model_input(self):
         """Input to the model from filter classes"""
@@ -138,13 +149,14 @@ class Model(param.Parameterized):
 
     @param.depends(*ALL_PARAMS, watch=True)
     def estimate_net_gross(self):
-        self.net_gross = net_gross.calculate_deep_net_gross(
+        self.model_result = net_gross.calculate_deep_net_gross_model(
             model=self._state["model"],
             composition={
-                **self.report_from_composition,
+                "building_block_type": self.report_from_composition["weights"],
                 **self.filter_class_model_input(),
             },
         )
+        self.net_gross = self.model_result.loc[:, "result"].sum()
 
 
 class View:

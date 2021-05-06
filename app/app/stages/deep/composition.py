@@ -84,7 +84,7 @@ class Model(param.Parameterized):
         """Store user input to the final report"""
         return {
             **self.report_from_set_up,
-            "building_block_type": {
+            "weights": {
                 self.param.params(k).label: v
                 for k, v in self.param.get_param_values()
                 if k in ALL_ELEMENTS
@@ -94,26 +94,23 @@ class Model(param.Parameterized):
     @param.depends(*ALL_ELEMENTS, watch=True)
     def estimate_net_gross(self):
         if self.sum_to_100:
-            self.net_gross = self.calculate_net_gross(
-                {
+            if "model" not in self._state:
+                self._state["model"] = readers.read_model(
+                    reader=config.app.apps.reader, dataset=APP
+                )
+            self.net_gross = net_gross.calculate_deep_net_gross(
+                model=self._state["model"],
+                composition={
                     **self._initial_filter_classes,
                     "building_block_type": {
                         self.param.params(k).label: v
                         for k, v in self.param.get_param_values()
                         if k in ALL_ELEMENTS
                     },
-                }
+                },
             )
         else:
             self.net_gross = float("nan")
-
-    def calculate_net_gross(self, composition):
-        """Calculate a net gross estimate based on the given composition"""
-        if "model" not in self._state:
-            self._state["model"] = readers.read_model(
-                reader=config.app.apps.reader, dataset=APP
-            )
-        return net_gross.calculate_deep_net_gross(self._state["model"], composition)
 
 
 class View:

@@ -106,9 +106,14 @@ def add_chart(placeholder, content, data):
         chart.add_series(series_name, values)
 
     # Insert chart
-    placeholder.insert_chart(
+    chart = placeholder.insert_chart(
         getattr(pptx_charts.XL_CHART_TYPE, content.type.upper()), chart
-    )
+    ).chart
+
+    # Add legend
+    chart.has_legend = True
+    chart.legend.position = pptx_charts.XL_LEGEND_POSITION.RIGHT
+    chart.legend.include_in_layout = False
 
 
 @pyplugs.register

@@ -318,12 +318,21 @@ reader           = "api"
             table.content        = "ref:set_up"
 
             [[report.deep_net_gross_ppt.scenarios.slide]]
-            layout               = "chart_table"
-            title                = "Element Composition"
-            chart.type           = "chart"
-            chart.content        = "ref:composition"
-            table.type           = "table"
-            table.content        = "ref:composition"
+            layout                       = "table"
+            title                        = "Element Composition"
+            table.type                   = "table"
+            table.content.index_name     = "Element"
+            table.content.column_names   = ["Element Net:Gross", "Weight", "Contribution"]
+            table.content.data           = ["element_net_gross", "weights", "contribution"]
+            table.content.formats        = ["{:.0f} %", "{:.0f} %", "{:.1f} pp"]
+
+            [[report.deep_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart"
+            title                        = "Element Composition"
+            chart.type                   = "chart"
+            chart.content.type           = "bar_clustered"
+            chart.content.series_names   = ["Weight", "Contribution"]
+            chart.content.data           = ["weights", "contribution"]
 
             [[report.deep_net_gross_ppt.scenarios.slide]]
             layout                       = "chart_table"
@@ -405,22 +414,12 @@ reader           = "api"
 
             [report.deep_net_gross_ppt.scenarios.content]
 
-                [report.deep_net_gross_ppt.scenarios.content.chart.composition]
-                type                 = "bar_clustered"
-                series_names         = ["Weight"]
-                data                 = ["building_block_type"]
-
                 [report.deep_net_gross_ppt.scenarios.content.table.set_up]
                 index_name           = "Question"
                 column_names         = ["Value"]
                 data                 = ["set_up"]
                 formats              = [""]
 
-                [report.deep_net_gross_ppt.scenarios.content.table.composition]
-                index_name           = "Element"
-                column_names         = ["Weight"]
-                data                 = ["building_block_type"]
-                formats              = ["{} %"]
 
     [report.shallow_net_gross_ppt]
     generator = "powerpoint"
@@ -464,28 +463,26 @@ reader           = "api"
             table.content        = "ref:set_up"
 
             [[report.shallow_net_gross_ppt.scenarios.slide]]
-            layout               = "chart_table"
-            title                = "Element Composition"
-            chart.type           = "chart"
-            chart.content        = "ref:composition"
-            table.type           = "table"
-            table.content        = "ref:composition"
+            layout                       = "table"
+            title                        = "Element Composition"
+            table.type                   = "table"
+            table.content.index_name     = "Element"
+            table.content.column_names   = ["Quality Bracket", "Element Net:Gross", "Weight", "Contribution"]
+            table.content.data           = ["qualities", "element_net_gross", "weights", "contribution"]
+            table.content.formats        = ["", "{:.0f} %", "{:.0f} %", "{:.1f} pp"]
+
+            [[report.shallow_net_gross_ppt.scenarios.slide]]
+            layout                       = "chart"
+            title                        = "Element Composition"
+            chart.type                   = "chart"
+            chart.content.type           = "bar_clustered"
+            chart.content.series_names   = ["Weight", "Contribution"]
+            chart.content.data           = ["weights", "contribution"]
 
             [report.shallow_net_gross_ppt.scenarios.content]
-
-                [report.shallow_net_gross_ppt.scenarios.content.chart.composition]
-                type                 = "bar_clustered"
-                series_names         = ["Weight"]
-                data                 = ["weights"]
 
                 [report.shallow_net_gross_ppt.scenarios.content.table.set_up]
                 index_name           = "Question"
                 column_names         = ["Value"]
                 data                 = ["set_up"]
                 formats              = [""]
-
-                [report.shallow_net_gross_ppt.scenarios.content.table.composition]
-                index_name           = "Element"
-                column_names         = ["Weight", "Quality Bracket"]
-                data                 = ["weights", "qualities"]
-                formats              = ["{} %", ""]
