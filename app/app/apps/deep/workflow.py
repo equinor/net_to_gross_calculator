@@ -29,7 +29,7 @@ def view():
     # Use pipeline.layout to render the default layout or use pipeline.title,
     # .buttons, .network, .stage etc to create a custom layout
     return [
-        pipeline.network,
+        pn.layout.Spacer(height=30),
         pipeline.error,
         pipeline.stage,
         pipeline.buttons,
