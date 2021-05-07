@@ -50,3 +50,15 @@ def figure_weights(data, columns):
         ).opts(invert_axes=True, multi_level=False, legend_position="bottom_right"),
         sizing_mode="stretch_width",
     )
+
+
+def table_filter_class(weights):
+    """Table showing filter class composition"""
+    data = pd.DataFrame({"Weight": weights}).rename_axis(index="Filter Class")
+    return pn.widgets.Tabulator(data)
+
+
+def figure_filter_class(index, weights):
+    """Bar chart visualizing filter class composition"""
+    data = pd.DataFrame({"Weight": weights}).rename_axis(index=index)
+    return pn.pane.HoloViews(hv.Bars(data), sizing_mode="stretch_width")

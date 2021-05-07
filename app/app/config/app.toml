@@ -219,6 +219,30 @@ reader           = "api"
             weights              =  "Weight"
             contribution         =  "Contribution"
 
+            [[stages.deep.result.tab]]
+            label                = "Lobe: Spatial Position"
+            data_key             = "lobe_spatial"
+
+            [[stages.deep.result.tab]]
+            label                = "Lobe: Confinement"
+            data_key             = "lobe_confinement"
+
+            [[stages.deep.result.tab]]
+            label                = "Lobe: Bed Type"
+            data_key             = "lobe_conventional"
+
+            [[stages.deep.result.tab]]
+            label                = "Lobe: Archetypes"
+            data_key             = "lobe_architectural"
+
+            [[stages.deep.result.tab]]
+            label                = "Channel Fill: Spatial Position"
+            data_key             = "chan_relative"
+
+            [[stages.deep.result.tab]]
+            label                = "Channel Fill: Archetypes"
+            data_key             = "chan_architectural"
+
         [stages.deep.report]
         label            = "Final Report"
         report           = "deep_net_gross_ppt"

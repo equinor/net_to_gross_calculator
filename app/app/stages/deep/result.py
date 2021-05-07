@@ -154,6 +154,25 @@ class Model(param.Parameterized):
 class View:
     """Define the look and feel of the stage"""
 
+    @property
+    def filter_class_tabs(self):
+        """Add tabs with visualizations of each filter class"""
+        data = self.report_from_filter_classes
+        tabs = [
+            (
+                t.label,
+                pn.Row(
+                    charts.table_filter_class(data[t.data_key]),
+                    charts.figure_filter_class(t.label, data[t.data_key]),
+                ),
+            )
+            for t in CFG.tab
+        ]
+
+        return pn.layout.Tabs(
+            *tabs, dynamic=True, tabs_location="above", sizing_mode="stretch_width"
+        )
+
     def panel(self):
         return pn.Column(
             pn.Row(
@@ -187,6 +206,7 @@ class View:
                         charts.table_elements(self.data, CFG.columns),
                         charts.figure_weights(self.data, CFG.columns),
                     ),
+                    self.filter_class_tabs,
                     sizing_mode="stretch_width",
                 ),
                 pn.Column(
