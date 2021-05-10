@@ -201,18 +201,11 @@ reader           = "api"
                 Currently, the weights sum to **{total:.0f}%**
                 """
 
-            [stages.deep.composition.params]
-            ready_parameter  = "sum_to_100"
-
         [stages.deep.filter_classes]
         label            = "Lobe/Channel Filters"
 
         [stages.deep.result]
         label            = "Result"
-
-            [stages.deep.result.params]
-            ready_parameter  = "ready"
-            auto_advance     = true
 
             [stages.deep.result.columns]
             element_net_gross    =  "Element N:G"
@@ -284,23 +277,14 @@ reader           = "api"
                 data observations support outlier quality.
                 """
 
-
-            [stages.shallow.composition.params]
-            ready_parameter  = "sum_to_100"
-
         [stages.shallow.result]
         label            = "Result"
-
-            [stages.shallow.result.params]
-            ready_parameter  = "ready"
-            auto_advance     = true
 
             [stages.shallow.result.columns]
             qualities            =  "Quality Bracket"
             element_net_gross    =  "Element Net:Gross"
             weights              =  "Weight"
             contribution         =  "Contribution"
-
 
         [stages.shallow.report]
         label            = "Final Report"

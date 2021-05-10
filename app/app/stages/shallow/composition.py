@@ -44,7 +44,6 @@ class Model(param.Parameterized):
     report_from_set_up = param.Dict()
 
     # Parameters for the current stage
-    sum_to_100 = param.Boolean(default=True)
     net_gross = param.Number(
         float("nan"), label="Calculated Net/Gross", softbounds=(0, 100)
     )
@@ -110,8 +109,8 @@ class Model(param.Parameterized):
 
     @param.depends(*ALL_ELEMENTS, watch=True)
     def adds_to_100_percent(self):
-        """Ensure that the different weights add up to 100%"""
-        self.sum_to_100 = self.total == 100
+        """Only enable next stage if the weights add up to 100%"""
+        self.next_stage_button.disabled = self.total != 100
 
     @param.depends("element_names", *ALL_ELEMENTS, *ALL_QUALITIES)
     def warnings(self):
@@ -187,7 +186,7 @@ class Model(param.Parameterized):
 
     @param.depends("element_names", *ALL_ELEMENTS, *ALL_QUALITIES, watch=True)
     def estimate_net_gross(self):
-        if self.sum_to_100:
+        if self.total == 100:
             if "model" not in self._state:
                 self._state["model"] = readers.read_model(
                     reader=config.app.apps.reader, dataset=APP
@@ -207,6 +206,8 @@ class Model(param.Parameterized):
 
 class View:
     """Define the look and feel of the stage"""
+
+    next_stage_button = panes.next_stage_button(APP)
 
     def layout_element_widgets(self):
         """Add header line on top of element widgets container"""
@@ -264,6 +265,8 @@ class View:
                     panes.warning(
                         CFG.warnings.customize_quality_text, alert_type="light"
                     ),
+                    pn.layout.Spacer(height=20),
+                    pn.Row(panes.previous_stage_button(APP), self.next_stage_button),
                 ),
             ),
             self.warnings,

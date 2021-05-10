@@ -13,6 +13,7 @@ from pyconfs.configuration import Variables
 
 # Geo:N:G imports
 from app import config
+from app.assets import state
 from geong_common import files
 from geong_common import readers
 
@@ -54,6 +55,32 @@ def popup(label, text="?"):
     )
 
     return f"[<abbr>{text}<span>{popup_html}</span></abbr>]"
+
+
+def pipeline_button(app, text, trigger, button_type="success", width=125):
+    """Trigger a parameter on the pipeline"""
+
+    def trigger_param(event):
+        """Trigger a parameter"""
+        pipeline = state.get_user_state().get(app, {}).get("pipeline")
+        if not pipeline:
+            raise ValueError("No pipeline is available")
+
+        pipeline.param.trigger(trigger)
+
+    button = pn.widgets.Button(name=text, button_type=button_type, width=width)
+    button.on_click(trigger_param)
+    return button
+
+
+def next_stage_button(app, text="Next", button_type="success"):
+    """Trigger the next stage"""
+    return pipeline_button(app, text=text, trigger="next", button_type=button_type)
+
+
+def previous_stage_button(app, text="Previous", button_type="default"):
+    """Trigger the previous stage"""
+    return pipeline_button(app, text=text, trigger="previous", button_type=button_type)
 
 
 def multiple_choice(param, popup_label=None):

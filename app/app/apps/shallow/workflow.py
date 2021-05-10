@@ -7,6 +7,7 @@ import pyplugs
 # Geo:N:G imports
 from app import config
 from app import stages
+from app.assets import state
 from geong_common.log import logger
 
 # Read configuration
@@ -19,6 +20,7 @@ def view():
     """Add stages defined in config to a workflow pipeline"""
     stages_cfg = config.app.stages[APP]
     pipeline = pn.pipeline.Pipeline(debug=logger.is_dev)
+    state.get_user_state().setdefault(APP, {})["pipeline"] = pipeline
     for stage in CFG.stages:
         pipeline.add_stage(
             stages_cfg[stage].label,
@@ -28,9 +30,4 @@ def view():
 
     # Use pipeline.layout to render the default layout or use pipeline.title,
     # .buttons, .network, .stage etc to create a custom layout
-    return [
-        pn.layout.Spacer(height=30),
-        pipeline.error,
-        pipeline.stage,
-        pipeline.buttons,
-    ]
+    return [pn.layout.Spacer(height=30), pipeline.error, pipeline.stage]
