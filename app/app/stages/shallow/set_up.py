@@ -18,6 +18,7 @@ from geong_common.data import composition
 class Model(param.Parameterized):
     """Data defining this stage"""
 
+    # Parameters representing questions for the user
     composition_threshold = param.Selector(
         {
             "Simple composition": 12,
@@ -103,6 +104,8 @@ class View:
             panes.multiple_choice(self.param.depositional_setting),
             panes.multiple_choice(self.param.stratigraphic_scale),
             panes.multiple_choice(self.param.reservoir_quality),
+            pn.layout.Spacer(height=20),
+            panes.next_stage_button(APP),
             sizing_mode="stretch_width",
         )
 

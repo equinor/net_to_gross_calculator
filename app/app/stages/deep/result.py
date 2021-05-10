@@ -130,19 +130,10 @@ class Model(param.Parameterized):
             reset_button = self._state["update_view"]["workflow"]
             reset_button.clicks += 1
 
-        button = pn.widgets.Button(name="New Scenario", width=120)
+        button = pn.widgets.Button(
+            name="New Scenario", button_type="success", width=125
+        )
         button.on_click(restart_scenario)
-        return button
-
-    def finalize_workflow_button(self):
-        """Button for finalizing workflow (moving on to final stage)"""
-
-        def next_stage(event):
-            """Move to next stage to finish workflow"""
-            self.ready = True
-
-        button = pn.widgets.Button(name="Finalize Report", width=120)
-        button.on_click(next_stage)
         return button
 
     @param.output(param.List)
@@ -211,17 +202,17 @@ class View:
                 ),
                 pn.Column(
                     "##### Save scenario to report:",
-                    pn.Row(
-                        pn.widgets.TextInput.from_param(self.param.scenario_name),
-                        pn.Column(
-                            self.new_scenario_button,
-                            self.finalize_workflow_button,
-                        ),
-                    ),
+                    pn.widgets.TextInput.from_param(self.param.scenario_name),
                     self.scenario_table,
+                    pn.layout.Spacer(height=20),
+                    pn.Row(
+                        pn.layout.HSpacer(),
+                        self.new_scenario_button,
+                        panes.next_stage_button(APP, text="Finalize Report"),
+                        pn.layout.HSpacer(),
+                    ),
                 ),
             ),
-            pn.layout.Spacer(height=30),
             sizing_mode="stretch_width",
         )
 

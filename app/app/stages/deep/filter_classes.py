@@ -210,6 +210,8 @@ class View:
                     default_color="red",
                     colors=[(100, "black")],
                 ),
+                pn.layout.Spacer(height=20),
+                pn.Row(panes.previous_stage_button(APP), panes.next_stage_button(APP)),
             ),
             pn.layout.HSpacer(),
             sizing_mode="stretch_width",

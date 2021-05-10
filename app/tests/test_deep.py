@@ -179,14 +179,14 @@ def test_composition_of_no_matching_elements():
 def test_next_enabled_when_weights_total_100():
     stage = get_stage("composition")
 
-    assert stage.total == 100 and stage.sum_to_100
+    assert stage.total == 100 and not stage.next_stage_button.disabled
 
 
 def test_next_disabled_when_weights_dont_total_100():
     stage = get_stage("composition")
     stage.lobe += 1
 
-    assert stage.total != 100 and not stage.sum_to_100
+    assert stage.total != 100 and stage.next_stage_button.disabled
 
 
 def test_output_from_result():
