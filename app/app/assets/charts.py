@@ -29,6 +29,7 @@ def table_elements(data, columns):
             weights=lambda df: df.loc[:, "weights"] / 100,
             element_net_gross=lambda df: df.loc[:, "element_net_gross"] / 100,
         ),
+        disabled=True,
         titles=columns.as_dict(),
         layout="fit_data_fill",
         formatters=formatters,
@@ -55,7 +56,7 @@ def figure_weights(data, columns):
 def table_filter_class(weights):
     """Table showing filter class composition"""
     data = pd.DataFrame({"Weight": weights}).rename_axis(index="Filter Class")
-    return pn.widgets.Tabulator(data)
+    return pn.widgets.Tabulator(data, disabled=True)
 
 
 def figure_filter_class(index, weights):
