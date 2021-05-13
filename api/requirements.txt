@@ -44,7 +44,7 @@ pyconfs[toml]==0.5.1
     # via -r requirements.in
 pycparser==2.20
     # via cffi
-pydantic==1.8.1
+pydantic==1.8.2
     # via fastapi
 pyjwt==2.0.1
     # via -r requirements.in
