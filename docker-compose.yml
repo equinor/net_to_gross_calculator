@@ -33,14 +33,16 @@ services:
       - APPLICATIONINSIGHTS_INSTRUMENTATION_KEY
       - CONTEXT=app
       - API_URL=http://api:5000
-      - ASSET_INSTRUCTIONS=http://assets:8080/instructions
-      - RAW_CSS=http://assets:8080/css/geong.css http://assets:8080/css/equinor_theme.css
-      - CSS_FILES=https://eds-static.equinor.com/font/equinor-font.css
-      - FAVICON=http://assets:8080/images/favicon.ico
-      - LOGO=https://www.equinor.com/etc.clientlibs/statoil/clientlibs/clientlib/resources/images/page/equinor-logo.svg
+      - ASSET_INSTRUCTIONS
+      - RAW_CSS
+      - CSS_FILES
+      - FAVICON
+      - LOGO
       - HEADER_COLOR=#ffffff
       - HEADER_BACKGROUND=#007079
-      - REPORT_TEMPLATE=http://assets:8080/templates/equinor_pptx.toml
+      - REPORT_TEMPLATE
+    depends_on:
+      - api
   oauth2-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v6.1.1
     depends_on:
