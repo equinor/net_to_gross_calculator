@@ -33,7 +33,11 @@ def headline(label, popup_label=None):
 
 def markdown_from_url(url, **markdown_args):
     """Create a Markdown pane by getting the markdown string from a URL"""
-    markdown = files.get_url_or_asset(url, local_assets="app.assets").read_text()
+    markdown = (
+        files.get_url_or_asset(url, local_assets="app.assets")
+        .read_text()
+        .format_map(Variables(**config.app.vars))
+    )
     return pn.pane.Markdown(markdown, **markdown_args)
 
 
