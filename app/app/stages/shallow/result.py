@@ -165,7 +165,11 @@ class View:
                                     font_size="36pt",
                                     title_size="14pt",
                                 ),
-                                pn.pane.HTML(panes.popup("shallow_porosity_modifier")),
+                                pn.pane.HTML(
+                                    panes.popup(
+                                        "shallow_porosity_modifier", style="left:-450px"
+                                    )
+                                ),
                             ),
                             pn.widgets.IntInput.from_param(
                                 self.param.porosity_modifier, width=180

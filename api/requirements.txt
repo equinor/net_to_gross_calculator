@@ -77,7 +77,7 @@ typer==0.3.2
     # via -r requirements.in
 typing-extensions==3.7.4.3
     # via pydantic
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 uvicorn==0.13.4
     # via -r requirements.in

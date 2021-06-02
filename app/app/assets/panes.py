@@ -18,7 +18,7 @@ from geong_common import files
 from geong_common import readers
 
 
-def headline(label, popup_label=None):
+def headline(label, popup_label=None, style=None):
     """Create an HTML headline pane for the given parameter"""
     widget = pn.Row(
         pn.pane.HTML(
@@ -26,7 +26,7 @@ def headline(label, popup_label=None):
         )
     )
     if popup_label is not None:
-        widget.insert(0, pn.pane.HTML(popup(label=popup_label)))
+        widget.insert(0, pn.pane.HTML(popup(label=popup_label, style=style)))
 
     return widget
 
@@ -46,7 +46,7 @@ def warning(text, label="Warning", alert_type="danger"):
     return pn.pane.Alert(f"**{label}:** {textwrap.dedent(text)}", alert_type=alert_type)
 
 
-def popup(label, text="?"):
+def popup(label, text="?", style=None):
     """Create HTML for a popup tip based on a label that corresponds to templates"""
     popup_html = (
         files.get_url_or_asset(
@@ -57,8 +57,12 @@ def popup(label, text="?"):
         .read_text()
         .format_map(Variables(**config.app.vars))  # Interpolate with config variables
     )
+    if style is None:
+        style = ""
+    else:
+        style = f' style="{style}"'
 
-    return f"[<abbr>{text}<span>{popup_html}</span></abbr>]"
+    return f"[<abbr>{text}<span{style}>{popup_html}</span></abbr>]"
 
 
 def pipeline_button(app, text, trigger, button_type="success", width=125):
@@ -178,7 +182,7 @@ def division_slider(
             widget.collapsed = var_ignore
 
     if popup_label is not None:
-        widget[-1].append(popup(label=popup_label))
+        widget[-1].append(popup(label=popup_label, style="left:-450px"))
 
     return widget
 
