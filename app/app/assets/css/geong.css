@@ -46,10 +46,10 @@ abbr span, div.tip div {
     padding: 12px;
     margin: 20px;
     width: 800px;
-    border: 3px solid #000000;
+    border: 1px solid #000000;
     border-radius: 12px;
     box-shadow: 2px 2px 4px rgba(96, 128, 96, .5);
-    background: linear-gradient(#ffffff, #cccccc);
+    background: #ffffff;
     visibility: hidden;
     opacity: 0;
     -webkit-transition:
