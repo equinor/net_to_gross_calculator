@@ -41,7 +41,7 @@ cryptography==3.4.6
     # via
     #   -r requirements.txt
     #   azure-storage-blob
-fastapi==0.63.0
+fastapi==0.65.2
     # via -r requirements.txt
 flake8==3.9.0
     # via -r requirements_dev.in
@@ -152,7 +152,7 @@ six==1.15.0
     #   isodate
     #   python-dateutil
     #   requests-mock
-starlette==0.13.6
+starlette==0.14.2
     # via
     #   -r requirements.txt
     #   fastapi

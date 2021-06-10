@@ -22,7 +22,7 @@ click==7.1.2
     #   uvicorn
 cryptography==3.4.6
     # via azure-storage-blob
-fastapi==0.63.0
+fastapi==0.65.2
     # via -r requirements.in
 h11==0.12.0
     # via uvicorn
@@ -69,7 +69,7 @@ six==1.15.0
     #   azure-core
     #   isodate
     #   python-dateutil
-starlette==0.13.6
+starlette==0.14.2
     # via fastapi
 toml==0.10.2
     # via pyconfs
