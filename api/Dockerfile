@@ -5,7 +5,7 @@
 # You can then run it as a container:
 #
 #     $ docker run --rm -p 5000:5000 geong_api
-FROM python:3.8.7-slim-buster
+FROM python:3.8.10-slim-buster
 
 # Install Python dependencies with pip
 COPY ./api/requirements.txt ./api/

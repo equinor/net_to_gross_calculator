@@ -6,7 +6,7 @@
 #
 #     $ docker run --rm -p 8080:8080 geong_app
 
-FROM python:3.8.7-slim-buster
+FROM python:3.8.10-slim-buster
 
 # Install Python dependencies with pip
 COPY ./app/requirements.txt ./app/
