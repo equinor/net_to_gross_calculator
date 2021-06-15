@@ -4,11 +4,13 @@
 #
 #    pip-compile requirements.in
 #
-azure-core==1.12.0
+asgiref==3.3.4
+    # via uvicorn
+azure-core==1.15.0
     # via azure-storage-blob
-azure-storage-blob==12.8.0
+azure-storage-blob==12.8.1
     # via -r requirements.in
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   msrest
     #   requests
@@ -20,9 +22,9 @@ click==7.1.2
     # via
     #   typer
     #   uvicorn
-cryptography==3.4.6
+cryptography==3.4.7
     # via azure-storage-blob
-fastapi==0.63.0
+fastapi==0.65.2
     # via -r requirements.in
 h11==0.12.0
     # via uvicorn
@@ -34,25 +36,25 @@ loguru==0.5.3
     # via -r requirements.in
 msrest==0.6.21
     # via azure-storage-blob
-numpy==1.20.1
+numpy==1.20.3
     # via pandas
-oauthlib==3.1.0
+oauthlib==3.1.1
     # via requests-oauthlib
-pandas==1.2.3
+pandas==1.2.4
     # via -r requirements.in
-pyconfs[toml]==0.5.1
+pyconfs[toml]==0.5.2
     # via -r requirements.in
 pycparser==2.20
     # via cffi
 pydantic==1.8.2
     # via fastapi
-pyjwt==2.0.1
+pyjwt==2.1.0
     # via -r requirements.in
 pyplugs==0.4.0
     # via pyconfs
 python-dateutil==2.8.1
     # via pandas
-python-dotenv==0.15.0
+python-dotenv==0.17.1
     # via -r requirements.in
 pytz==2021.1
     # via pandas
@@ -64,20 +66,20 @@ requests==2.25.1
     #   azure-core
     #   msrest
     #   requests-oauthlib
-six==1.15.0
+six==1.16.0
     # via
     #   azure-core
     #   isodate
     #   python-dateutil
-starlette==0.13.6
+starlette==0.14.2
     # via fastapi
 toml==0.10.2
     # via pyconfs
 typer==0.3.2
     # via -r requirements.in
-typing-extensions==3.7.4.3
+typing-extensions==3.10.0.0
     # via pydantic
 urllib3==1.26.5
     # via requests
-uvicorn==0.13.4
+uvicorn==0.14.0
     # via -r requirements.in
