@@ -107,7 +107,7 @@ param==1.10.1
     #   pyviz-comms
 pathspec==0.8.1
     # via black
-pillow==8.2.0
+pillow==8.3.2
     # via
     #   -r requirements.txt
     #   bokeh
@@ -138,12 +138,12 @@ pyplugs==0.4.0
     # via
     #   -r requirements.txt
     #   pyconfs
-pytest-cov==2.12.1
-    # via -r requirements_dev.in
 pytest==6.2.4
     # via
     #   -r requirements_dev.in
     #   pytest-cov
+pytest-cov==2.12.1
+    # via -r requirements_dev.in
 python-dateutil==2.8.1
     # via
     #   -r requirements.txt
