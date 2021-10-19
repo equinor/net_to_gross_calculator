@@ -4,63 +4,67 @@
 #
 #    pip-compile requirements.in
 #
-asgiref==3.3.4
+anyio==3.3.4
+    # via starlette
+asgiref==3.4.1
     # via uvicorn
-azure-core==1.15.0
+azure-core==1.19.0
     # via azure-storage-blob
-azure-storage-blob==12.8.1
+azure-storage-blob==12.9.0
     # via -r requirements.in
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   msrest
     #   requests
-cffi==1.14.5
+cffi==1.15.0
     # via cryptography
-chardet==4.0.0
+charset-normalizer==2.0.7
     # via requests
-click==7.1.2
+click==8.0.3
     # via
     #   typer
     #   uvicorn
-cryptography==3.4.7
+cryptography==35.0.0
     # via azure-storage-blob
-fastapi==0.65.2
+fastapi==0.70.0
     # via -r requirements.in
 h11==0.12.0
     # via uvicorn
-idna==2.10
-    # via requests
+idna==3.3
+    # via
+    #   anyio
+    #   requests
 isodate==0.6.0
     # via msrest
 loguru==0.5.3
     # via -r requirements.in
 msrest==0.6.21
     # via azure-storage-blob
-numpy==1.20.3
+numpy==1.21.2
     # via pandas
 oauthlib==3.1.1
     # via requests-oauthlib
-pandas==1.2.4
+pandas==1.3.4
     # via -r requirements.in
-pyconfs[toml]==0.5.2
+pyconfs[toml]==0.5.4
     # via -r requirements.in
 pycparser==2.20
     # via cffi
 pydantic==1.8.2
     # via fastapi
-pyjwt==2.1.0
+pyjwt==2.3.0
     # via -r requirements.in
 pyplugs==0.4.0
     # via pyconfs
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via pandas
-python-dotenv==0.17.1
+python-dotenv==0.19.1
     # via -r requirements.in
-pytz==2021.1
+pytz==2021.3
     # via pandas
 requests-oauthlib==1.3.0
     # via msrest
-requests==2.25.1
+requests==2.26.0
     # via
     #   -r requirements.in
     #   azure-core
@@ -71,15 +75,17 @@ six==1.16.0
     #   azure-core
     #   isodate
     #   python-dateutil
-starlette==0.14.2
+sniffio==1.2.0
+    # via anyio
+starlette==0.16.0
     # via fastapi
 toml==0.10.2
     # via pyconfs
-typer==0.3.2
+typer==0.4.0
     # via -r requirements.in
-typing-extensions==3.10.0.0
+typing-extensions==3.10.0.2
     # via pydantic
-urllib3==1.26.5
+urllib3==1.26.7
     # via requests
-uvicorn==0.14.0
+uvicorn==0.15.0
     # via -r requirements.in
