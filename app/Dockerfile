@@ -5,16 +5,19 @@
 # You can then run it as a container:
 #
 #     $ docker run --rm -p 8080:8080 geong_app
-
 FROM python:3.8.12-slim-buster
+
+ENV HOME /home/u
+RUN mkdir -p $HOME
+RUN chown 2000:2000 $HOME
+USER 2000:2000
+WORKDIR $HOME
+ENV PATH $PATH:$HOME/.local/bin
 
 # Install Python dependencies with pip
 COPY ./app/requirements.txt ./app/
 RUN python -m pip install -r ./app/requirements.txt \
     --no-cache-dir --disable-pip-version-check
-
-# Create working directory
-WORKDIR /src
 
 # Install geong_common
 COPY ./geong_common/geong_common ./geong_common/geong_common
@@ -26,9 +29,6 @@ RUN python -m pip install ./geong_common --no-cache-dir --disable-pip-version-ch
 COPY ./app/app ./app/app
 COPY ./app/MANIFEST.in ./app/setup.py ./app/setup.cfg ./app/pyproject.toml ./app/
 RUN python -m pip install ./app --no-cache-dir --disable-pip-version-check
-
-# Don't run as root
-USER 2000:2000
 
 LABEL org.opencontainers.image.source https://github.com/equinor/geong
 
