@@ -57,7 +57,7 @@ param==1.11.1
     #   panel
     #   pyct
     #   pyviz-comms
-pillow==8.4.0
+pillow==9.0.0
     # via bokeh
 pyconfs[toml]==0.5.4
     # via -r requirements.in
