@@ -5,7 +5,7 @@
 # You can then run it as a container:
 #
 #     $ docker run --rm -p 8080:8080 geong_app
-FROM python:3.8.12-slim-buster
+FROM python:3.10.2-slim-buster
 
 ENV HOME /home/u
 RUN mkdir -p $HOME
