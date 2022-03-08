@@ -15,20 +15,24 @@ WORKDIR $HOME
 ENV PATH $PATH:$HOME/.local/bin
 
 # Install Python dependencies with pip
+RUN mkdir api
 COPY ./api/requirements.txt ./api/
-RUN python -m pip install -r ./api/requirements.txt \
-    --no-cache-dir --disable-pip-version-check
+RUN python -m pip install -r ./api/requirements.txt\
+ --no-cache-dir --disable-pip-version-check --use-feature=in-tree-build 
 
 # Install geong_common
+RUN mkdir geong_common
 COPY ./geong_common/geong_common ./geong_common/geong_common
-COPY ./geong_common/MANIFEST.in ./geong_common/setup.py ./geong_common/setup.cfg \
-    ./geong_common/pyproject.toml ./geong_common/
-RUN python -m pip install ./geong_common/ --no-cache-dir --disable-pip-version-check
+COPY ./geong_common/MANIFEST.in ./geong_common/setup.py ./geong_common/setup.cfg\
+ ./geong_common/pyproject.toml ./geong_common/
+RUN python -m pip install ./geong_common/ --no-cache-dir\
+ --disable-pip-version-check --use-feature=in-tree-build
 
 # Install api
 COPY ./api/MANIFEST.in ./api/setup.py ./api/setup.cfg ./api/pyproject.toml ./api/
 COPY ./api/api ./api/api
-RUN python -m pip install ./api --no-cache-dir --disable-pip-version-check
+RUN python -m pip install ./api --no-cache-dir --disable-pip-version-check\
+ --use-feature=in-tree-build
 
 LABEL org.opencontainers.image.source https://github.com/equinor/geong
 
