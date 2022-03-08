@@ -4,11 +4,11 @@
 #
 #    pip-compile requirements.in
 #
-anyio==3.3.4
+anyio==3.5.0
     # via starlette
-asgiref==3.4.1
+asgiref==3.5.0
     # via uvicorn
-azure-core==1.19.0
+azure-core==1.23.0
     # via azure-storage-blob
 azure-storage-blob==12.9.0
     # via -r requirements.in
@@ -18,39 +18,39 @@ certifi==2021.10.8
     #   requests
 cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.7
+charset-normalizer==2.0.12
     # via requests
-click==8.0.3
+click==8.0.4
     # via
     #   typer
     #   uvicorn
-cryptography==35.0.0
+cryptography==36.0.1
     # via azure-storage-blob
-fastapi==0.70.0
+fastapi==0.75.0
     # via -r requirements.in
-h11==0.12.0
+h11==0.13.0
     # via uvicorn
 idna==3.3
     # via
     #   anyio
     #   requests
-isodate==0.6.0
+isodate==0.6.1
     # via msrest
-loguru==0.5.3
+loguru==0.6.0
     # via -r requirements.in
 msrest==0.6.21
     # via azure-storage-blob
-numpy==1.21.2
+numpy==1.22.3
     # via pandas
-oauthlib==3.1.1
+oauthlib==3.2.0
     # via requests-oauthlib
-pandas==1.3.4
+pandas==1.4.1
     # via -r requirements.in
-pyconfs[toml]==0.5.4
+pyconfs[toml]==0.5.5
     # via -r requirements.in
-pycparser==2.20
+pycparser==2.21
     # via cffi
-pydantic==1.8.2
+pydantic==1.9.0
     # via fastapi
 pyjwt==2.3.0
     # via -r requirements.in
@@ -58,13 +58,13 @@ pyplugs==0.4.0
     # via pyconfs
 python-dateutil==2.8.2
     # via pandas
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via -r requirements.in
 pytz==2021.3
     # via pandas
-requests-oauthlib==1.3.0
+requests-oauthlib==1.3.1
     # via msrest
-requests==2.26.0
+requests==2.27.1
     # via
     #   -r requirements.in
     #   azure-core
@@ -77,15 +77,17 @@ six==1.16.0
     #   python-dateutil
 sniffio==1.2.0
     # via anyio
-starlette==0.16.0
+starlette==0.17.1
     # via fastapi
 toml==0.10.2
     # via pyconfs
 typer==0.4.0
     # via -r requirements.in
-typing-extensions==3.10.0.2
-    # via pydantic
-urllib3==1.26.7
+typing-extensions==4.1.1
+    # via
+    #   azure-core
+    #   pydantic
+urllib3==1.26.8
     # via requests
-uvicorn==0.15.0
+uvicorn==0.17.5
     # via -r requirements.in
