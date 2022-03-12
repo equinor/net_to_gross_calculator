@@ -13,7 +13,7 @@ attrs==21.2.0
     #   outcome
     #   pytest
     #   trio
-backports.entry-points-selectable==1.1.0
+backports-entry-points-selectable==1.1.0
     # via virtualenv
 black==21.9b0
     # via -r requirements_dev.in
@@ -130,7 +130,7 @@ param==1.11.1
     #   pyviz-comms
 pathspec==0.9.0
     # via black
-pillow==9.0.0
+pillow==9.0.1
     # via
     #   -r requirements.txt
     #   bokeh
