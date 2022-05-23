@@ -25,14 +25,12 @@ RUN mkdir geong_common
 COPY ./geong_common/geong_common ./geong_common/geong_common
 COPY ./geong_common/MANIFEST.in ./geong_common/setup.py\
  ./geong_common/setup.cfg ./geong_common/pyproject.toml ./geong_common/
-RUN python -m pip install ./geong_common --no-cache-dir --disable-pip-version-check\
- --use-feature=in-tree-build
+RUN python -m pip install ./geong_common --no-cache-dir --disable-pip-version-check
 
 # Install app
 COPY ./app/app ./app/app
 COPY ./app/MANIFEST.in ./app/setup.py ./app/setup.cfg ./app/pyproject.toml ./app/
-RUN python -m pip install ./app --no-cache-dir --disable-pip-version-check\
- --use-feature=in-tree-build
+RUN python -m pip install ./app --no-cache-dir --disable-pip-version-check
 
 LABEL org.opencontainers.image.source https://github.com/equinor/geong
 
