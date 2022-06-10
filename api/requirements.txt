@@ -52,7 +52,7 @@ pycparser==2.21
     # via cffi
 pydantic==1.9.0
     # via fastapi
-pyjwt==2.3.0
+pyjwt==2.4.0
     # via -r requirements.in
 pyplugs==0.4.0
     # via pyconfs
@@ -62,14 +62,14 @@ python-dotenv==0.19.2
     # via -r requirements.in
 pytz==2021.3
     # via pandas
-requests-oauthlib==1.3.1
-    # via msrest
 requests==2.27.1
     # via
     #   -r requirements.in
     #   azure-core
     #   msrest
     #   requests-oauthlib
+requests-oauthlib==1.3.1
+    # via msrest
 six==1.16.0
     # via
     #   azure-core
