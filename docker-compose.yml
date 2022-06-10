@@ -44,7 +44,7 @@ services:
     depends_on:
       - api
   oauth2-proxy:
-    image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.3
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
     depends_on:
       - app
     ports:
@@ -68,6 +68,6 @@ services:
       - OAUTH2_PROXY_SESSION_STORE_TYPE=redis
       - OAUTH2_PROXY_REDIS_PASSWORD=${REDIS_PASSWORD}
   auth-state:
-    image: bitnami/redis:5.0
+    image: bitnami/redis:6.0.16
     environment:
       - REDIS_PASSWORD

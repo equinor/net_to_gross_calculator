@@ -5,7 +5,7 @@
 # You can then run it as a container:
 #
 #     $ docker run --rm -p 5000:5000 geong_api
-FROM python:3.10.2-slim-buster
+FROM python:3.10.5-slim-buster
 
 ENV HOME /home/u
 RUN mkdir -p $HOME
