@@ -32,7 +32,7 @@ markupsafe==2.0.1
     # via jinja2
 munch==2.5.0
     # via -r requirements.in
-numpy==1.21.2
+numpy==1.22.0
     # via
     #   bokeh
     #   holoviews

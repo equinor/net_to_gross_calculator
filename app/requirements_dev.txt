@@ -97,7 +97,7 @@ munch==2.5.0
     # via -r requirements.txt
 mypy-extensions==0.4.3
     # via black
-numpy==1.21.2
+numpy==1.22.0
     # via
     #   -r requirements.txt
     #   bokeh
