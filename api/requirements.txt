@@ -42,7 +42,7 @@ msrest==0.6.21
     # via azure-storage-blob
 numpy==1.22.3
     # via pandas
-oauthlib==3.2.0
+oauthlib==3.2.1
     # via requests-oauthlib
 pandas==1.4.1
     # via -r requirements.in
