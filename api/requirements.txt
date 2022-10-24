@@ -10,7 +10,7 @@ asgiref==3.5.0
     # via uvicorn
 azure-core==1.23.0
     # via azure-storage-blob
-azure-storage-blob==12.9.0
+azure-storage-blob==12.13.0
     # via -r requirements.in
 certifi==2021.10.8
     # via
@@ -42,7 +42,7 @@ msrest==0.6.21
     # via azure-storage-blob
 numpy==1.22.3
     # via pandas
-oauthlib==3.2.0
+oauthlib==3.2.1
     # via requests-oauthlib
 pandas==1.4.1
     # via -r requirements.in
