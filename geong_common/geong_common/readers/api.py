@@ -53,13 +53,20 @@ def read_model(dataset):
 
 def _read_from_api(request_url, params: dict = None):
     """Handle one request to the API"""
-    header = "X-Forwarded-Access-Token"
-    access_token = pn.state.headers.get(header)
+    headers = [
+        "X-Forwarded-Access-Token",
+        "X-Auth-Request-Access-Token",
+    ]
+    access_token = None
+    for h in headers:
+        access_token = pn.state.headers.get(h)
+        if access_token is not None:
+            break
 
     if access_token is None:
         raise MissingAccessTokenError(
             user_message="Data service unavailable. Please try again later.",
-            log_message=f"Missing {header} header",
+            log_message=f"Missing any of {headers} headers",
         )
 
     try:
