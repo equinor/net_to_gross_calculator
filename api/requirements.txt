@@ -28,7 +28,7 @@ colorama==0.4.6
     # via
     #   click
     #   loguru
-cryptography==38.0.3
+cryptography==39.0.1
     # via azure-storage-blob
 fastapi==0.87.0
     # via -r requirements.in
@@ -81,7 +81,7 @@ six==1.16.0
     #   python-dateutil
 sniffio==1.3.0
     # via anyio
-starlette==0.21.0
+starlette==0.25.0
     # via fastapi
 toml==0.10.2
     # via pyconfs
