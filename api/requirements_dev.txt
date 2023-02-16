@@ -46,7 +46,7 @@ colorama==0.4.6
     #   pytest
 coverage[toml]==6.5.0
     # via pytest-cov
-cryptography==38.0.3
+cryptography==39.0.1
     # via
     #   -r requirements.txt
     #   azure-storage-blob
