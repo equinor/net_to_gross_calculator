@@ -5,7 +5,7 @@
 # You can then run it as a container:
 #
 #     $ docker run --rm -p 5000:5000 geong_api
-FROM python:3.10.9-slim-bullseye
+FROM python:3-slim-bullseye
 
 ENV HOME /home/u
 RUN mkdir -p $HOME
