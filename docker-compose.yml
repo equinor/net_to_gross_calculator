@@ -68,6 +68,6 @@ services:
       - OAUTH2_PROXY_SESSION_STORE_TYPE=redis
       - OAUTH2_PROXY_REDIS_PASSWORD=${REDIS_PASSWORD}
   auth-state:
-    image: bitnami/redis:6.0.16
+    image: bitnami/redis:7.0
     environment:
       - REDIS_PASSWORD
