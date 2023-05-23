@@ -80,7 +80,7 @@ pyviz-comms==2.2.1
     #   panel
 pyyaml==6.0
     # via bokeh
-requests==2.30.0
+requests==2.31.0
     # via
     #   -r requirements.in
     #   panel
