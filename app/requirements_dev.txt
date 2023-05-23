@@ -53,10 +53,7 @@ coverage[toml]==7.2.5
 distlib==0.3.6
     # via virtualenv
 exceptiongroup==1.1.1
-    # via
-    #   pytest
-    #   trio
-    #   trio-websocket
+    # via trio-websocket
 filelock==3.12.0
     # via
     #   tox
@@ -186,7 +183,7 @@ pyyaml==6.0
     # via
     #   -r requirements.txt
     #   bokeh
-requests==2.30.0
+requests==2.31.0
     # via
     #   -r requirements.txt
     #   panel
@@ -206,13 +203,6 @@ toml==0.10.2
     # via
     #   -r requirements.txt
     #   pyconfs
-tomli==2.0.1
-    # via
-    #   black
-    #   coverage
-    #   pyproject-api
-    #   pytest
-    #   tox
 tornado==6.3.2
     # via
     #   -r requirements.txt
